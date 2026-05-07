@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prateek Yadav — Product Manager</title>
+<meta name="description" content="Prateek Niwas Yadav — Product Manager building enterprise SaaS with customer obsession, data-driven decisions, and agile delivery." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6f1e7;
+    --ink:#1f1a14;
+    --muted:#6b6256;
+    --primary:#c0532a;
+    --rule:#d8cfbf;
+    --card:#fbf7ef;
+  }
+  *{box-sizing:border-box;border-color:var(--rule)}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-feature-settings:"ss01","cv11";
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;letter-spacing:-0.02em;margin:0}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:var(--primary)}
+  .wrap{max-width:1100px;margin:0 auto;padding:40px 24px}
+
+  /* Back to HelpOut link */
+  .back-bar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+  }
+  .back-bar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 500 11px/1 'JetBrains Mono', monospace;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    background: var(--card);
+    padding: 7px 14px;
+    border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .back-bar a:hover { color: var(--primary); border-color: var(--primary); }
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:16px;font:500 11px/1 'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+  .topbar .mid{display:none}
+  @media(min-width:768px){.topbar .mid{display:inline}}
+
+  .hero{display:grid;grid-template-columns:1fr;gap:24px;margin-top:56px}
+  @media(min-width:768px){.hero{grid-template-columns:2fr 1fr}}
+  .eyebrow{font:500 11px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:var(--primary);margin:0 0 24px}
+  h1{font-size:clamp(3rem,9vw,7.5rem);line-height:.95;font-weight:600}
+  h1 em{font-style:italic;color:var(--primary)}
+  .lede{margin-top:32px;max-width:560px;font-size:1.125rem;line-height:1.65;color:var(--muted)}
+
+  .contact{border:1px solid var(--rule);background:var(--card);border-radius:10px;padding:20px;font:500 14px/1.6 'JetBrains Mono',monospace}
+  .contact .label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  @media(min-width:768px){.contact{margin-top:96px}}
+
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:64px}
+  @media(min-width:768px){.stats{grid-template-columns:repeat(4,1fr)}}
+  .stat{border-top:1px solid var(--rule);padding-top:14px}
+  .stat .k{font-family:'Fraunces',serif;font-size:2rem;font-weight:600}
+  .stat .v{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);margin-top:6px}
+
+  .body{display:grid;grid-template-columns:1fr;gap:40px;margin-top:80px}
+  @media(min-width:768px){.body{grid-template-columns:7fr 5fr}}
+  .body h2{font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:600;margin-bottom:16px}
+  .body p{font-size:17px;line-height:1.7;margin:0 0 16px}
+  .body em{color:var(--ink)}
+
+  .h3{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font:500 12px/1 'JetBrains Mono',monospace;padding:8px 12px;border:1px solid var(--rule);border-radius:999px;background:var(--card)}
+  .certs{list-style:none;padding:0;margin:0;font-size:14px;line-height:1.9}
+  .side > * + *{margin-top:32px}
+
+  /* HelpOut section */
+  .helpout-section {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .helpout-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .helpout-section p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 0 24px;
+  }
+  .helpout-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper) !important;
+    font: 500 13px/1 'JetBrains Mono', monospace;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .helpout-link:hover { background: var(--primary) !important; color: #fff !important; }
+
+  footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font:500 11px/1 'JetBrains Mono',monospace;color:var(--muted)}
+  footer .quote{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--ink)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Back to HelpOut -->
+    <div class="back-bar">
+      <a href="../index.html">
+        ← HelpOut Tools
+      </a>
+    </div>
+
+    <header class="topbar">
+      <span>PY · 01</span>
+      <span class="mid">Satara · Maharashtra · India</span>
+      <span>2026 / About</span>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">About — Product Manager</p>
+        <h1>Prateek<br/><em>Niwas</em> Yadav.</h1>
+        <p class="lede">I build enterprise SaaS that engineers actually want to ship and customers actually want to use. Two years deep into product — equal parts customer obsession, sharp specs, and ruthless prioritisation.</p>
+      </div>
+      <aside class="contact">
+        <div class="label">Contact</div>
+        <a href="mailto:prateeikyadav11@gmail.com">prateeikyadav11@gmail.com</a><br/>
+        <a href="https://linkedin.com/in/prateeikyadav" target="_blank" rel="noreferrer">linkedin.com/in/prateeikyadav</a><br/>
+        <span>+91 99221 23973</span>
+      </aside>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><div class="k">2+ yrs</div><div class="v">Product Experience</div></div>
+      <div class="stat"><div class="k">80+</div><div class="v">Backlog items shipped</div></div>
+      <div class="stat"><div class="k">30%</div><div class="v">Delivery predictability ↑</div></div>
+      <div class="stat"><div class="k">25%</div><div class="v">Dev rework ↓</div></div>
+    </section>
+
+    <section class="body">
+      <div>
+        <h2>How I work.</h2>
+        <p>Currently building the <strong>Tevico Enterprise Platform</strong> at Comprinno Technologies — collecting customer scenarios from CloudOps and DevOps stakeholders, turning them into OKRs, user stories, and developer specs that don't need a translator.</p>
+        <p>I lean hard on <em>hypothesis-driven development</em>: define the metric, ship the smallest thing that moves it, decompose the data with SQL and JQL, and report it in language the room actually speaks. Velocity, cycle time, throughput, NPS — pick the one that matters this quarter.</p>
+        <p>Before product, I coordinated 20+ enterprise deployments across ICICI, HDFC and other banks — which is where I learned that great PMs are made in the boring details: clean acceptance criteria, honest timelines, and the discipline to fight scope creep without losing the room.</p>
+      </div>
+      <div class="side">
+        <div>
+          <h3 class="h3">Toolbelt</h3>
+          <div class="tags">
+            <span class="tag">Jira</span><span class="tag">Confluence</span><span class="tag">SQL</span><span class="tag">JQL</span><span class="tag">Python</span><span class="tag">AWS</span><span class="tag">Figma</span><span class="tag">Miro</span><span class="tag">Claude</span><span class="tag">Kiro</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="h3">Certified</h3>
+          <ul class="certs">
+            <li>· Professional Scrum Product Owner (PSPO)</li>
+            <li>· AWS Certified Cloud Practitioner</li>
+            <li>· Microsoft Azure Fundamentals</li>
+            <li>· Google Cloud — Networking &amp; IAM</li>
+            <li>· Jira Advanced 2025 (JQL &amp; Admin)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- HelpOut connection -->
+    <section class="helpout-section">
+      <h2>Also — I built HelpOut.</h2>
+      <p>A free, no-login productivity toolkit with 40+ tools covering 9 professions. Everything runs in your browser. No data leaves your device.</p>
+      <a href="../index.html" class="helpout-link">
+        Explore the tools →
+      </a>
+    </section>
+
+    <footer>
+      <span>B.Tech Electronics · Dr. BATU · 2023</span>
+      <span class="quote">"Customer-obsessed. Data-driven. Shipped."</span>
+      <span>© Prateek Yadav</span>
+    </footer>
+  </div>
+</body>
+</html>

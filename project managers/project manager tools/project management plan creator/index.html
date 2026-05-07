@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Plan Creator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #5856D6;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+        body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); min-height: 100vh; padding: 48px 24px 72px; color: var(--label-1); }
+        .page-header { text-align: center; margin-bottom: 48px; }
+        .page-header-content { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .app-icon { font-size: 64px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(88,86,214,.1), rgba(88,86,214,.05)); border-radius: var(--r-lg); flex-shrink: 0; }
+        .page-header h1 { font-size: clamp(1.8em, 4vw, 2.5em); font-weight: 700; letter-spacing: -1px; line-height: 1.1; color: var(--label-1); }
+        .page-header p { font-size: .95em; color: var(--label-2); margin-top: 8px; }
+        .wrapper { max-width: 900px; margin: 0 auto; }
+        .card { background: var(--card); border-radius: var(--r-xl); padding: 28px 24px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,.04); margin-bottom: 20px; }
+        .card-title { font-size: 1.05em; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 18px; color: var(--label-1); }
+        .input-group { margin-bottom: 16px; }
+        .input-group:last-child { margin-bottom: 0; }
+        .input-label { display: block; font-size: .85em; font-weight: 600; margin-bottom: 6px; color: var(--label-1); }
+        .required::after { content: ' *'; color: #FF3B30; }
+        .text-input, .text-area, .date-input, .number-input { width: 100%; padding: 12px 14px; border: 1px solid var(--separator); border-radius: var(--r-md); font-family: inherit; font-size: .9em; color: var(--label-1); background: var(--card); transition: border .18s, box-shadow .18s; }
+        .text-input:focus, .text-area:focus, .date-input:focus, .number-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,86,214,.1); }
+        .text-area { min-height: 100px; resize: vertical; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 500px) { .input-row { grid-template-columns: 1fr; } }
+        .button-group { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+        .btn { padding: 12px 24px; border: none; border-radius: var(--r-md); font-size: .9em; font-weight: 600; font-family: inherit; cursor: pointer; transition: filter .18s, transform .18s; display: flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { filter: brightness(.88); transform: translateY(-1px); }
+        .btn-primary:active { filter: brightness(.82); transform: translateY(0); }
+        .btn-secondary { background: var(--separator); color: var(--label-1); }
+        .btn-secondary:hover { background: #D8D8DC; }
+        .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: spin .6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #result { display: none; }
+        .document-preview { background: white; border: 1px solid var(--separator); border-radius: var(--r-lg); padding: 40px; margin-bottom: 24px; min-height: 600px; font-family: 'Calibri', 'Segoe UI', sans-serif; line-height: 1.6; color: var(--label-1); }
+        .doc-header { text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 24px; }
+        .doc-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+        .doc-section { margin-bottom: 28px; }
+        .doc-section h2 { font-size: 16px; font-weight: 700; color: var(--accent); margin-bottom: 12px; border-bottom: 1px solid var(--separator); padding-bottom: 8px; }
+        .doc-section p { margin-bottom: 8px; font-size: .95em; }
+        .doc-list { margin-left: 20px; margin-bottom: 8px; }
+        .doc-list li { margin-bottom: 6px; }
+        .back-link { text-align: center; margin-top: 40px; }
+        .back-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .back-link a:hover { text-decoration: underline; }
+    
+        /* ── Top Navigation ────────────────────────────── */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--card);
+            border-bottom: 1px solid var(--separator);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            background: var(--separator);
+            color: var(--label-1);
+            font-size: 20px;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            background: #D8D8DC;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        body {
+            padding-top: 56px;
+        }
+        .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../global_theme.css">
+</head>
+<body>
+    <div class="top-nav">
+        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+    </div>
+
+
+    <div class="page-header">
+        <div class="page-header-content">
+            <div class="app-icon">📋</div>
+            <div>
+                <h1>Project Management Plan</h1>
+                <p>Create a comprehensive management plan for your project covering all aspects.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="input-section">
+            <div class="card">
+                <div class="card-title">Project Information</div>
+                <div class="input-group">
+                    <label class="input-label required">Project Name</label>
+                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Project Manager</label>
+                        <input type="text" id="projectManager" class="text-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Department</label>
+                        <input type="text" id="department" class="text-input">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Start Date</label>
+                        <input type="date" id="startDate" class="date-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">End Date</label>
+                        <input type="date" id="endDate" class="date-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Plan Components</div>
+                <div class="input-group">
+                    <label class="input-label">Integration of Project Plans</label>
+                    <textarea id="integration" class="text-area" placeholder="Describe how all sub-plans will be integrated..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Project Management Approach</label>
+                    <textarea id="approach" class="text-area" placeholder="Describe the management approach and methodology..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Key Management Plans</label>
+                    <textarea id="plans" class="text-area" placeholder="List scope, schedule, cost, quality, resource plans..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Tools & Techniques</label>
+                    <textarea id="tools" class="text-area" placeholder="Specify tools and techniques to be used..."></textarea>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateDocument()">Generate Plan</button>
+            </div>
+        </div>
+
+        <div id="result" style="display: none;">
+            <div class="document-preview" id="preview"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+                
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+
+    <script>
+        const storageKey = 'pmDocs_ProjectManagementPlan';
+        let currentData = {};
+
+        function autoSave() {
+            const data = {};
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.id) data[el.id] = el.value;
+            });
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        }
+
+        function loadSaved() {
+            const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            if (saved) {
+                Object.keys(saved).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = saved[key];
+                });
+            }
+        }
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('change', autoSave);
+            el.addEventListener('blur', autoSave);
+        });
+
+        window.addEventListener('load', loadSaved);
+
+        function generateDocument() {
+            const projectName = document.getElementById('projectName')?.value || '';
+            if (!projectName.trim()) {
+                alert('Please enter a project name');
+                return;
+            }
+
+            autoSave();
+
+            // Build professional document with industry-standard formatting
+            let preview = `
+                <div class="doc-container" style="font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;">
+                    <!-- Professional Document Header -->
+                    <div class="doc-header" style="border-bottom: 3px solid var(--accent); padding-bottom: 24px; margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h1 style="margin: 0 0 8px 0; color: var(--label-1); font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">
+                                    ${document.querySelector('.page-header h1')?.textContent || 'Document'}
+                                </h1>
+                                <h2 style="margin: 0; color: var(--accent); font-size: 18px; font-weight: 600;">
+                                    ${projectName}
+                                </h2>
+                            </div>
+                            <div style="text-align: right; font-size: 12px; color: var(--label-2); background: rgba(0,0,0,.02); padding: 12px 16px; border-radius: 8px;">
+                                <div><strong>Document ID:</strong> ${projectName.replace(/\s+/g, '-').toUpperCase()}</div>
+                                <div><strong>Version:</strong> 1.0</div>
+                                <div><strong>Date:</strong> ${new Date().toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Executive Summary -->
+                    <div class="doc-summary" style="background: rgba(0,122,255,.03); padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid var(--accent);">
+                        <h2 style="color: var(--accent); font-size: 14px; font-weight: 700; margin: 0 0 8px 0;">EXECUTIVE SUMMARY</h2>
+                        <p style="font-size: 13px; color: var(--label-1); line-height: 1.5; margin: 0;">
+                            This document provides comprehensive information and details for <strong>${projectName}</strong>.
+                            It serves as an authoritative reference for project execution and stakeholder communication.
+                        </p>
+                    </div>
+            `;
+
+            // Add all non-empty fields as sections with industry-standard formatting
+            const fields = [];
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.id && el.id !== 'projectName' && el.value && el.value.trim()) {
+                    const label = el.parentElement?.querySelector('label') ||
+                        (el.previousElementSibling?.classList.contains('input-label') ? el.previousElementSibling : null);
+                    if (label) {
+                        const labelText = label.textContent.replace(' *', '').trim();
+                        fields.push({
+                            title: labelText,
+                            content: el.value
+                        });
+                    }
+                }
+            });
+
+            // Format fields as professional document sections
+            fields.forEach((field, index) => {
+                const isLastField = index === fields.length - 1;
+                preview += `
+                    <div class="doc-section" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: ${isLastField ? 'none' : '1px solid var(--separator)'};">
+                        <h3 style="color: var(--accent); font-size: 15px; font-weight: 700; margin: 0 0 10px 0; letter-spacing: -0.3px;">
+                            ${index + 1}. ${field.title.toUpperCase()}
+                        </h3>
+                        <p style="white-space: pre-wrap; color: var(--label-1); font-size: 13px; line-height: 1.6; margin: 0;">
+                            ${field.content}
+                        </p>
+                    </div>
+                `;
+            });
+
+            // Professional footer with compliance information
+            preview += `
+                    <!-- Professional Footer -->
+                    <div style="border-top: 2px solid var(--separator); margin-top: 40px; padding-top: 20px; font-size: 11px; color: var(--label-2); text-align: center;">
+                        <p style="margin: 4px 0;">
+                            <strong>Document:</strong> ${document.querySelector('.page-header h1')?.textContent} |
+                            <strong>Project:</strong> ${projectName}
+                        </p>
+                        <p style="margin: 4px 0;">
+                            Prepared: ${new Date().toLocaleDateString()} |
+                            PMBOK &amp; PRINCE2 Compliant
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('preview').innerHTML = preview;
+            document.getElementById('result').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        
+
+        function downloadPDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const projectName = (document.getElementById('projectName')?.value || '') || 'Document';
+                const element = document.getElementById('preview');
+                const text = element.innerText;
+                const lines = doc.splitTextToSize(text, 180);
+
+                doc.setFontSize(10);
+                const pageHeight = doc.internal.pageSize.height;
+                let y = 20;
+
+                lines.forEach(line => {
+                    if (y > pageHeight - 20) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(line, 20, y);
+                    y += 5;
+                });
+
+                doc.save(projectName + '_Document.pdf');
+                console.log('PDF downloaded:', projectName);
+            } catch (e) {
+                console.error('PDF export error:', e);
+                alert('Could not download PDF. Please try again.');
+            }
+        }
+
+        function editDocument() {
+            const preview = document.getElementById('preview');
+            if (preview.contentEditable === 'true') {
+                preview.contentEditable = 'false';
+                preview.classList.remove('edit-mode');
+            } else {
+                preview.contentEditable = 'true';
+                preview.classList.add('edit-mode');
+                preview.focus();
+            }
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                el.value = '';
+            });
+            localStorage.removeItem(storageKey);
+            document.getElementById('result').style.display = 'none';
+        }
+
+    </script>
+
+    <!-- Smart Recommendations Widget -->
+    <div id="recommendationsWidget" class="recommendations-widget">
+      <div class="recommendations-container">
+        <h3 class="recommendations-title">You Might Also Need...</h3>
+        <div id="recommendationsList" class="recommendations-list"></div>
+      </div>
+    </div>
+
+    <script src="../../recommendationMap.js"></script>
+    <script src="../../recommendationLogic.js"></script>
+    <script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Project Management Plan Creator');
+      });
+    </script>
+</body>
+</html>
