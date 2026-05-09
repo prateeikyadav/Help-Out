@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Tools for Fools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :root {
+            --bg: #F2F2F7;
+            --card: #FFFFFF;
+            --label-1: #1C1C1E;
+            --label-2: #6E6E73;
+            --label-3: #AEAEB2;
+            --separator: #E5E5EA;
+            --accent: #007AFF;
+            --r-xl: 22px;
+            --r-lg: 16px;
+            --r-md: 12px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, .06), 0 8px 28px rgba(0, 0, 0, .07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 24px 72px;
+            color: var(--label-1);
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--card);
+            border-bottom: 1px solid var(--separator);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            justify-content: space-between;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            background: var(--separator);
+            color: var(--label-1);
+            font-size: 20px;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            background: #D8D8DC;
+            transform: scale(1.05);
+        }
+
+        body {
+            padding-top: 56px;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--label-1);
+        }
+
+        h2 {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: var(--label-1);
+            border-bottom: 2px solid var(--separator);
+            padding-bottom: 12px;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            color: var(--label-2);
+        }
+
+        ul,
+        ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--label-2);
+            line-height: 1.8;
+        }
+
+        .last-updated {
+            background: var(--card);
+            padding: 16px;
+            border-radius: var(--r-lg);
+            border-left: 4px solid var(--accent);
+            margin-bottom: 32px;
+            color: var(--label-2);
+            font-size: 0.95em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 32px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="../global_theme.css">
+</head>
+
+<body>
+    <div class="top-nav">
+        <button class="nav-btn" onclick="window.location.href='../index.html'" title="Home">🏠</button>
+        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+    </div>
+
+    <div class="wrapper">
+        <a href="../index.html" class="back-link">← Back to Tools for Fools</a>
+
+        <h1>Privacy Policy</h1>
+
+        <div class="last-updated">
+            <strong>Last Updated:</strong> May 8, 2026
+        </div>
+
+        <h2>1. Introduction</h2>
+        <p>Welcome to HelpOut ("we," "us," "our," or "Company"). We are committed to protecting your privacy and
+            ensuring you have a positive experience on our website. This Privacy Policy outlines our practices regarding
+            the collection, use, and protection of your personal information.</p>
+
+        <h2>2. Information We Collect</h2>
+        <p>We may collect information from you in the following ways:</p>
+        <ul>
+            <li><strong>Voluntarily Provided Information:</strong> Information you provide when using our tools, such as
+                project names, dates, and other data entered into our applications.</li>
+            <li><strong>Automatically Collected Information:</strong> Browser type, IP address, pages visited, and time
+                spent on our site.</li>
+            <li><strong>Cookies and Tracking:</strong> We use localStorage to save your tool data locally on your device
+                for convenience.</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>We use the information we collect to:</p>
+        <ul>
+            <li>Provide, maintain, and improve our tools and services</li>
+            <li>Enhance user experience and functionality</li>
+            <li>Analyze usage patterns and trends</li>
+            <li>Respond to your inquiries and support requests</li>
+            <li>Comply with legal obligations</li>
+        </ul>
+
+        <h2>4. Data Storage and Local Storage</h2>
+        <p>All tool data you enter is stored locally in your browser using localStorage. This means your project
+            information, forms, and preferences are stored on YOUR device only. We do not transmit or store this data on
+            our servers.</p>
+
+        <h2>5. Third-Party Services</h2>
+        <p>Our tools use the following third-party libraries for PDF and Excel export functionality:</p>
+        <ul>
+            <li><strong>jsPDF:</strong> For generating PDF documents (loaded from CDN)</li>
+            <li><strong>XLSX:</strong> For creating Excel files (loaded from CDN)</li>
+        </ul>
+        <p>These libraries process your data only within your browser and do not send data to external servers.</p>
+
+        <h2>6. Information Sharing</h2>
+        <p>We do not share, sell, or distribute your personal information to third parties. Your data remains under your
+            control and is stored only on your device.</p>
+
+        <h2>7. Security</h2>
+        <p>We implement industry-standard security measures to protect your information. Since your data is stored
+            locally on your device, its security depends on your device's security practices.</p>
+
+        <h2>8. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+            <li>Access your information stored in localStorage</li>
+            <li>Delete your data by clearing browser cache/localStorage</li>
+            <li>Request information about our data practices</li>
+            <li>Opt out of non-essential tracking</li>
+        </ul>
+
+        <h2>9. Cookies</h2>
+        <p>We use localStorage (not traditional cookies) to enhance your experience. You can clear your localStorage at
+            any time through your browser settings, which will remove all saved tool data.</p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>Our website is not intended for children under 13. We do not knowingly collect information from children
+            under 13. If we become aware of such collection, we will take appropriate steps to delete the information.
+        </p>
+
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated
+            "Last Updated" date. Your continued use of our services constitutes acceptance of these changes.</p>
+
+        <h2>12. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at our <a
+                href="contact.html" style="color: var(--accent); text-decoration: none;">Contact Page</a>.</p>
+
+        <p
+            style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--separator); color: var(--label-3); font-size: 0.9em;">
+            © 2026 HelpOut. All rights reserved.
+        </p>
+    </div>
+</body>
+
+</html>

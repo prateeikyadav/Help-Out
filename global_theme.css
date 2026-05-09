@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  /* Cream/Ink Aesthetic */
+  --cream:   #F7F4EE;
+  --cream2:  #EDE9E0;
+  --ink:     #0E0D0B;
+  --muted:   #7A7368;
+  --rule:    #D8D3C8;
+  --accent-red:  #C63D1A;
+  --radius:  4px;
+
+  /* Legacy Maps for inner tools to inherit the new theme */
+  --bg: var(--cream);
+  --card: white; 
+  --label-1: var(--ink);
+  --label-2: var(--muted);
+  --label-3: #999;
+  --separator: var(--rule);
+  --primary: var(--ink);
+  --accent: var(--accent-red);
+  --border: var(--rule);
+  --shadow: none; /* Flat design */
+}
+
+body {
+  font-family: 'DM Sans', sans-serif !important;
+  background-color: var(--bg) !important;
+  background-image: none !important;
+  color: var(--label-1) !important;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6, .modal-title, .card-title, .recommendations-title, .tool-name, .category-label {
+  font-family: 'Syne', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+}
+
+/* Specific elements that should use Cormorant */
+.page-header h1, .page-header-text h1 {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
+  font-weight: 300 !important;
+  letter-spacing: -1px !important;
+  color: var(--ink) !important;
+}
+
+.page-header p {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 300 !important;
+  color: var(--muted) !important;
+}
+
+/* Component Overrides for flat elegant look */
+.card, .stat-card, .recommendation-card, .tool-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  border-radius: var(--radius) !important;
+  transition: border-color 0.15s ease !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.card:hover, .stat-card:hover, .recommendation-card:hover, .tool-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: var(--ink) !important;
+}
+
+/* Disable gradients, set buttons to solid ink */
+button, .btn, .btn-main, .btn-secondary, .header-action, .btn-generate, .btn-export, .tool-btn {
+  font-family: 'DM Sans', sans-serif !important;
+  border-radius: 100px !important;
+  transition: background 0.15s ease, transform 0.1s ease !important;
+  font-weight: 500 !important;
+}
+
+.btn-primary, .btn-main, .header-action, .btn-generate, .tool-btn {
+  background: var(--ink) !important;
+  box-shadow: none !important;
+  border: none !important;
+  color: var(--cream) !important;
+  padding: 10px 24px !important;
+}
+
+.btn-primary:hover, .btn-main:hover, .header-action:hover, .btn-generate:hover, .tool-btn:hover {
+  background: #1e1c18 !important;
+  box-shadow: none !important;
+  transform: translateY(-1px) !important;
+  border: none !important;
+}
+
+.btn-secondary {
+  background: transparent !important;
+  border: 1px solid var(--rule) !important;
+  color: var(--ink) !important;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink) !important;
+  background: transparent !important;
+}
+
+/* Form Elements */
+input, textarea, select, .input-group input, .search-input, .text-input, .text-area, .date-input, .number-input {
+  background: white !important;
+  border: 1px solid var(--rule) !important;
+  color: var(--ink) !important;
+  border-radius: var(--radius) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 14px !important;
+  padding: 12px 14px !important;
+  box-shadow: none !important;
+}
+
+input:focus, textarea:focus, select:focus, .text-input:focus, .text-area:focus {
+  border-color: var(--ink) !important;
+  box-shadow: 0 0 0 3px rgba(14,13,11,0.06) !important;
+  outline: none !important;
+}
+
+/* Nav overrides for tools */
+.top-nav {
+  background: rgba(247,244,238,0.92) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid var(--rule) !important;
+  box-shadow: none !important;
+}
+
+.nav-btn {
+  background: transparent !important;
+  border: 1px solid var(--rule) !important;
+  color: var(--ink) !important;
+  border-radius: 100px !important;
+}
+
+.nav-btn:hover {
+  background: var(--ink) !important;
+  color: var(--cream) !important;
+  border-color: var(--ink) !important;
+}
+
+/* Icons */
+.app-icon, .category-icon, .tool-icon {
+  background: var(--cream2) !important;
+  border: 1px solid var(--rule) !important;
+  box-shadow: none !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Widget Overrides */
+.recommendations-title {
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 12px !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  color: var(--muted) !important;
+}
+
+/* Make sure text doesn't look washed out */
+.recommendation-reason {
+  color: var(--muted) !important;
+}
+
+/* Table styles if they exist */
+table {
+  border-color: var(--rule) !important;
+}
+
+th, td {
+  border-bottom: 1px solid var(--rule) !important;
+  color: var(--ink) !important;
+}
+
+th {
+  background: var(--cream2) !important;
+  font-family: 'Syne', sans-serif !important;
+}
