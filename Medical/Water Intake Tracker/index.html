@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Intake Tracker</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Water Intake Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -524,213 +525,186 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-
-    <!-- Header -->
-    <div class="header">
-        <div class="header-brand">
-            <div class="app-icon">💧</div>
-            <div class="header-title">
-                <h1>Water Intake</h1>
-                <small>Stay hydrated · Hit your daily goal</small>
-            </div>
-        </div>
-        <button class="btn-header" onclick="openReportModal()">📊 Reports</button>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">💧</span>
-            <div class="stat-label">Today</div>
-            <div class="stat-number" id="statToday">0ml</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🔥</span>
-            <div class="stat-label">Streak</div>
-            <div class="stat-number" id="statStreak">0d</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">📊</span>
-            <div class="stat-label">Avg / Day</div>
-            <div class="stat-number" id="statAvg">0ml</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🎯</span>
-            <div class="stat-label">Goal</div>
-            <div class="stat-number" id="statGoal">2000ml</div>
-        </div>
-    </div>
-
-    <!-- Hero progress -->
-    <div class="hero-card">
-        <div class="ring-wrap">
-            <svg viewBox="0 0 180 180">
-                <!-- Track -->
-                <circle cx="90" cy="90" r="72"
-                    stroke="#E5E5EA" stroke-width="14"
-                    fill="none"/>
-                <!-- Fill -->
-                <circle cx="90" cy="90" r="72" id="ringFill"
-                    stroke="url(#waterGrad)" stroke-width="14"
-                    fill="none" stroke-linecap="round"
-                    stroke-dasharray="452.4" stroke-dashoffset="452.4"
-                    transform="rotate(-90 90 90)"/>
-                <defs>
-                    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%"   stop-color="#5AC8FA"/>
-                        <stop offset="100%" stop-color="#007AFF"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-            <div class="ring-center">
-                <div class="ring-pct" id="ringPct">0%</div>
-                <div class="ring-sub">of goal</div>
-            </div>
-        </div>
-
-        <div class="hero-info">
-            <div class="hero-intake" id="heroIntake">0 ml</div>
-            <div class="hero-goal" id="heroGoal">Goal: 2,000 ml</div>
-
-            <div class="remaining-bar">
-                <div class="remaining-label">
-                    <span>Progress</span>
-                    <span id="remainingLabel">2,000 ml remaining</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" id="heroBar" style="width:0%"></div>
-                </div>
-            </div>
-
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span class="goal-badge" id="goalBadge">🎉 Goal reached!</span>
-                <button class="btn-reset" onclick="resetDaily()">Reset Today</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main: Quick Add + Entries -->
-    <div class="main-grid">
-
-        <!-- Add water -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Add Water</span>
-            </div>
-
-            <div class="quick-grid">
-                <button class="quick-btn" onclick="addWater(250)">
-                    <span class="drop">💧</span>
-                    <span>+ 250 ml</span>
-                    <span class="label">Small cup</span>
-                </button>
-                <button class="quick-btn" onclick="addWater(500)">
-                    <span class="drop">💧</span>
-                    <span>+ 500 ml</span>
-                    <span class="label">Regular cup</span>
-                </button>
-                <button class="quick-btn" onclick="addWater(750)">
-                    <span class="drop">🥤</span>
-                    <span>+ 750 ml</span>
-                    <span class="label">Large cup</span>
-                </button>
-                <button class="quick-btn" onclick="addWater(1000)">
-                    <span class="drop">🍶</span>
-                    <span>+ 1,000 ml</span>
-                    <span class="label">Full bottle</span>
-                </button>
-            </div>
-
-            <div class="custom-row">
-                <input type="number" id="customAmount" placeholder="Custom ml…" min="1">
-                <button class="btn-add-custom" onclick="addCustomWater()">+ Add</button>
-            </div>
-
-            <div class="goal-row">
-                <div style="flex:1;">
-                    <label>Daily Goal (ml)</label>
-                    <input type="number" id="goalInput" min="500" placeholder="e.g. 2000">
-                </div>
-                <button class="btn-goal" onclick="updateGoal()" style="align-self:flex-end;">Set Goal</button>
-            </div>
-        </div>
-
-        <!-- Today's log -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Today's Log</span>
-                <span style="font-size:0.78em; color:var(--label-3); font-weight:600;" id="entryCount"></span>
-            </div>
-            <div class="entries-list" id="entriesList">
-                <div class="empty-state">No water logged yet.<br>Tap a button to get started!</div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="back-link">
-        <a href="../../index.html">← Back to Home</a>
-    </div>
+<!-- Header -->
+<div class="header">
+<div class="header-brand">
+<div class="app-icon">💧</div>
+<div class="header-title">
+<h1>Water Intake</h1>
+<small>Stay hydrated · Hit your daily goal</small>
 </div>
-
+</div>
+<button class="btn-header" onclick="openReportModal()">📊 Reports</button>
+</div>
+<!-- Stats -->
+<div class="stats-grid">
+<div class="stat-card">
+<span class="stat-icon">💧</span>
+<div class="stat-label">Today</div>
+<div class="stat-number" id="statToday">0ml</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">🔥</span>
+<div class="stat-label">Streak</div>
+<div class="stat-number" id="statStreak">0d</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">📊</span>
+<div class="stat-label">Avg / Day</div>
+<div class="stat-number" id="statAvg">0ml</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">🎯</span>
+<div class="stat-label">Goal</div>
+<div class="stat-number" id="statGoal">2000ml</div>
+</div>
+</div>
+<!-- Hero progress -->
+<div class="hero-card">
+<div class="ring-wrap">
+<svg viewbox="0 0 180 180">
+<!-- Track -->
+<circle cx="90" cy="90" fill="none" r="72" stroke="#E5E5EA" stroke-width="14"></circle>
+<!-- Fill -->
+<circle cx="90" cy="90" fill="none" id="ringFill" r="72" stroke="url(#waterGrad)" stroke-dasharray="452.4" stroke-dashoffset="452.4" stroke-linecap="round" stroke-width="14" transform="rotate(-90 90 90)"></circle>
+<defs>
+<lineargradient id="waterGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#5AC8FA"></stop>
+<stop offset="100%" stop-color="#007AFF"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="ring-center">
+<div class="ring-pct" id="ringPct">0%</div>
+<div class="ring-sub">of goal</div>
+</div>
+</div>
+<div class="hero-info">
+<div class="hero-intake" id="heroIntake">0 ml</div>
+<div class="hero-goal" id="heroGoal">Goal: 2,000 ml</div>
+<div class="remaining-bar">
+<div class="remaining-label">
+<span>Progress</span>
+<span id="remainingLabel">2,000 ml remaining</span>
+</div>
+<div class="bar-track">
+<div class="bar-fill" id="heroBar" style="width:0%"></div>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:10px;">
+<span class="goal-badge" id="goalBadge">🎉 Goal reached!</span>
+<button class="btn-reset" onclick="resetDaily()">Reset Today</button>
+</div>
+</div>
+</div>
+<!-- Main: Quick Add + Entries -->
+<div class="main-grid">
+<!-- Add water -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Add Water</span>
+</div>
+<div class="quick-grid">
+<button class="quick-btn" onclick="addWater(250)">
+<span class="drop">💧</span>
+<span>+ 250 ml</span>
+<span class="label">Small cup</span>
+</button>
+<button class="quick-btn" onclick="addWater(500)">
+<span class="drop">💧</span>
+<span>+ 500 ml</span>
+<span class="label">Regular cup</span>
+</button>
+<button class="quick-btn" onclick="addWater(750)">
+<span class="drop">🥤</span>
+<span>+ 750 ml</span>
+<span class="label">Large cup</span>
+</button>
+<button class="quick-btn" onclick="addWater(1000)">
+<span class="drop">🍶</span>
+<span>+ 1,000 ml</span>
+<span class="label">Full bottle</span>
+</button>
+</div>
+<div class="custom-row">
+<input id="customAmount" min="1" placeholder="Custom ml…" type="number"/>
+<button class="btn-add-custom" onclick="addCustomWater()">View History</button>
+</div>
+<div class="goal-row">
+<div style="flex:1;">
+<label>Daily Goal (ml)</label>
+<input id="goalInput" min="500" placeholder="e.g. 2000" type="number"/>
+</div>
+<button class="btn-goal" onclick="updateGoal()" style="align-self:flex-end;">Set Goal</button>
+</div>
+</div>
+<!-- Today's log -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Today's Log</span>
+<span id="entryCount" style="font-size:0.78em; color:var(--label-3); font-weight:600;"></span>
+</div>
+<div class="entries-list" id="entriesList">
+<div class="empty-state">No water logged yet.<br/>Tap a button to get started!</div>
+</div>
+</div>
+</div>
+<div class="back-link">
+<a href="../../index.html">← Back to Home</a>
+</div>
+</div>
 <!-- Report Modal -->
-<div id="reportModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeReportModal()">&times;</span>
-        <div class="modal-header">📊 Hydration Report</div>
-
-        <div class="date-range">
-            <div>
-                <label>Start Date</label>
-                <input type="date" id="startDate">
-            </div>
-            <div>
-                <label>End Date</label>
-                <input type="date" id="endDate">
-            </div>
-        </div>
-
-        <button class="btn-generate" onclick="generateReport()">Generate Report</button>
-
-        <div id="reportContent" style="display:none;">
-            <div class="report-section">
-                <div class="report-title">Hydration Summary</div>
-                <div class="report-summary">
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportTotalIntake">—</div>
-                        <div class="report-stat-label">Total Intake</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportAvgDaily">—</div>
-                        <div class="report-stat-label">Daily Average</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportGoalAchieved">—</div>
-                        <div class="report-stat-label">Goal Achievement</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <div class="report-title">Daily Intake Trend</div>
-                <div class="chart-container">
-                    <canvas id="intakeChart"></canvas>
-                </div>
-            </div>
-
-            <div class="export-buttons">
-                <button class="btn-export btn-export-pdf"   onclick="exportReportPDF()">📄 PDF</button>
-                <button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
-                <button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
-            </div>
-        </div>
-    </div>
+<div class="modal" id="reportModal">
+<div class="modal-content">
+<span class="close" onclick="closeReportModal()">×</span>
+<div class="modal-header">📊 Hydration Report</div>
+<div class="date-range">
+<div>
+<label>Start Date</label>
+<input id="startDate" type="date"/>
 </div>
-
+<div>
+<label>End Date</label>
+<input id="endDate" type="date"/>
+</div>
+</div>
+<button class="btn-generate" onclick="generateReport()">Generate Report</button>
+<div id="reportContent" style="display:none;">
+<div class="report-section">
+<div class="report-title">Hydration Summary</div>
+<div class="report-summary">
+<div class="report-stat">
+<div class="report-stat-value" id="reportTotalIntake">—</div>
+<div class="report-stat-label">Total Intake</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportAvgDaily">—</div>
+<div class="report-stat-label">Daily Average</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportGoalAchieved">—</div>
+<div class="report-stat-label">Goal Achievement</div>
+</div>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Daily Intake Trend</div>
+<div class="chart-container">
+<canvas id="intakeChart"></canvas>
+</div>
+</div>
+<div class="export-buttons">
+<button class="btn-export btn-export-pdf" onclick="exportReportPDF()">📄 PDF</button>
+<button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
+<button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
+</div>
+</div>
+</div>
+</div>
 <script>
     let waterIntake = JSON.parse(localStorage.getItem('waterIntake')) || [];
     let dailyGoal   = JSON.parse(localStorage.getItem('waterGoal'))   || 2000;
@@ -944,17 +918,16 @@
     /* ── Init ────────────────────────────────────────────────── */
     updateDisplay();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Water Intake Tracker');
       });

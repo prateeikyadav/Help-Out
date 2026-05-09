@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan / EMI Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Loan / EMI Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -209,78 +210,68 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">🏦</div>
-    <div class="page-header-text">
-        <h1>Loan / EMI</h1>
-        <p>Monthly repayment breakdown</p>
-    </div>
-    <div class="header-right">
-        <select class="currency-sel" id="currSel" onchange="recalc()">
-            <option value="₹">₹ INR</option>
-            <option value="$">$ USD</option>
-            <option value="€">€ EUR</option>
-            <option value="£">£ GBP</option>
-        </select>
-    </div>
+<div class="app-icon">🏦</div>
+<div class="page-header-text">
+<h1>Loan / EMI</h1>
+<p>Calculate exact loan repayments and visual amortisation schedules.</p>
+</div>
+<div class="header-right">
+<select class="currency-sel" id="currSel" onchange="recalc()">
+<option value="₹">₹ INR</option>
+<option value="$">$ USD</option>
+<option value="€">€ EUR</option>
+<option value="£">£ GBP</option>
+</select>
+</div>
 </header>
-
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-value" id="sEMI">₹0</div><div class="stat-label">Monthly EMI</div></div>
-    <div class="stat-card"><div class="stat-value" id="sPrincipal">₹0</div><div class="stat-label">Principal</div></div>
-    <div class="stat-card"><div class="stat-value" id="sInterest">₹0</div><div class="stat-label">Total Interest</div></div>
-    <div class="stat-card"><div class="stat-value" id="sTotal">₹0</div><div class="stat-label">Total Payable</div></div>
+<div class="stat-card"><div class="stat-value" id="sEMI">₹0</div><div class="stat-label">Monthly EMI</div></div>
+<div class="stat-card"><div class="stat-value" id="sPrincipal">₹0</div><div class="stat-label">Principal</div></div>
+<div class="stat-card"><div class="stat-value" id="sInterest">₹0</div><div class="stat-label">Total Interest</div></div>
+<div class="stat-card"><div class="stat-value" id="sTotal">₹0</div><div class="stat-label">Total Payable</div></div>
 </div>
-
 <div class="card">
-    <div class="card-title">Loan Details</div>
-
-    <div class="input-group">
-        <div class="input-label">Loan Amount</div>
-        <input class="amount-input" type="number" id="loanAmt" value="1000000" min="1000" oninput="recalc()">
-    </div>
-
-    <div class="input-group">
-        <div class="input-label">Interest Rate (per annum) <span id="rateLabel">8.5%</span></div>
-        <input type="range" id="rate" min="1" max="30" value="8.5" step="0.1" oninput="recalc()">
-    </div>
-
-    <div class="input-group">
-        <div class="input-label">Tenure <span id="tenureLabel">20 Years</span></div>
-        <input type="range" id="tenure" min="1" max="30" value="20" oninput="recalc()">
-    </div>
+<div class="card-title">Loan Details</div>
+<div class="input-group">
+<div class="input-label">Loan Amount</div>
+<input class="amount-input" id="loanAmt" min="1000" oninput="recalc()" type="number" value="1000000"/>
 </div>
-
+<div class="input-group">
+<div class="input-label">Interest Rate (per annum) <span id="rateLabel">8.5%</span></div>
+<input id="rate" max="30" min="1" oninput="recalc()" step="0.1" type="range" value="8.5"/>
+</div>
+<div class="input-group">
+<div class="input-label">Tenure <span id="tenureLabel">20 Years</span></div>
+<input id="tenure" max="30" min="1" oninput="recalc()" type="range" value="20"/>
+</div>
+</div>
 <!-- Doughnut -->
 <div class="card">
-    <div class="card-title">Repayment Breakdown</div>
-    <div class="chart-container">
-        <canvas id="breakdownChart"></canvas>
-    </div>
+<div class="card-title">Repayment Breakdown</div>
+<div class="chart-container">
+<canvas id="breakdownChart"></canvas>
 </div>
-
+</div>
 <!-- Amortisation schedule -->
 <div class="card">
-    <div class="card-title">Yearly Schedule</div>
-    <table class="schedule-table">
-        <thead>
-            <tr>
-                <th>Year</th>
-                <th>Principal</th>
-                <th>Interest</th>
-                <th>Balance</th>
-            </tr>
-        </thead>
-        <tbody id="scheduleBody"></tbody>
-    </table>
+<div class="card-title">Yearly Schedule</div>
+<table class="schedule-table">
+<thead>
+<tr>
+<th>Year</th>
+<th>Principal</th>
+<th>Interest</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody id="scheduleBody"></tbody>
+</table>
 </div>
-
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     let chart = null;
 
@@ -355,17 +346,16 @@
 
     recalc();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Loan Calculator');
       });

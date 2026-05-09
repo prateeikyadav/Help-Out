@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risk Register Creator</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Risk Register Creator</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root {
             --bg:        #F2F2F7;
@@ -161,93 +162,96 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">⚠️</div>
-            <div>
-                <h1>Risk Register Creator</h1>
-                <p>Identify, assess, and document project risks with mitigation strategies.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Project Information</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Project Manager</label>
-                        <input type="text" id="projectManager" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Risk Owner</label>
-                        <input type="text" id="riskOwner" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Risk Information</div>
-                <div class="input-group">
-                    <label class="input-label">Identified Risks</label>
-                    <textarea id="risks" class="text-area" placeholder="List identified risks (one per line):&#10;Resource unavailability&#10;Schedule delays&#10;Budget overrun&#10;Technical challenges&#10;Scope creep"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Risk Categories</label>
-                    <textarea id="categories" class="text-area" placeholder="List risk categories (one per line):&#10;Technical&#10;Resource&#10;Schedule&#10;Financial&#10;External"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Probability & Impact Scale</label>
-                    <textarea id="scale" class="text-area" placeholder="Describe probability and impact scale:&#10;High (>50% probability, >$50k impact)&#10;Medium (20-50% probability, $10-50k impact)&#10;Low (<20% probability, <$10k impact)"></textarea>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Risk Response Planning</div>
-                <div class="input-group">
-                    <label class="input-label">Mitigation Strategies</label>
-                    <textarea id="strategies" class="text-area" placeholder="Describe risk mitigation strategies..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Contingency Plans</label>
-                    <textarea id="contingency" class="text-area" placeholder="List contingency plans for high-risk items..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Risk Register</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">⚠️</div>
+<div>
+<h1>Risk Register Creator</h1>
+<p>Identify, assess, and mitigate critical project risks.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Project Information</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Project Manager</label>
+<input class="text-input" id="projectManager" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Risk Owner</label>
+<input class="text-input" id="riskOwner" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Risk Information</div>
+<div class="input-group">
+<label class="input-label">Identified Risks</label>
+<textarea class="text-area" id="risks" placeholder="List identified risks (one per line):
+Resource unavailability
+Schedule delays
+Budget overrun
+Technical challenges
+Scope creep"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Risk Categories</label>
+<textarea class="text-area" id="categories" placeholder="List risk categories (one per line):
+Technical
+Resource
+Schedule
+Financial
+External"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Probability &amp; Impact Scale</label>
+<textarea class="text-area" id="scale" placeholder="Describe probability and impact scale:
+High (&gt;50% probability, &gt;$50k impact)
+Medium (20-50% probability, $10-50k impact)
+Low (&lt;20% probability, &lt;$10k impact)"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Risk Response Planning</div>
+<div class="input-group">
+<label class="input-label">Mitigation Strategies</label>
+<textarea class="text-area" id="strategies" placeholder="Describe risk mitigation strategies..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Contingency Plans</label>
+<textarea class="text-area" id="contingency" placeholder="List contingency plans for high-risk items..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_RiskRegisterCreator';
         let currentData = {};
 
@@ -425,18 +429,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Risk Register Creator');
       });

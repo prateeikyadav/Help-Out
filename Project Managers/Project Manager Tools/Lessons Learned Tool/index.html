@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Lessons Learned</title><style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#F2F2F7;--card:#FFFFFF;--accent:#FF9500}body{font-family:-apple-system,Arial,sans-serif;background:var(--bg);min-height:100vh;padding:48px 24px}.page-header{text-align:center;margin-bottom:48px}.app-icon{font-size:64px}.page-header h1{font-size:2em;font-weight:700}.wrapper{max-width:900px;margin:0 auto}.card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:20px}.card-title{font-size:1.1em;font-weight:700;margin-bottom:16px}.input-group{margin-bottom:16px}.input-label{display:block;font-size:.9em;font-weight:600;margin-bottom:6px}.text-input,.text-area{width:100%;padding:12px;border:1px solid #E5E5EA;border-radius:8px;font-family:inherit}.text-area{min-height:100px}.input-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:500px){.input-row{grid-template-columns:1fr}}.button-group{display:flex;gap:12px;margin-top:24px}.btn{padding:12px 24px;border:none;border-radius:8px;font-weight:600;cursor:pointer}.btn-primary{background:var(--accent);color:white}.document-preview{background:white;padding:40px;border-radius:12px;margin-bottom:24px}.doc-header{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:24px}.doc-header h1{font-size:22px}.doc-section{margin-bottom:20px}.doc-section h2{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:10px;border-bottom:1px solid #E5E5EA;padding-bottom:6px}.back-link{text-align:center;margin-top:40px}.back-link a{color:var(--accent);text-decoration:none;font-weight:600}
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Lessons Learned</title><style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#F2F2F7;--card:#FFFFFF;--accent:#FF9500}body{font-family:-apple-system,Arial,sans-serif;background:var(--bg);min-height:100vh;padding:48px 24px}.page-header{text-align:center;margin-bottom:48px}.app-icon{font-size:64px}.page-header h1{font-size:2em;font-weight:700}.wrapper{max-width:900px;margin:0 auto}.card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:20px}.card-title{font-size:1.1em;font-weight:700;margin-bottom:16px}.input-group{margin-bottom:16px}.input-label{display:block;font-size:.9em;font-weight:600;margin-bottom:6px}.text-input,.text-area{width:100%;padding:12px;border:1px solid #E5E5EA;border-radius:8px;font-family:inherit}.text-area{min-height:100px}.input-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:500px){.input-row{grid-template-columns:1fr}}.button-group{display:flex;gap:12px;margin-top:24px}.btn{padding:12px 24px;border:none;border-radius:8px;font-weight:600;cursor:pointer}.btn-primary{background:var(--accent);color:white}.document-preview{background:white;padding:40px;border-radius:12px;margin-bottom:24px}.doc-header{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:24px}.doc-header h1{font-size:22px}.doc-section{margin-bottom:20px}.doc-section h2{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:10px;border-bottom:1px solid #E5E5EA;padding-bottom:6px}.back-link{text-align:center;margin-top:40px}.back-link a{color:var(--accent);text-decoration:none;font-weight:600}
         /* ── Top Navigation ────────────────────────────── */
         .top-nav {
             position: fixed;
@@ -101,20 +102,17 @@
           color: var(--label-2);
           line-height: 1.4;
         }
-    </style>    <link rel="stylesheet" href="../../../global_theme.css">
+    </style> <link href="../../../global_theme.css" rel="stylesheet"/>
 </head><body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-<div class="page-header"><div style="display:flex;align-items:center;justify-content:center;gap:20px"><div class="app-icon">📚</div><div><h1>Lessons Learned</h1><p>Document lessons and best practices from project.</p></div></div></div><div class="wrapper"><div class="input-section"><div class="card"><div class="card-title">Project Information</div><div class="input-group"><label class="input-label">Project Name</label><input type="text" id="projectName" class="text-input"></div></div><div class="card"><div class="card-title">Lessons</div><div class="input-group"><label class="input-label">What Worked Well</label><textarea id="worked" class="text-area" placeholder="Best practices and successes..."></textarea></div><div class="input-group"><label class="input-label">What Could Be Better</label><textarea id="improve" class="text-area" placeholder="Challenges and improvements..."></textarea></div><div class="input-group"><label class="input-label">Recommendations</label><textarea id="recommendations" class="text-area" placeholder="Recommendations for future projects..."></textarea></div></div><div class="button-group"><button class="btn btn-primary" onclick="gen()">Generate Report</button></div></div><div id="result" style="display:none"><div class="document-preview" id="preview"></div><div class="button-group"><button class="btn btn-primary" onclick="pdf()">PDF</button><button class="btn" onclick="exc()">Excel</button><button class="btn" onclick="location.reload()">New</button></div></div></div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header"><div style="display:flex;align-items:center;justify-content:center;gap:20px"><div class="app-icon">📚</div><div><h1>Lessons Learned</h1><p>Capture and operationalize insights for future project success.</p></div></div></div><div class="wrapper"><div class="input-section"><div class="card"><div class="card-title">Project Information</div><div class="input-group"><label class="input-label">Project Name</label><input class="text-input" id="projectName" type="text"/></div></div><div class="card"><div class="card-title">Lessons</div><div class="input-group"><label class="input-label">What Worked Well</label><textarea class="text-area" id="worked" placeholder="Best practices and successes..."></textarea></div><div class="input-group"><label class="input-label">What Could Be Better</label><textarea class="text-area" id="improve" placeholder="Challenges and improvements..."></textarea></div><div class="input-group"><label class="input-label">Recommendations</label><textarea class="text-area" id="recommendations" placeholder="Recommendations for future projects..."></textarea></div></div><div class="button-group"><button class="btn btn-primary" onclick="gen()">Generate Document</button></div></div><div id="result" style="display:none"><div class="document-preview" id="preview"></div><div class="button-group"><button class="btn btn-primary" onclick="pdf()">PDF</button><button class="btn" onclick="exc()">Excel</button><button class="btn" onclick="location.reload()">New</button></div></div></div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_LessonsLearned';
         let currentData = {};
 
@@ -292,18 +290,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Lessons Learned Tool');
       });

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meeting Minutes Template</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meeting Minutes Template</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root {
             --bg:        #F2F2F7;
@@ -160,99 +161,90 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">📝</div>
-            <div>
-                <h1>Meeting Minutes</h1>
-                <p>Record meeting attendees, discussion points, decisions, and action items.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Meeting Details</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-group">
-                    <label class="input-label required">Meeting Title</label>
-                    <input type="text" id="meetingTitle" class="text-input" placeholder="Enter meeting title">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Meeting Date</label>
-                        <input type="date" id="meetingDate" class="date-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Meeting Time</label>
-                        <input type="time" id="meetingTime" class="text-input">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Location/Format</label>
-                        <input type="text" id="location" class="text-input" placeholder="In-person, Virtual, Hybrid">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Meeting Organizer</label>
-                        <input type="text" id="organizer" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Meeting Content</div>
-                <div class="input-group">
-                    <label class="input-label">Attendees</label>
-                    <textarea id="attendees" class="text-area" placeholder="List attendees (one per line)..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Discussion Points</label>
-                    <textarea id="discussion" class="text-area" placeholder="Summarize discussion topics and outcomes..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Decisions Made</label>
-                    <textarea id="decisions" class="text-area" placeholder="List decisions and approvals..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Action Items</label>
-                    <textarea id="actionItems" class="text-area" placeholder="List action items with owners and due dates..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Minutes</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">📝</div>
+<div>
+<h1>Meeting Minutes</h1>
+<p>Document critical discussions, decisions, and action items.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Meeting Details</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Meeting Title</label>
+<input class="text-input" id="meetingTitle" placeholder="Enter meeting title" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Meeting Date</label>
+<input class="date-input" id="meetingDate" type="date"/>
+</div>
+<div class="input-group">
+<label class="input-label">Meeting Time</label>
+<input class="text-input" id="meetingTime" type="time"/>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Location/Format</label>
+<input class="text-input" id="location" placeholder="In-person, Virtual, Hybrid" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Meeting Organizer</label>
+<input class="text-input" id="organizer" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Meeting Content</div>
+<div class="input-group">
+<label class="input-label">Attendees</label>
+<textarea class="text-area" id="attendees" placeholder="List attendees (one per line)..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Discussion Points</label>
+<textarea class="text-area" id="discussion" placeholder="Summarize discussion topics and outcomes..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Decisions Made</label>
+<textarea class="text-area" id="decisions" placeholder="List decisions and approvals..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Action Items</label>
+<textarea class="text-area" id="actionItems" placeholder="List action items with owners and due dates..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_MeetingMinutes';
         let currentData = {};
 
@@ -430,18 +422,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Meeting Minutes Template');
       });

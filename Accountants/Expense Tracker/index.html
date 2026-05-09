@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget & Expense Tracker</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Budget &amp; Expense Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<style>
         /* ── Reset & Root ─────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
@@ -679,178 +680,161 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-brand">
-                <div class="app-icon">💰</div>
-                <h1>Budget & Expense<small>Track spending · Stay on budget</small></h1>
-            </div>
-            <div class="header-buttons">
-                <select id="currencySelect" class="currency-select" onchange="changeCurrency(this.value)" title="Choose currency"></select>
-                <button class="btn-header" onclick="openReportModal()">📊 Reports</button>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-icon">☀️</span>
-                <div class="stat-label">Spent Today</div>
-                <div class="stat-number" id="totalSpent">$0</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-icon">📅</span>
-                <div class="stat-label">This Month</div>
-                <div class="stat-number" id="monthlySpent">$0</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-icon">📊</span>
-                <div class="stat-label">Daily Average</div>
-                <div class="stat-number" id="avgExpense">$0</div>
-            </div>
-        </div>
-
-        <div class="main-grid">
-            <!-- Budget Section -->
-            <div class="card">
-                <h2>📊 Budget Planner</h2>
-                <form onsubmit="addBudget(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Category Name</label>
-                            <input type="text" id="budgetName" placeholder="e.g., Food, Transport" required>
-                        </div>
-                        <div class="form-group">
-                            <label id="budgetLimitLabel">Monthly Limit ($)</label>
-                            <input type="number" id="budgetLimit" placeholder="0.00" step="0.01" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn">Add Budget</button>
-                </form>
-
-                <div class="section-label" style="margin-top: 16px;">Your Budgets</div>
-                <div class="budgets-list" id="budgetsList">
-                    <div class="empty-state">No budgets yet. Create one!</div>
-                </div>
-                <div id="summary"></div>
-            </div>
-
-            <!-- Expense Section -->
-            <div class="card">
-                <h2>💸 Add Expenses</h2>
-                <form onsubmit="addExpense(event)">
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" id="expDesc" placeholder="e.g., Coffee, Groceries" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label id="expAmountLabel">Amount ($)</label>
-                            <input type="number" id="expAmount" placeholder="0.00" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="expCategory" required>
-                                <option value="" disabled selected>Create a budget first</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn">Add Expense</button>
-                </form>
-
-                <div class="section-label" style="margin-top: 16px;">Recent Expenses</div>
-                <div class="expenses-list" id="expensesList">
-                    <div class="empty-state">No expenses yet!</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="back-link">
-            <a href="../../index.html">← Back to Home</a>
-        </div>
-    </div>
-
-    <!-- Report Modal -->
-    <div id="reportModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeReportModal()">&times;</span>
-            <div class="modal-header">📊 Budget & Expense Report</div>
-
-            <div class="date-range">
-                <div class="form-group">
-                    <label>Start Date</label>
-                    <input type="date" id="startDate">
-                </div>
-                <div class="form-group">
-                    <label>End Date</label>
-                    <input type="date" id="endDate">
-                </div>
-            </div>
-
-            <button class="btn-header" onclick="generateReport()" style="width: 100%; margin-bottom: 20px;">Generate Report</button>
-
-            <div id="reportContent" style="display: none;">
-                <div class="report-section">
-                    <div class="report-title">Summary</div>
-                    <div class="report-summary">
-                        <div class="report-stat">
-                            <div class="report-stat-value" id="reportTotalBudget">$0</div>
-                            <div class="report-stat-label">Total Budget</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="report-stat-value" id="reportTotalSpent">$0</div>
-                            <div class="report-stat-label">Total Spent</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="report-stat-value" id="reportRemaining">$0</div>
-                            <div class="report-stat-label">Remaining</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <div class="report-title">Budget vs Actual Spending</div>
-                    <div class="chart-container">
-                        <canvas id="budgetChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <div class="report-title">Spending by Category</div>
-                    <div class="chart-container">
-                        <canvas id="categoryChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <div class="report-title">Daily Spending Trend</div>
-                    <div class="chart-container">
-                        <canvas id="trendChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="report-section">
-                    <div class="report-title">Category Performance</div>
-                    <div id="categoryPerformance"></div>
-                </div>
-
-                <div class="report-section">
-                    <div class="report-title">Detailed Expenses</div>
-                    <div id="detailedExpenses"></div>
-                </div>
-
-                <div class="export-buttons">
-                    <button class="btn-export btn-export-pdf" onclick="exportReportPDF()">📄 Export PDF</button>
-                    <button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Export Excel</button>
-                    <button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Export Image</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<div class="container">
+<div class="header">
+<div class="header-brand">
+<div class="app-icon">💰</div>
+<h1>Budget &amp; Expense<small>Monitor your spending and stay perfectly on budget.</small></h1>
+</div>
+<div class="header-buttons">
+<select class="currency-select" id="currencySelect" onchange="changeCurrency(this.value)" title="Choose currency"></select>
+<button class="btn-header" onclick="openReportModal()">📊 Reports</button>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<span class="stat-icon">☀️</span>
+<div class="stat-label">Spent Today</div>
+<div class="stat-number" id="totalSpent">$0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">📅</span>
+<div class="stat-label">This Month</div>
+<div class="stat-number" id="monthlySpent">$0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">📊</span>
+<div class="stat-label">Daily Average</div>
+<div class="stat-number" id="avgExpense">$0</div>
+</div>
+</div>
+<div class="main-grid">
+<!-- Budget Section -->
+<div class="card">
+<h2>📊 Budget Planner</h2>
+<form onsubmit="addBudget(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Category Name</label>
+<input id="budgetName" placeholder="e.g., Food, Transport" required="" type="text"/>
+</div>
+<div class="form-group">
+<label id="budgetLimitLabel">Monthly Limit ($)</label>
+<input id="budgetLimit" placeholder="0.00" required="" step="0.01" type="number"/>
+</div>
+</div>
+<button class="btn" type="submit">View Report</button>
+</form>
+<div class="section-label" style="margin-top: 16px;">Your Budgets</div>
+<div class="budgets-list" id="budgetsList">
+<div class="empty-state">No budgets yet. Create one!</div>
+</div>
+<div id="summary"></div>
+</div>
+<!-- Expense Section -->
+<div class="card">
+<h2>💸 Add Expenses</h2>
+<form onsubmit="addExpense(event)">
+<div class="form-group">
+<label>Description</label>
+<input id="expDesc" placeholder="e.g., Coffee, Groceries" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label id="expAmountLabel">Amount ($)</label>
+<input id="expAmount" placeholder="0.00" required="" step="0.01" type="number"/>
+</div>
+<div class="form-group">
+<label>Category</label>
+<select id="expCategory" required="">
+<option disabled="" selected="" value="">Create a budget first</option>
+</select>
+</div>
+</div>
+<button class="btn" type="submit">Add Expense</button>
+</form>
+<div class="section-label" style="margin-top: 16px;">Recent Expenses</div>
+<div class="expenses-list" id="expensesList">
+<div class="empty-state">No expenses yet!</div>
+</div>
+</div>
+</div>
+<div class="back-link">
+<a href="../../index.html">← Back to Home</a>
+</div>
+</div>
+<!-- Report Modal -->
+<div class="modal" id="reportModal">
+<div class="modal-content">
+<span class="close" onclick="closeReportModal()">×</span>
+<div class="modal-header">📊 Budget &amp; Expense Report</div>
+<div class="date-range">
+<div class="form-group">
+<label>Start Date</label>
+<input id="startDate" type="date"/>
+</div>
+<div class="form-group">
+<label>End Date</label>
+<input id="endDate" type="date"/>
+</div>
+</div>
+<button class="btn-header" onclick="generateReport()" style="width: 100%; margin-bottom: 20px;">Generate Report</button>
+<div id="reportContent" style="display: none;">
+<div class="report-section">
+<div class="report-title">Summary</div>
+<div class="report-summary">
+<div class="report-stat">
+<div class="report-stat-value" id="reportTotalBudget">$0</div>
+<div class="report-stat-label">Total Budget</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportTotalSpent">$0</div>
+<div class="report-stat-label">Total Spent</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportRemaining">$0</div>
+<div class="report-stat-label">Remaining</div>
+</div>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Budget vs Actual Spending</div>
+<div class="chart-container">
+<canvas id="budgetChart"></canvas>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Spending by Category</div>
+<div class="chart-container">
+<canvas id="categoryChart"></canvas>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Daily Spending Trend</div>
+<div class="chart-container">
+<canvas id="trendChart"></canvas>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Category Performance</div>
+<div id="categoryPerformance"></div>
+</div>
+<div class="report-section">
+<div class="report-title">Detailed Expenses</div>
+<div id="detailedExpenses"></div>
+</div>
+<div class="export-buttons">
+<button class="btn-export btn-export-pdf" onclick="exportReportPDF()">📄 Export PDF</button>
+<button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Export Excel</button>
+<button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Export Image</button>
+</div>
+</div>
+</div>
+</div>
+<script>
         let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
         let budgets = JSON.parse(localStorage.getItem('budgets')) || [];
         let categoryChart = null;
@@ -1393,17 +1377,16 @@
         updateCategoryDropdown();
         updateStats();
     </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Expense Tracker');
       });

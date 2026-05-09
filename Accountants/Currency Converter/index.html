@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Currency Converter</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -221,101 +222,91 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">💱</div>
-    <div class="page-header-text">
-        <h1>Currency Converter</h1>
-        <p>Live-rate conversion</p>
-    </div>
+<div class="app-icon">💱</div>
+<div class="page-header-text">
+<h1>Currency Converter</h1>
+<p>Convert live exchange rates across global currencies instantly.</p>
+</div>
 </header>
-
 <!-- Main converter -->
 <div class="card">
-    <div class="converter-group">
-        <div class="converter-label">From</div>
-        <div class="converter-row">
-            <input class="conv-input" id="fromAmt" type="number" placeholder="0" value="1" oninput="convert()">
-            <div class="currency-badge">
-                <span class="flag" id="fromFlag">🇺🇸</span>
-                <select class="cur-sel" id="fromCur" onchange="convert()">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="INR">INR</option>
-                    <option value="JPY">JPY</option>
-                    <option value="CNY">CNY</option>
-                    <option value="CAD">CAD</option>
-                    <option value="AUD">AUD</option>
-                    <option value="SGD">SGD</option>
-                    <option value="CHF">CHF</option>
-                    <option value="AED">AED</option>
-                    <option value="KWD">KWD</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <button class="swap-btn" onclick="swapCurrencies()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-             stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="17 1 21 5 17 9"/>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-            <polyline points="7 23 3 19 7 15"/>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-        </svg>
-    </button>
-
-    <div class="converter-group">
-        <div class="converter-label">To</div>
-        <div class="converter-row">
-            <input class="conv-input" id="toAmt" type="number" placeholder="0" oninput="convertReverse()">
-            <div class="currency-badge">
-                <span class="flag" id="toFlag">🇮🇳</span>
-                <select class="cur-sel" id="toCur" onchange="convert()">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="INR" selected>INR</option>
-                    <option value="JPY">JPY</option>
-                    <option value="CNY">CNY</option>
-                    <option value="CAD">CAD</option>
-                    <option value="AUD">AUD</option>
-                    <option value="SGD">SGD</option>
-                    <option value="CHF">CHF</option>
-                    <option value="AED">AED</option>
-                    <option value="KWD">KWD</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="rate-bar">
-        <div class="rate-text" id="rateText">1 USD = 83.50 INR</div>
-        <div class="rate-meta">Indicative rate</div>
-    </div>
+<div class="converter-group">
+<div class="converter-label">From</div>
+<div class="converter-row">
+<input class="conv-input" id="fromAmt" oninput="convert()" placeholder="0" type="number" value="1"/>
+<div class="currency-badge">
+<span class="flag" id="fromFlag">🇺🇸</span>
+<select class="cur-sel" id="fromCur" onchange="convert()">
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option value="INR">INR</option>
+<option value="JPY">JPY</option>
+<option value="CNY">CNY</option>
+<option value="CAD">CAD</option>
+<option value="AUD">AUD</option>
+<option value="SGD">SGD</option>
+<option value="CHF">CHF</option>
+<option value="AED">AED</option>
+<option value="KWD">KWD</option>
+</select>
 </div>
-
+</div>
+</div>
+<button class="swap-btn" onclick="swapCurrencies()">
+<svg fill="none" height="20" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20">
+<polyline points="17 1 21 5 17 9"></polyline>
+<path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+<polyline points="7 23 3 19 7 15"></polyline>
+<path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+</svg>
+</button>
+<div class="converter-group">
+<div class="converter-label">To</div>
+<div class="converter-row">
+<input class="conv-input" id="toAmt" oninput="convertReverse()" placeholder="0" type="number"/>
+<div class="currency-badge">
+<span class="flag" id="toFlag">🇮🇳</span>
+<select class="cur-sel" id="toCur" onchange="convert()">
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option selected="" value="INR">INR</option>
+<option value="JPY">JPY</option>
+<option value="CNY">CNY</option>
+<option value="CAD">CAD</option>
+<option value="AUD">AUD</option>
+<option value="SGD">SGD</option>
+<option value="CHF">CHF</option>
+<option value="AED">AED</option>
+<option value="KWD">KWD</option>
+</select>
+</div>
+</div>
+</div>
+<div class="rate-bar">
+<div class="rate-text" id="rateText">1 USD = 83.50 INR</div>
+<div class="rate-meta">Indicative rate</div>
+</div>
+</div>
 <!-- Quick compare -->
 <div class="card">
-    <div class="card-title">Quick Compare</div>
-    <div class="quick-grid" id="quickGrid"></div>
+<div class="card-title">Quick Compare</div>
+<div class="quick-grid" id="quickGrid"></div>
 </div>
-
 <!-- History -->
 <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="card-title" style="margin-bottom:0">Conversion History</div>
-        <button class="clear-btn" onclick="clearHistory()">Clear</button>
-    </div>
-    <div id="histList"><div class="empty-state">No conversions yet</div></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+<div class="card-title" style="margin-bottom:0">Conversion History</div>
+<button class="clear-btn" onclick="clearHistory()">Clear</button>
 </div>
-
+<div id="histList"><div class="empty-state">No conversions yet</div></div>
+</div>
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     // Approximate rates relative to USD (as of mid-2025)
     const RATES = {
@@ -432,17 +423,16 @@
     convert();
     renderHistory();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Currency Converter');
       });

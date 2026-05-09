@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WBS Builder</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WBS Builder</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root {
             --bg:        #F2F2F7;
@@ -162,81 +163,78 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">🌳</div>
-            <div>
-                <h1>WBS Builder</h1>
-                <p>Create a Work Breakdown Structure to organize project deliverables.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Project Information</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Project Manager</label>
-                        <input type="text" id="projectManager" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Department</label>
-                        <input type="text" id="department" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">WBS Levels</div>
-                <div class="input-group">
-                    <label class="input-label">Level 1 (Project)</label>
-                    <textarea id="level1" class="text-area" placeholder="Enter project name (auto-populated)..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Level 2 (Phases/Components)</label>
-                    <textarea id="level2" class="text-area" placeholder="List major phases (one per line):&#10;Planning Phase&#10;Development Phase&#10;Testing Phase"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Level 3 (Deliverables)</label>
-                    <textarea id="level3" class="text-area" placeholder="List deliverables (one per line):&#10;Requirements Document&#10;Design Specification&#10;Test Plan"></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate WBS</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">🌳</div>
+<div>
+<h1>WBS Builder</h1>
+<p>Deconstruct complex deliverables into manageable work packages.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Project Information</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Project Manager</label>
+<input class="text-input" id="projectManager" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Department</label>
+<input class="text-input" id="department" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">WBS Levels</div>
+<div class="input-group">
+<label class="input-label">Level 1 (Project)</label>
+<textarea class="text-area" id="level1" placeholder="Enter project name (auto-populated)..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Level 2 (Phases/Components)</label>
+<textarea class="text-area" id="level2" placeholder="List major phases (one per line):
+Planning Phase
+Development Phase
+Testing Phase"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Level 3 (Deliverables)</label>
+<textarea class="text-area" id="level3" placeholder="List deliverables (one per line):
+Requirements Document
+Design Specification
+Test Plan"></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_WBSBuilder';
         let currentData = {};
 
@@ -414,18 +412,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('WBS Builder');
       });

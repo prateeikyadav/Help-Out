@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping List</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping List</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -289,66 +290,58 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">🛒</div>
-    <div class="page-header-text">
-        <h1>Shopping List</h1>
-        <p>Categorized grocery &amp; shopping tracker</p>
-    </div>
-</header>
-
-<div class="stats-row">
-    <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Total Items</div></div>
-    <div class="stat-card"><div class="stat-value" id="sDone">0</div><div class="stat-label">Checked Off</div></div>
-    <div class="stat-card"><div class="stat-value" id="sLeft">0</div><div class="stat-label">Remaining</div></div>
+<div class="app-icon">🛒</div>
+<div class="page-header-text">
+<h1>Shopping List</h1>
+<p>Organize your shopping with a clean, categorised checklist.</p>
 </div>
-
+</header>
+<div class="stats-row">
+<div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Total Items</div></div>
+<div class="stat-card"><div class="stat-value" id="sDone">0</div><div class="stat-label">Checked Off</div></div>
+<div class="stat-card"><div class="stat-value" id="sLeft">0</div><div class="stat-label">Remaining</div></div>
+</div>
 <!-- Add item -->
 <div class="card">
-    <div class="card-title">Add Item</div>
-    <div class="add-row">
-        <input class="add-input" type="text" id="itemName" placeholder="Item name…" onkeydown="if(event.key==='Enter')addItem()">
-        <input class="qty-input" type="text" id="itemQty" placeholder="Qty" value="1">
-        <button class="add-btn" onclick="addItem()">Add</button>
-    </div>
-    <div class="cat-pills" id="catPills">
-        <button class="cat-pill selected" data-cat="Grocery"   onclick="selectCat(this)">🥦 Grocery</button>
-        <button class="cat-pill"          data-cat="Dairy"     onclick="selectCat(this)">🥛 Dairy</button>
-        <button class="cat-pill"          data-cat="Bakery"    onclick="selectCat(this)">🍞 Bakery</button>
-        <button class="cat-pill"          data-cat="Produce"   onclick="selectCat(this)">🍎 Produce</button>
-        <button class="cat-pill"          data-cat="Meat"      onclick="selectCat(this)">🥩 Meat</button>
-        <button class="cat-pill"          data-cat="Snacks"    onclick="selectCat(this)">🍿 Snacks</button>
-        <button class="cat-pill"          data-cat="Beverages" onclick="selectCat(this)">🧃 Beverages</button>
-        <button class="cat-pill"          data-cat="Household" onclick="selectCat(this)">🧹 Household</button>
-        <button class="cat-pill"          data-cat="Other"     onclick="selectCat(this)">📦 Other</button>
-    </div>
+<div class="card-title">Add Item</div>
+<div class="add-row">
+<input class="add-input" id="itemName" onkeydown="if(event.key==='Enter')addItem()" placeholder="Item name…" type="text"/>
+<input class="qty-input" id="itemQty" placeholder="Qty" type="text" value="1"/>
+<button class="add-btn" onclick="addItem()">Export List</button>
 </div>
-
+<div class="cat-pills" id="catPills">
+<button class="cat-pill selected" data-cat="Grocery" onclick="selectCat(this)">🥦 Grocery</button>
+<button class="cat-pill" data-cat="Dairy" onclick="selectCat(this)">🥛 Dairy</button>
+<button class="cat-pill" data-cat="Bakery" onclick="selectCat(this)">🍞 Bakery</button>
+<button class="cat-pill" data-cat="Produce" onclick="selectCat(this)">🍎 Produce</button>
+<button class="cat-pill" data-cat="Meat" onclick="selectCat(this)">🥩 Meat</button>
+<button class="cat-pill" data-cat="Snacks" onclick="selectCat(this)">🍿 Snacks</button>
+<button class="cat-pill" data-cat="Beverages" onclick="selectCat(this)">🧃 Beverages</button>
+<button class="cat-pill" data-cat="Household" onclick="selectCat(this)">🧹 Household</button>
+<button class="cat-pill" data-cat="Other" onclick="selectCat(this)">📦 Other</button>
+</div>
+</div>
 <!-- List -->
 <div class="card">
-    <!-- Filter -->
-    <div class="filter-row">
-        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
-        <button class="filter-btn" onclick="setFilter('active', this)">Remaining</button>
-        <button class="filter-btn" onclick="setFilter('done', this)">Checked</button>
-    </div>
-
-    <div id="listContainer"></div>
-
-    <div class="action-row" style="margin-top:16px;">
-        <button class="action-btn" onclick="checkAll()">Check All</button>
-        <button class="action-btn" onclick="uncheckAll()">Uncheck All</button>
-        <button class="action-btn danger" onclick="clearDone()">Clear Done</button>
-        <button class="action-btn danger" onclick="clearAll()">Clear All</button>
-    </div>
+<!-- Filter -->
+<div class="filter-row">
+<button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+<button class="filter-btn" onclick="setFilter('active', this)">Remaining</button>
+<button class="filter-btn" onclick="setFilter('done', this)">Checked</button>
 </div>
-
+<div id="listContainer"></div>
+<div class="action-row" style="margin-top:16px;">
+<button class="action-btn" onclick="checkAll()">Check All</button>
+<button class="action-btn" onclick="uncheckAll()">Uncheck All</button>
+<button class="action-btn danger" onclick="clearDone()">Clear Done</button>
+<button class="action-btn danger" onclick="clearAll()">Clear All</button>
+</div>
+</div>
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     const CAT_COLORS = {
         Grocery: '#34C759',  Dairy: '#007AFF',  Bakery: '#FF9500',
@@ -457,17 +450,16 @@
 
     render();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Shopping List');
       });

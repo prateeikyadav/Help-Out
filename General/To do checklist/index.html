@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To‑Do Checklist</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>To‑Do Checklist</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<style>
         /* ── Reset & Root ──────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
@@ -544,99 +545,89 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-
-    <!-- Header -->
-    <div class="header">
-        <div class="header-brand">
-            <div class="app-icon">✅</div>
-            <div class="header-title">
-                <h1>To‑Do Checklist</h1>
-                <div class="date" id="dateDisplay"></div>
-            </div>
-        </div>
-        <div class="header-actions">
-            <div class="export-wrap">
-                <button class="export-btn" onclick="toggleExportMenu()">↑ Export</button>
-                <div class="export-menu" id="exportMenu">
-                    <div class="export-option" onclick="exportPNG()">📷 PNG Image</div>
-                    <div class="export-option" onclick="exportJPG()">🖼️ JPG Image</div>
-                    <div class="export-option" onclick="exportPDF()">📄 PDF</div>
-                    <div class="export-option" onclick="exportExcel()">📊 Excel</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">📋</span>
-            <div class="stat-label">Total Tasks</div>
-            <div class="stat-number" id="totalTasks">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">✅</span>
-            <div class="stat-label">Completed</div>
-            <div class="stat-number" id="tasksCompleted">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🎯</span>
-            <div class="stat-label">Done Rate</div>
-            <div class="stat-number" id="completionRate">0%</div>
-        </div>
-    </div>
-
-    <!-- Main Grid -->
-    <div class="main-grid">
-
-        <!-- Tasks -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Today's Tasks</span>
-                <span class="badge" id="pendingBadge">0</span>
-            </div>
-            <div class="input-row">
-                <input class="task-input" type="text" id="todoInput" placeholder="Add a new task…" onkeypress="if(event.key==='Enter') addTodo()">
-                <button class="add-btn" onclick="addTodo()">+ Add</button>
-            </div>
-            <ul class="todo-list" id="todoList">
-                <li class="empty-state">No tasks yet.<br>Add one above to get started.</li>
-            </ul>
-        </div>
-
-        <!-- Chart -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Weekly Activity</span>
-            </div>
-            <div class="chart-wrap">
-                <div class="chart-label">Tasks completed · last 7 days</div>
-                <div class="chart-bars" id="chartBars"></div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- History -->
-    <div class="history-card">
-        <div class="card-header">
-            <span class="card-title">Completed History</span>
-        </div>
-        <ul class="history-list" id="historyList">
-            <li class="empty-state">Completed tasks will appear here.</li>
-        </ul>
-    </div>
-
-    <div class="back-link">
-        <a href="../../index.html">← Back to Home</a>
-    </div>
-
+<!-- Header -->
+<div class="header">
+<div class="header-brand">
+<div class="app-icon">✅</div>
+<div class="header-title">
+<h1>To‑Do Checklist</h1>
+<div class="date" id="dateDisplay"></div>
 </div>
-
+</div>
+<div class="header-actions">
+<div class="export-wrap">
+<button class="export-btn" onclick="toggleExportMenu()">Clear Completed</button>
+<div class="export-menu" id="exportMenu">
+<div class="export-option" onclick="exportPNG()">📷 PNG Image</div>
+<div class="export-option" onclick="exportJPG()">🖼️ JPG Image</div>
+<div class="export-option" onclick="exportPDF()">📄 PDF</div>
+<div class="export-option" onclick="exportExcel()">📊 Excel</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats -->
+<div class="stats-grid">
+<div class="stat-card">
+<span class="stat-icon">📋</span>
+<div class="stat-label">Total Tasks</div>
+<div class="stat-number" id="totalTasks">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">✅</span>
+<div class="stat-label">Completed</div>
+<div class="stat-number" id="tasksCompleted">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">🎯</span>
+<div class="stat-label">Done Rate</div>
+<div class="stat-number" id="completionRate">0%</div>
+</div>
+</div>
+<!-- Main Grid -->
+<div class="main-grid">
+<!-- Tasks -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Today's Tasks</span>
+<span class="badge" id="pendingBadge">0</span>
+</div>
+<div class="input-row">
+<input class="task-input" id="todoInput" onkeypress="if(event.key==='Enter') addTodo()" placeholder="Add a new task…" type="text"/>
+<button class="add-btn" onclick="addTodo()">+ Add</button>
+</div>
+<ul class="todo-list" id="todoList">
+<li class="empty-state">No tasks yet.<br/>Add one above to get started.</li>
+</ul>
+</div>
+<!-- Chart -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Weekly Activity</span>
+</div>
+<div class="chart-wrap">
+<div class="chart-label">Tasks completed · last 7 days</div>
+<div class="chart-bars" id="chartBars"></div>
+</div>
+</div>
+</div>
+<!-- History -->
+<div class="history-card">
+<div class="card-header">
+<span class="card-title">Completed History</span>
+</div>
+<ul class="history-list" id="historyList">
+<li class="empty-state">Completed tasks will appear here.</li>
+</ul>
+</div>
+<div class="back-link">
+<a href="../../index.html">← Back to Home</a>
+</div>
+</div>
 <script>
     let todos      = JSON.parse(localStorage.getItem('todos'))      || [];
     let history    = JSON.parse(localStorage.getItem('history'))    || [];
@@ -835,17 +826,16 @@
     renderHistory();
     updateChart();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('To do checklist');
       });

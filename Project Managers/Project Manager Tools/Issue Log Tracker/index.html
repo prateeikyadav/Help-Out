@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Issue Log Tracker</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Issue Log Tracker</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root {
             --bg:        #F2F2F7;
@@ -161,85 +162,80 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">⚠️</div>
-            <div>
-                <h1>Issue Log Tracker</h1>
-                <p>Track and manage project issues and their resolutions.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Project Information</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Project Manager</label>
-                        <input type="text" id="projectManager" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Issue Owner</label>
-                        <input type="text" id="issueOwner" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Issue Log Details</div>
-                <div class="input-group">
-                    <label class="input-label">Identified Issues</label>
-                    <textarea id="issues" class="text-area" placeholder="List issues encountered (one per line)..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Priority Levels</label>
-                    <textarea id="priorities" class="text-area" placeholder="Define priority levels:&#10;Critical - Blocks work&#10;High - Significant impact&#10;Medium - Minor impact&#10;Low - No impact"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Resolution Process</label>
-                    <textarea id="process" class="text-area" placeholder="Describe issue resolution process and escalation..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Status Summary</label>
-                    <textarea id="summary" class="text-area" placeholder="Summary of open, resolved, and closed issues..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Issue Log</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">⚠️</div>
+<div>
+<h1>Issue Log Tracker</h1>
+<p>Track project blockers from identification to resolution.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Project Information</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Project Manager</label>
+<input class="text-input" id="projectManager" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Issue Owner</label>
+<input class="text-input" id="issueOwner" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Issue Log Details</div>
+<div class="input-group">
+<label class="input-label">Identified Issues</label>
+<textarea class="text-area" id="issues" placeholder="List issues encountered (one per line)..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Priority Levels</label>
+<textarea class="text-area" id="priorities" placeholder="Define priority levels:
+Critical - Blocks work
+High - Significant impact
+Medium - Minor impact
+Low - No impact"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Resolution Process</label>
+<textarea class="text-area" id="process" placeholder="Describe issue resolution process and escalation..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Status Summary</label>
+<textarea class="text-area" id="summary" placeholder="Summary of open, resolved, and closed issues..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_IssueLogTracker';
         let currentData = {};
 
@@ -417,18 +413,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Issue Log Tracker');
       });

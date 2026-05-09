@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIP Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIP Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -255,99 +256,90 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">💹</div>
-    <div class="page-header-text">
-        <h1>SIP Calculator</h1>
-        <p>Returns on monthly investments</p>
-    </div>
-    <div class="header-right">
-        <select class="currency-sel" id="currSel" onchange="recalc()">
-            <option value="₹">₹ INR</option>
-            <option value="$">$ USD</option>
-            <option value="€">€ EUR</option>
-            <option value="£">£ GBP</option>
-            <option value="¥">¥ JPY</option>
-        </select>
-    </div>
+<div class="app-icon">💹</div>
+<div class="page-header-text">
+<h1>SIP Calculator</h1>
+<p>Project your wealth growth through disciplined monthly investments.</p>
+</div>
+<div class="header-right">
+<select class="currency-sel" id="currSel" onchange="recalc()">
+<option value="₹">₹ INR</option>
+<option value="$">$ USD</option>
+<option value="€">€ EUR</option>
+<option value="£">£ GBP</option>
+<option value="¥">¥ JPY</option>
+</select>
+</div>
 </header>
-
 <!-- Stats -->
 <div class="stats-row">
-    <div class="stat-card">
-        <div class="stat-value" id="sInvested">₹0</div>
-        <div class="stat-label">Total Invested</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value" id="sReturns">₹0</div>
-        <div class="stat-label">Est. Returns</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value" id="sTotal">₹0</div>
-        <div class="stat-label">Total Value</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value" id="sMultiple">0×</div>
-        <div class="stat-label">Growth</div>
-    </div>
+<div class="stat-card">
+<div class="stat-value" id="sInvested">₹0</div>
+<div class="stat-label">Total Invested</div>
 </div>
-
+<div class="stat-card">
+<div class="stat-value" id="sReturns">₹0</div>
+<div class="stat-label">Est. Returns</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="sTotal">₹0</div>
+<div class="stat-label">Total Value</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="sMultiple">0×</div>
+<div class="stat-label">Growth</div>
+</div>
+</div>
 <!-- Inputs -->
 <div class="card">
-    <div class="card-title">Calculator</div>
-
-    <div class="input-group">
-        <div class="input-label">Monthly SIP Amount</div>
-        <input class="amount-input" type="number" id="sipAmount" value="5000" min="100" oninput="recalc()">
-    </div>
-
-    <div class="input-group">
-        <div class="input-label">
+<div class="card-title">Calculator</div>
+<div class="input-group">
+<div class="input-label">Monthly SIP Amount</div>
+<input class="amount-input" id="sipAmount" min="100" oninput="recalc()" type="number" value="5000"/>
+</div>
+<div class="input-group">
+<div class="input-label">
             Expected Annual Return
             <span id="returnLabel">12%</span>
-        </div>
-        <input type="range" id="returnRate" min="1" max="30" value="12" step="0.5" oninput="recalc()">
-    </div>
-
-    <div class="input-group">
-        <div class="input-label">
+</div>
+<input id="returnRate" max="30" min="1" oninput="recalc()" step="0.5" type="range" value="12"/>
+</div>
+<div class="input-group">
+<div class="input-label">
             Investment Duration
             <span id="durationLabel">10 Years</span>
-        </div>
-        <input type="range" id="duration" min="1" max="40" value="10" oninput="recalc()">
-    </div>
 </div>
-
+<input id="duration" max="40" min="1" oninput="recalc()" type="range" value="10"/>
+</div>
+</div>
 <!-- Chart -->
 <div class="card">
-    <div class="card-title">Growth Over Time</div>
-    <div class="breakdown-row">
-        <div class="breakdown-pill pill-invested">
-            <div class="pill-dot dot-invested"></div>
-            <div>
-                <div class="pill-info-label">Total Invested</div>
-                <div class="pill-info-value" id="bInvested">₹0</div>
-            </div>
-        </div>
-        <div class="breakdown-pill pill-returns">
-            <div class="pill-dot dot-returns"></div>
-            <div>
-                <div class="pill-info-label">Est. Returns</div>
-                <div class="pill-info-value" id="bReturns">₹0</div>
-            </div>
-        </div>
-    </div>
-    <div class="chart-container">
-        <canvas id="growthChart"></canvas>
-    </div>
+<div class="card-title">Growth Over Time</div>
+<div class="breakdown-row">
+<div class="breakdown-pill pill-invested">
+<div class="pill-dot dot-invested"></div>
+<div>
+<div class="pill-info-label">Total Invested</div>
+<div class="pill-info-value" id="bInvested">₹0</div>
 </div>
-
+</div>
+<div class="breakdown-pill pill-returns">
+<div class="pill-dot dot-returns"></div>
+<div>
+<div class="pill-info-label">Est. Returns</div>
+<div class="pill-info-value" id="bReturns">₹0</div>
+</div>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="growthChart"></canvas>
+</div>
+</div>
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     let chart = null;
 
@@ -430,17 +422,16 @@
 
     recalc();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('SIP Calculator');
       });

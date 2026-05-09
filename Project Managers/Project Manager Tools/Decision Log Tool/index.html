@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Log Tool</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Decision Log Tool</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root { --bg: #F2F2F7; --card: #FFFFFF; --label-1: #1C1C1E; --label-2: #6E6E73; --label-3: #AEAEB2; --separator: #E5E5EA; --accent: #5856D6; --r-xl: 22px; --r-lg: 16px; --r-md: 12px; --shadow: 0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); }
         body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); min-height: 100vh; padding: 48px 24px 72px; color: var(--label-1); }
@@ -145,85 +146,80 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">✅</div>
-            <div>
-                <h1>Decision Log</h1>
-                <p>Record and track key project decisions and their rationale.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Project Information</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Project Manager</label>
-                        <input type="text" id="projectManager" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Decision Owner</label>
-                        <input type="text" id="decisionOwner" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Decisions</div>
-                <div class="input-group">
-                    <label class="input-label">Key Decisions Made</label>
-                    <textarea id="decisions" class="text-area" placeholder="List key decisions (one per line):&#10;Technology selection&#10;Resource allocation&#10;Scope decisions&#10;Timeline adjustments"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Decision Rationale</label>
-                    <textarea id="rationale" class="text-area" placeholder="Explain reasoning behind major decisions..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Decision Approval Authority</label>
-                    <textarea id="authority" class="text-area" placeholder="Define who approves major decisions..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Implementation Notes</label>
-                    <textarea id="notes" class="text-area" placeholder="Notes on decision implementation..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Decision Log</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">✅</div>
+<div>
+<h1>Decision Log</h1>
+<p>Record key project decisions and their underlying rationale.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Project Information</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Project Manager</label>
+<input class="text-input" id="projectManager" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Decision Owner</label>
+<input class="text-input" id="decisionOwner" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Decisions</div>
+<div class="input-group">
+<label class="input-label">Key Decisions Made</label>
+<textarea class="text-area" id="decisions" placeholder="List key decisions (one per line):
+Technology selection
+Resource allocation
+Scope decisions
+Timeline adjustments"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Decision Rationale</label>
+<textarea class="text-area" id="rationale" placeholder="Explain reasoning behind major decisions..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Decision Approval Authority</label>
+<textarea class="text-area" id="authority" placeholder="Define who approves major decisions..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Implementation Notes</label>
+<textarea class="text-area" id="notes" placeholder="Notes on decision implementation..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_DecisionLog';
         let currentData = {};
 
@@ -401,18 +397,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Decision Log Tool');
       });

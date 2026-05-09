@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Estimator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tax Estimator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -198,59 +199,49 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">🧾</div>
-    <div class="page-header-text">
-        <h1>Tax Estimator</h1>
-        <p>Quick income tax slab calculator</p>
-    </div>
+<div class="app-icon">🧾</div>
+<div class="page-header-text">
+<h1>Tax Estimator</h1>
+<p>Estimate your annual income tax obligations quickly and cleanly.</p>
+</div>
 </header>
-
 <!-- Regime toggle (India) -->
 <div class="regime-toggle" style="max-width:620px;margin:0 auto 24px;">
-    <button class="regime-btn active" id="btnNew" onclick="setRegime('new')">New Regime</button>
-    <button class="regime-btn" id="btnOld" onclick="setRegime('old')">Old Regime</button>
+<button class="regime-btn active" id="btnNew" onclick="setRegime('new')">New Regime</button>
+<button class="regime-btn" id="btnOld" onclick="setRegime('old')">Old Regime</button>
 </div>
-
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-value" id="sTax">₹0</div><div class="stat-label">Tax Payable</div></div>
-    <div class="stat-card"><div class="stat-value" id="sTaxPct">0%</div><div class="stat-label">Effective Rate</div></div>
-    <div class="stat-card"><div class="stat-value" id="sInHand">₹0</div><div class="stat-label">In-Hand (yr)</div></div>
-    <div class="stat-card"><div class="stat-value" id="sMonthly">₹0</div><div class="stat-label">Monthly Take</div></div>
+<div class="stat-card"><div class="stat-value" id="sTax">₹0</div><div class="stat-label">Tax Payable</div></div>
+<div class="stat-card"><div class="stat-value" id="sTaxPct">0%</div><div class="stat-label">Effective Rate</div></div>
+<div class="stat-card"><div class="stat-value" id="sInHand">₹0</div><div class="stat-label">In-Hand (yr)</div></div>
+<div class="stat-card"><div class="stat-value" id="sMonthly">₹0</div><div class="stat-label">Monthly Take</div></div>
 </div>
-
 <div class="card">
-    <div class="card-title">Income Details</div>
-
-    <div class="input-group">
-        <div class="input-label">Gross Annual Income</div>
-        <input class="amount-input" type="number" id="income" value="1200000" oninput="recalc()">
-    </div>
-
-    <div class="input-group" id="deductionGroup">
-        <div class="input-label">Deductions (80C / 80D / HRA etc.)</div>
-        <input class="amount-input" type="number" id="deductions" value="150000" oninput="recalc()">
-    </div>
+<div class="card-title">Income Details</div>
+<div class="input-group">
+<div class="input-label">Gross Annual Income</div>
+<input class="amount-input" id="income" oninput="recalc()" type="number" value="1200000"/>
 </div>
-
+<div class="input-group" id="deductionGroup">
+<div class="input-label">Deductions (80C / 80D / HRA etc.)</div>
+<input class="amount-input" id="deductions" oninput="recalc()" type="number" value="150000"/>
+</div>
+</div>
 <!-- Slab breakdown -->
 <div class="card">
-    <div class="card-title">Slab Breakdown</div>
-    <div id="slabList"></div>
+<div class="card-title">Slab Breakdown</div>
+<div id="slabList"></div>
 </div>
-
 <!-- Chart -->
 <div class="card">
-    <div class="card-title">Income vs Tax</div>
-    <div class="chart-container"><canvas id="taxChart"></canvas></div>
+<div class="card-title">Income vs Tax</div>
+<div class="chart-container"><canvas id="taxChart"></canvas></div>
 </div>
-
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     let regime = 'new';
     let chart = null;
@@ -359,17 +350,16 @@
 
     setRegime('new');
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Tax Estimator');
       });

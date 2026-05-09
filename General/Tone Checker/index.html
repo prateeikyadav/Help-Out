@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tone Checker</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tone Checker</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -314,104 +315,90 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header class="page-header">
-    <div class="app-icon">💬</div>
-    <div class="page-header-text">
-        <h1>Tone Checker</h1>
-        <p>Is your message too aggressive or passive?</p>
-    </div>
-    <div class="ai-badge">✦ Groq AI</div>
+<div class="app-icon">💬</div>
+<div class="page-header-text">
+<h1>Tone Checker</h1>
+<p>Refine your messaging to ensure the perfect professional tone.</p>
+</div>
+<div class="ai-badge">✦ Groq AI</div>
 </header>
-
 <!-- Input -->
 <div class="card">
-    <div class="card-title">Paste your email or message</div>
-    <textarea class="msg-area" id="msgInput"
-        placeholder="e.g. You need to fix this immediately. This is completely unacceptable…"
-        oninput="onType()"></textarea>
-    <div class="textarea-meta">
-        <span class="char-count" id="charCount">0 words</span>
-        <button class="clear-btn" onclick="clearAll()">Clear</button>
-    </div>
-    <div class="error-box" id="errorBox"></div>
-    <button class="analyze-btn" id="analyzeBtn" onclick="analyze()" disabled>
-        <span id="btnText">Analyze Tone</span>
-    </button>
+<div class="card-title">Paste your email or message</div>
+<textarea class="msg-area" id="msgInput" oninput="onType()" placeholder="e.g. You need to fix this immediately. This is completely unacceptable…"></textarea>
+<div class="textarea-meta">
+<span class="char-count" id="charCount">0 words</span>
+<button class="clear-btn" onclick="clearAll()">Clear</button>
 </div>
-
+<div class="error-box" id="errorBox"></div>
+<button class="analyze-btn" disabled="" id="analyzeBtn" onclick="analyze()">
+<span id="btnText">Analyze Tone</span>
+</button>
+</div>
 <!-- Result -->
 <div id="result">
-
-    <!-- Tone hero -->
-    <div class="card">
-        <div class="tone-hero">
-            <span class="tone-emoji" id="toneEmoji">😐</span>
-            <div class="tone-label" id="toneLabel">Neutral</div>
-            <div class="tone-subtitle" id="toneSubtitle"></div>
-        </div>
-
-        <div class="meter-wrap">
-            <div class="meter-labels">
-                <span>Passive</span>
-                <span>Balanced</span>
-                <span>Aggressive</span>
-            </div>
-            <div class="meter-track">
-                <div class="meter-thumb" id="meterThumb" style="left:50%"></div>
-            </div>
-        </div>
-
-        <div class="score-grid">
-            <div class="score-pill">
-                <div class="score-pill-val" id="scoreAgg" style="color:var(--red)">—</div>
-                <div class="score-pill-label">Aggressive</div>
-            </div>
-            <div class="score-pill">
-                <div class="score-pill-val" id="scoreTone" style="color:var(--green)">—</div>
-                <div class="score-pill-label">Tone Score</div>
-            </div>
-            <div class="score-pill">
-                <div class="score-pill-val" id="scorePas" style="color:var(--blue)">—</div>
-                <div class="score-pill-label">Passive</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Word analysis -->
-    <div class="card">
-        <div class="card-title">Word Analysis</div>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:rgba(255,59,48,.5)"></div>Aggressive</div>
-            <div class="legend-item"><div class="legend-dot" style="background:rgba(0,122,255,.5)"></div>Passive</div>
-            <div class="legend-item"><div class="legend-dot" style="background:rgba(52,199,89,.5)"></div>Positive</div>
-        </div>
-        <div class="highlight-box" id="highlightedText"></div>
-        <div class="sentiment-row" id="sentimentRow"></div>
-    </div>
-
-    <!-- Suggestions -->
-    <div class="card">
-        <div class="card-title">Suggestions</div>
-        <div class="suggestion-list" id="suggestionList"></div>
-    </div>
-
-    <!-- Rewrite -->
-    <div class="card" id="rewriteCard" style="display:none">
-        <div class="card-title">Suggested Rewrite</div>
-        <div class="rewrite-box">
-            <div class="rewrite-label">✨ Balanced Version</div>
-            <div class="rewrite-text" id="rewriteText"></div>
-        </div>
-    </div>
-
+<!-- Tone hero -->
+<div class="card">
+<div class="tone-hero">
+<span class="tone-emoji" id="toneEmoji">😐</span>
+<div class="tone-label" id="toneLabel">Neutral</div>
+<div class="tone-subtitle" id="toneSubtitle"></div>
 </div>
-
+<div class="meter-wrap">
+<div class="meter-labels">
+<span>Passive</span>
+<span>Balanced</span>
+<span>Aggressive</span>
+</div>
+<div class="meter-track">
+<div class="meter-thumb" id="meterThumb" style="left:50%"></div>
+</div>
+</div>
+<div class="score-grid">
+<div class="score-pill">
+<div class="score-pill-val" id="scoreAgg" style="color:var(--red)">—</div>
+<div class="score-pill-label">Aggressive</div>
+</div>
+<div class="score-pill">
+<div class="score-pill-val" id="scoreTone" style="color:var(--green)">—</div>
+<div class="score-pill-label">Tone Score</div>
+</div>
+<div class="score-pill">
+<div class="score-pill-val" id="scorePas" style="color:var(--blue)">—</div>
+<div class="score-pill-label">Passive</div>
+</div>
+</div>
+</div>
+<!-- Word analysis -->
+<div class="card">
+<div class="card-title">Word Analysis</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:rgba(255,59,48,.5)"></div>Aggressive</div>
+<div class="legend-item"><div class="legend-dot" style="background:rgba(0,122,255,.5)"></div>Passive</div>
+<div class="legend-item"><div class="legend-dot" style="background:rgba(52,199,89,.5)"></div>Positive</div>
+</div>
+<div class="highlight-box" id="highlightedText"></div>
+<div class="sentiment-row" id="sentimentRow"></div>
+</div>
+<!-- Suggestions -->
+<div class="card">
+<div class="card-title">Suggestions</div>
+<div class="suggestion-list" id="suggestionList"></div>
+</div>
+<!-- Rewrite -->
+<div class="card" id="rewriteCard" style="display:none">
+<div class="card-title">Suggested Rewrite</div>
+<div class="rewrite-box">
+<div class="rewrite-label">✨ Balanced Version</div>
+<div class="rewrite-text" id="rewriteText"></div>
+</div>
+</div>
+</div>
 <div class="back-link"><a href="../../index.html">← Back to Tools for Fools</a></div>
-
 <script>
     // Tone Analysis Database
     const TONE_DB = {
@@ -723,17 +710,16 @@
         return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Tone Checker');
       });

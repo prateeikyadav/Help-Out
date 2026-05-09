@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Communication Plan Builder</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Communication Plan Builder</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root {
             --bg:        #F2F2F7;
@@ -161,89 +162,90 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">💬</div>
-            <div>
-                <h1>Communication Plan</h1>
-                <p>Build a comprehensive communication plan for all project stakeholders.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Project Information</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Project Manager</label>
-                        <input type="text" id="projectManager" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Communications Officer</label>
-                        <input type="text" id="commOfficer" class="text-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Communication Details</div>
-                <div class="input-group">
-                    <label class="input-label">Target Audiences</label>
-                    <textarea id="audiences" class="text-area" placeholder="List stakeholder groups:&#10;Executive Leadership&#10;Project Team&#10;Client&#10;Department Managers&#10;End Users"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Communication Methods</label>
-                    <textarea id="methods" class="text-area" placeholder="List communication methods:&#10;Email&#10;Status Reports&#10;Team Meetings&#10;Stakeholder Updates&#10;Documentation"></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Key Messages</label>
-                    <textarea id="messages" class="text-area" placeholder="Define key messages for the project..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Communication Schedule</label>
-                    <textarea id="schedule" class="text-area" placeholder="Define frequency and timing of communications..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Escalation Procedures</label>
-                    <textarea id="escalation" class="text-area" placeholder="Define how communication issues will be escalated..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Communication Plan</button>
-            </div>
-        </div>
-
-        <div id="result" style="display: none;">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div class="page-header-content">
+<div class="app-icon">💬</div>
+<div>
+<h1>Communication Plan</h1>
+<p>Align stakeholders with a clear, structured communication strategy.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Project Information</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Project Manager</label>
+<input class="text-input" id="projectManager" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Communications Officer</label>
+<input class="text-input" id="commOfficer" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Communication Details</div>
+<div class="input-group">
+<label class="input-label">Target Audiences</label>
+<textarea class="text-area" id="audiences" placeholder="List stakeholder groups:
+Executive Leadership
+Project Team
+Client
+Department Managers
+End Users"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Communication Methods</label>
+<textarea class="text-area" id="methods" placeholder="List communication methods:
+Email
+Status Reports
+Team Meetings
+Stakeholder Updates
+Documentation"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Key Messages</label>
+<textarea class="text-area" id="messages" placeholder="Define key messages for the project..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Communication Schedule</label>
+<textarea class="text-area" id="schedule" placeholder="Define frequency and timing of communications..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Escalation Procedures</label>
+<textarea class="text-area" id="escalation" placeholder="Define how communication issues will be escalated..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display: none;">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ Create New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_CommunicationPlan';
         let currentData = {};
 
@@ -421,18 +423,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Communication Plan Builder');
       });

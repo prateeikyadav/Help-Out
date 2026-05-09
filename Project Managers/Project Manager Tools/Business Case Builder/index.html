@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Case Builder</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Business Case Builder</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -418,126 +419,110 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-
-    <header class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">💼</div>
-            <div>
-                <h1>Business Case</h1>
-                <p>Build a compelling business case for your project</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="wrapper">
-
-        <!-- Input Section -->
-        <div class="card">
-            <div class="card-title">💡 Executive Summary</div>
-            <div class="input-group">
-                <label class="input-label required">Project Name</label>
-                <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-            </div>
-            <div class="input-group">
-                <label class="input-label required">Business Problem</label>
-                <textarea id="businessProblem" class="text-area" placeholder="What is the current problem or opportunity?"></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label required">Proposed Solution</label>
-                <textarea id="proposedSolution" class="text-area" placeholder="How does this project solve the problem?"></textarea>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">📊 Financial Analysis</div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label required">Total Project Cost (USD)</label>
-                    <input type="number" id="projectCost" class="number-input" placeholder="0.00" min="0" step="0.01">
-                </div>
-                <div class="input-group">
-                    <label class="input-label required">Expected Annual Benefit (USD)</label>
-                    <input type="number" id="annualBenefit" class="number-input" placeholder="0.00" min="0" step="0.01">
-                </div>
-            </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label">Payback Period (months)</label>
-                    <input type="number" id="paybackPeriod" class="number-input" placeholder="12" min="1" step="1">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Project Duration (months)</label>
-                    <input type="number" id="duration" class="number-input" placeholder="6" min="1" step="1">
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">✅ Benefits & Impact</div>
-            <div class="input-group">
-                <label class="input-label required">Quantifiable Benefits</label>
-                <textarea id="quantifiableBenefits" class="text-area" placeholder="Cost savings, revenue increase, efficiency gains, etc."></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label">Strategic Benefits</label>
-                <textarea id="strategicBenefits" class="text-area" placeholder="Competitive advantage, market position, customer satisfaction, etc."></textarea>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⚠️ Risks & Mitigation</div>
-            <div class="input-group">
-                <label class="input-label">Key Risks</label>
-                <textarea id="keyRisks" class="text-area" placeholder="Potential risks and their impact"></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label">Mitigation Strategy</label>
-                <textarea id="mitigationStrategy" class="text-area" placeholder="How will we manage these risks?"></textarea>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">👥 Stakeholders</div>
-            <div class="input-group">
-                <label class="input-label">Key Stakeholders</label>
-                <textarea id="stakeholders" class="text-area" placeholder="List key stakeholders and their interests"></textarea>
-            </div>
-        </div>
-
-        <!-- Generate Button -->
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="generateDocument()">Generate Business Case</button>
-        </div>
-
-    </div>
-
-    <!-- Result Section -->
-    <div id="result">
-        <div class="wrapper">
-            <div class="document-preview" id="preview"></div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="resetForm()">🔄 Start Over</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<header class="page-header">
+<div class="page-header-content">
+<div class="app-icon">💼</div>
+<div>
+<h1>Business Case</h1>
+<p>Build a compelling, data-backed business case for your initiative.</p>
+</div>
+</div>
+</header>
+<div class="wrapper">
+<!-- Input Section -->
+<div class="card">
+<div class="card-title">💡 Executive Summary</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Business Problem</label>
+<textarea class="text-area" id="businessProblem" placeholder="What is the current problem or opportunity?"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label required">Proposed Solution</label>
+<textarea class="text-area" id="proposedSolution" placeholder="How does this project solve the problem?"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📊 Financial Analysis</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label required">Total Project Cost (USD)</label>
+<input class="number-input" id="projectCost" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Expected Annual Benefit (USD)</label>
+<input class="number-input" id="annualBenefit" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Payback Period (months)</label>
+<input class="number-input" id="paybackPeriod" min="1" placeholder="12" step="1" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label">Project Duration (months)</label>
+<input class="number-input" id="duration" min="1" placeholder="6" step="1" type="number"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">✅ Benefits &amp; Impact</div>
+<div class="input-group">
+<label class="input-label required">Quantifiable Benefits</label>
+<textarea class="text-area" id="quantifiableBenefits" placeholder="Cost savings, revenue increase, efficiency gains, etc."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Strategic Benefits</label>
+<textarea class="text-area" id="strategicBenefits" placeholder="Competitive advantage, market position, customer satisfaction, etc."></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">⚠️ Risks &amp; Mitigation</div>
+<div class="input-group">
+<label class="input-label">Key Risks</label>
+<textarea class="text-area" id="keyRisks" placeholder="Potential risks and their impact"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Mitigation Strategy</label>
+<textarea class="text-area" id="mitigationStrategy" placeholder="How will we manage these risks?"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">👥 Stakeholders</div>
+<div class="input-group">
+<label class="input-label">Key Stakeholders</label>
+<textarea class="text-area" id="stakeholders" placeholder="List key stakeholders and their interests"></textarea>
+</div>
+</div>
+<!-- Generate Button -->
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<!-- Result Section -->
+<div id="result">
+<div class="wrapper">
+<div class="document-preview" id="preview"></div>
+<div class="action-buttons">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="resetForm()">🔄 Start Over</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_BusinessCase';
         let currentData = {};
 
@@ -715,18 +700,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Business Case Builder');
       });

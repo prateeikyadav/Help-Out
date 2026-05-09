@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Charter Generator</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Charter Generator</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         :root {
@@ -484,148 +485,128 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-
-    <header class="page-header">
-        <div class="page-header-content">
-            <div class="app-icon">📋</div>
-            <div>
-                <h1>Project Charter</h1>
-                <p>Define your project's objectives, scope, and authority</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="wrapper">
-
-        <!-- Success Message -->
-        <div id="successMsg" class="success-message">✓ Document generated successfully!</div>
-
-        <!-- Input Section -->
-        <div class="card">
-            <div class="card-title">📌 Project Information</div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-group">
-                    <label class="input-label required">Project Manager</label>
-                    <input type="text" id="projectManager" class="text-input" placeholder="Your name">
-                </div>
-            </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label">Sponsor Name</label>
-                    <input type="text" id="sponsor" class="text-input" placeholder="Sponsor name">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Sponsor Title</label>
-                    <input type="text" id="sponsorTitle" class="text-input" placeholder="e.g., VP of Operations">
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">📅 Timeline</div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label required">Start Date</label>
-                    <input type="date" id="startDate" class="date-input">
-                </div>
-                <div class="input-group">
-                    <label class="input-label required">End Date</label>
-                    <input type="date" id="endDate" class="date-input">
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">💰 Budget & Resources</div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label">Budget (USD)</label>
-                    <input type="number" id="budget" class="number-input" placeholder="0.00" min="0" step="0.01">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Team Size</label>
-                    <input type="number" id="teamSize" class="number-input" placeholder="Number of team members" min="1">
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">📝 Objectives & Scope</div>
-            <div class="input-group">
-                <label class="input-label required">Business Justification</label>
-                <textarea id="businessJustification" class="text-area" placeholder="Why is this project needed? What problem does it solve?"></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label required">High-Level Objectives</label>
-                <textarea id="objectives" class="text-area" placeholder="List project objectives (one per line, or comma-separated)"></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label">Key Deliverables</label>
-                <textarea id="deliverables" class="text-area" placeholder="Main deliverables of the project"></textarea>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⚠️ Assumptions & Constraints</div>
-            <div class="input-group">
-                <label class="input-label">Assumptions</label>
-                <textarea id="assumptions" class="text-area" placeholder="Key assumptions about the project"></textarea>
-            </div>
-            <div class="input-group">
-                <label class="input-label">Constraints</label>
-                <textarea id="constraints" class="text-area" placeholder="Budget, resource, time constraints, etc."></textarea>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">✅ Success Criteria</div>
-            <div class="input-group">
-                <label class="input-label">Measurable Success Criteria</label>
-                <textarea id="successCriteria" class="text-area" placeholder="How will we know the project is successful?"></textarea>
-            </div>
-        </div>
-
-        <!-- Generate Button -->
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="generateDocument()">
-                <span>Generate Charter</span>
-            </button>
-        </div>
-
-    </div>
-
-    <!-- Result Section -->
-    <div id="result">
-        <div class="wrapper">
-            <div class="document-preview" id="preview"></div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
-                
-                <button class="btn btn-secondary" onclick="editDocument()">✏️ Edit Document</button>
-                <button class="btn btn-secondary" onclick="resetForm()">🔄 Start Over</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<header class="page-header">
+<div class="page-header-content">
+<div class="app-icon">📋</div>
+<div>
+<h1>Project Charter</h1>
+<p>Define project scope, objectives, and foundational authority.</p>
+</div>
+</div>
+</header>
+<div class="wrapper">
+<!-- Success Message -->
+<div class="success-message" id="successMsg">✓ Document generated successfully!</div>
+<!-- Input Section -->
+<div class="card">
+<div class="card-title">📌 Project Information</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Project Manager</label>
+<input class="text-input" id="projectManager" placeholder="Your name" type="text"/>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Sponsor Name</label>
+<input class="text-input" id="sponsor" placeholder="Sponsor name" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label">Sponsor Title</label>
+<input class="text-input" id="sponsorTitle" placeholder="e.g., VP of Operations" type="text"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📅 Timeline</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label required">Start Date</label>
+<input class="date-input" id="startDate" type="date"/>
+</div>
+<div class="input-group">
+<label class="input-label required">End Date</label>
+<input class="date-input" id="endDate" type="date"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">💰 Budget &amp; Resources</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Budget (USD)</label>
+<input class="number-input" id="budget" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label">Team Size</label>
+<input class="number-input" id="teamSize" min="1" placeholder="Number of team members" type="number"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📝 Objectives &amp; Scope</div>
+<div class="input-group">
+<label class="input-label required">Business Justification</label>
+<textarea class="text-area" id="businessJustification" placeholder="Why is this project needed? What problem does it solve?"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label required">High-Level Objectives</label>
+<textarea class="text-area" id="objectives" placeholder="List project objectives (one per line, or comma-separated)"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Key Deliverables</label>
+<textarea class="text-area" id="deliverables" placeholder="Main deliverables of the project"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">⚠️ Assumptions &amp; Constraints</div>
+<div class="input-group">
+<label class="input-label">Assumptions</label>
+<textarea class="text-area" id="assumptions" placeholder="Key assumptions about the project"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Constraints</label>
+<textarea class="text-area" id="constraints" placeholder="Budget, resource, time constraints, etc."></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">✅ Success Criteria</div>
+<div class="input-group">
+<label class="input-label">Measurable Success Criteria</label>
+<textarea class="text-area" id="successCriteria" placeholder="How will we know the project is successful?"></textarea>
+</div>
+</div>
+<!-- Generate Button -->
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<!-- Result Section -->
+<div id="result">
+<div class="wrapper">
+<div class="document-preview" id="preview"></div>
+<div class="action-buttons">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="editDocument()">✏️ Edit Document</button>
+<button class="btn btn-secondary" onclick="resetForm()">🔄 Start Over</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_ProjectCharter';
         let currentData = {};
 
@@ -803,18 +784,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Project Charter Generator');
       });

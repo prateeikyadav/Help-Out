@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Planner</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meal Planner</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<style>
         /* ── Reset & Root ─────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
@@ -493,170 +494,151 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-
-    <!-- Header -->
-    <div class="header">
-        <div class="header-brand">
-            <div class="app-icon">🍽️</div>
-            <div class="header-title">
-                <h1>Meal Planner</h1>
-                <small>Plan your week · Eat well · Stay consistent</small>
-            </div>
-        </div>
-        <button class="btn-header" onclick="openReportModal()">📊 Reports</button>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">🍽️</span>
-            <div class="stat-label">Total Meals</div>
-            <div class="stat-number" id="statTotal">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">📅</span>
-            <div class="stat-label">Days Planned</div>
-            <div class="stat-number" id="statDays">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">☀️</span>
-            <div class="stat-label">Breakfasts</div>
-            <div class="stat-number" id="statBreakfast">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🌙</span>
-            <div class="stat-label">Dinners</div>
-            <div class="stat-number" id="statDinner">0</div>
-        </div>
-    </div>
-
-    <!-- Main: Form + Weekly Grid -->
-    <div class="main-grid">
-
-        <!-- Add Meal Form -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Add a Meal</span>
-            </div>
-
-            <form onsubmit="addMeal(event)">
-                <div class="form-group">
-                    <label>Meal Name</label>
-                    <input type="text" id="mealName" placeholder="e.g., Grilled Chicken" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Meal Type</label>
-                    <div class="type-pills">
-                        <button type="button" class="type-pill selected" data-type="Breakfast" onclick="selectType('Breakfast')">☀️ Breakfast</button>
-                        <button type="button" class="type-pill"          data-type="Lunch"     onclick="selectType('Lunch')">☀️ Lunch</button>
-                        <button type="button" class="type-pill"          data-type="Dinner"    onclick="selectType('Dinner')">🌙 Dinner</button>
-                        <button type="button" class="type-pill"          data-type="Snack"     onclick="selectType('Snack')">🍎 Snack</button>
-                    </div>
-                    <input type="hidden" id="mealType" value="Breakfast">
-                </div>
-
-                <div class="form-group">
-                    <label>Day of Week</label>
-                    <select id="mealDay">
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <option>Wednesday</option>
-                        <option>Thursday</option>
-                        <option>Friday</option>
-                        <option>Saturday</option>
-                        <option>Sunday</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-submit">+ Add Meal</button>
-            </form>
-        </div>
-
-        <!-- Weekly Planner -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Weekly Planner</span>
-            </div>
-            <div class="week-grid" id="weekGrid"></div>
-            <div class="legend">
-                <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Breakfast</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Lunch</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Dinner</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Snack</div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="back-link">
-        <a href="../../index.html">← Back to Home</a>
-    </div>
+<!-- Header -->
+<div class="header">
+<div class="header-brand">
+<div class="app-icon">🍽️</div>
+<div class="header-title">
+<h1>Meal Planner</h1>
+<small>Plan your week · Eat well · Stay consistent</small>
 </div>
-
+</div>
+<button class="btn-header" onclick="openReportModal()">📊 Reports</button>
+</div>
+<!-- Stats -->
+<div class="stats-grid">
+<div class="stat-card">
+<span class="stat-icon">🍽️</span>
+<div class="stat-label">Total Meals</div>
+<div class="stat-number" id="statTotal">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">📅</span>
+<div class="stat-label">Days Planned</div>
+<div class="stat-number" id="statDays">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">☀️</span>
+<div class="stat-label">Breakfasts</div>
+<div class="stat-number" id="statBreakfast">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">🌙</span>
+<div class="stat-label">Dinners</div>
+<div class="stat-number" id="statDinner">0</div>
+</div>
+</div>
+<!-- Main: Form + Weekly Grid -->
+<div class="main-grid">
+<!-- Add Meal Form -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Add a Meal</span>
+</div>
+<form onsubmit="addMeal(event)">
+<div class="form-group">
+<label>Meal Name</label>
+<input id="mealName" placeholder="e.g., Grilled Chicken" required="" type="text"/>
+</div>
+<div class="form-group">
+<label>Meal Type</label>
+<div class="type-pills">
+<button class="type-pill selected" data-type="Breakfast" onclick="selectType('Breakfast')" type="button">☀️ Breakfast</button>
+<button class="type-pill" data-type="Lunch" onclick="selectType('Lunch')" type="button">☀️ Lunch</button>
+<button class="type-pill" data-type="Dinner" onclick="selectType('Dinner')" type="button">🌙 Dinner</button>
+<button class="type-pill" data-type="Snack" onclick="selectType('Snack')" type="button">🍎 Snack</button>
+</div>
+<input id="mealType" type="hidden" value="Breakfast"/>
+</div>
+<div class="form-group">
+<label>Day of Week</label>
+<select id="mealDay">
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option>Thursday</option>
+<option>Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+</select>
+</div>
+<button class="btn-submit" type="submit">Export Plan</button>
+</form>
+</div>
+<!-- Weekly Planner -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Weekly Planner</span>
+</div>
+<div class="week-grid" id="weekGrid"></div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Breakfast</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Lunch</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Dinner</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Snack</div>
+</div>
+</div>
+</div>
+<div class="back-link">
+<a href="../../index.html">← Back to Home</a>
+</div>
+</div>
 <!-- Report Modal -->
-<div id="reportModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeReportModal()">&times;</span>
-        <div class="modal-header">📊 Meal Planner Report</div>
-
-        <div class="date-range">
-            <div class="form-group">
-                <label>Start Date</label>
-                <input type="date" id="startDate">
-            </div>
-            <div class="form-group">
-                <label>End Date</label>
-                <input type="date" id="endDate">
-            </div>
-        </div>
-
-        <button class="btn-generate" onclick="generateReport()">Generate Report</button>
-
-        <div id="reportContent" style="display:none;">
-            <div class="report-section">
-                <div class="report-title">Summary</div>
-                <div class="report-summary">
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportTotalMeals">0</div>
-                        <div class="report-stat-label">Total Meals</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportDaysPlanned">0</div>
-                        <div class="report-stat-label">Days Planned</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportMealTypes">0</div>
-                        <div class="report-stat-label">Meal Types Used</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <div class="report-title">Meal Type Distribution</div>
-                <div class="chart-container">
-                    <canvas id="mealChart"></canvas>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <div class="report-title">All Meals</div>
-                <div id="mealDetails"></div>
-            </div>
-
-            <div class="export-buttons">
-                <button class="btn-export btn-export-pdf"   onclick="exportReportPDF()">📄 PDF</button>
-                <button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
-                <button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
-            </div>
-        </div>
-    </div>
+<div class="modal" id="reportModal">
+<div class="modal-content">
+<span class="close" onclick="closeReportModal()">×</span>
+<div class="modal-header">📊 Meal Planner Report</div>
+<div class="date-range">
+<div class="form-group">
+<label>Start Date</label>
+<input id="startDate" type="date"/>
 </div>
-
+<div class="form-group">
+<label>End Date</label>
+<input id="endDate" type="date"/>
+</div>
+</div>
+<button class="btn-generate" onclick="generateReport()">Generate Report</button>
+<div id="reportContent" style="display:none;">
+<div class="report-section">
+<div class="report-title">Summary</div>
+<div class="report-summary">
+<div class="report-stat">
+<div class="report-stat-value" id="reportTotalMeals">0</div>
+<div class="report-stat-label">Total Meals</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportDaysPlanned">0</div>
+<div class="report-stat-label">Days Planned</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportMealTypes">0</div>
+<div class="report-stat-label">Meal Types Used</div>
+</div>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Meal Type Distribution</div>
+<div class="chart-container">
+<canvas id="mealChart"></canvas>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">All Meals</div>
+<div id="mealDetails"></div>
+</div>
+<div class="export-buttons">
+<button class="btn-export btn-export-pdf" onclick="exportReportPDF()">📄 PDF</button>
+<button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
+<button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
+</div>
+</div>
+</div>
+</div>
 <script>
     let meals    = JSON.parse(localStorage.getItem('meals')) || [];
     let mealChart = null;
@@ -838,17 +820,16 @@
     mealDaySelect.value = todayName;
     renderWeek();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Meal Planner');
       });

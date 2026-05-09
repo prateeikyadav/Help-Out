@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprint Planning Tool</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sprint Planning Tool</title>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --bg: #F2F2F7; --card: #FFFFFF; --label-1: #1C1C1E; --label-2: #6E6E73; --separator: #E5E5EA; --accent: #34C759; --shadow: 0 2px 8px rgba(0,0,0,.06); }
         body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); min-height: 100vh; padding: 48px 24px 72px; }
@@ -140,85 +141,77 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../../global_theme.css">
+<link href="../../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="top-nav">
-        <button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
-        <button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
-    </div>
-
-
-    <div class="page-header">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <div class="app-icon">🏃</div>
-            <div>
-                <h1>Sprint Planning</h1>
-                <p>Plan and organize sprints with goals and user stories.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="input-section">
-            <div class="card">
-                <div class="card-title">Sprint Details</div>
-                <div class="input-group">
-                    <label class="input-label required">Project Name</label>
-                    <input type="text" id="projectName" class="text-input" placeholder="Enter project name">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label class="input-label">Sprint Number</label>
-                        <input type="number" id="sprintNum" class="text-input">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Duration (days)</label>
-                        <input type="number" id="duration" class="text-input" value="14">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Planning</div>
-                <div class="input-group">
-                    <label class="input-label">Sprint Goal</label>
-                    <textarea id="goal" class="text-area" placeholder="Define sprint goal..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">User Stories</label>
-                    <textarea id="stories" class="text-area" placeholder="List user stories..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Tasks & Estimates</label>
-                    <textarea id="tasks" class="text-area" placeholder="Define tasks and story points..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Team Capacity</label>
-                    <textarea id="capacity" class="text-area" placeholder="Document team capacity..."></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateDocument()">Generate Sprint Plan</button>
-            </div>
-        </div>
-
-        <div id="result" style="display:none">
-            <div class="document-preview" id="preview"></div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="downloadPDF()">📥 PDF</button>
-                <button class="btn btn-secondary" onclick="downloadExcel()">📊 Excel</button>
-                <button class="btn btn-secondary" onclick="location.reload()">↻ New</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
-    <script>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<div class="page-header">
+<div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+<div class="app-icon">🏃</div>
+<div>
+<h1>Sprint Planning</h1>
+<p>Organize and prioritize your upcoming agile sprints.</p>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="input-section">
+<div class="card">
+<div class="card-title">Sprint Details</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Sprint Number</label>
+<input class="text-input" id="sprintNum" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label">Duration (days)</label>
+<input class="text-input" id="duration" type="number" value="14"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Planning</div>
+<div class="input-group">
+<label class="input-label">Sprint Goal</label>
+<textarea class="text-area" id="goal" placeholder="Define sprint goal..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">User Stories</label>
+<textarea class="text-area" id="stories" placeholder="List user stories..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Tasks &amp; Estimates</label>
+<textarea class="text-area" id="tasks" placeholder="Define tasks and story points..."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Team Capacity</label>
+<textarea class="text-area" id="capacity" placeholder="Document team capacity..."></textarea>
+</div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<div id="result" style="display:none">
+<div class="document-preview" id="preview"></div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 PDF</button>
+<button class="btn btn-secondary" onclick="downloadExcel()">📊 Excel</button>
+<button class="btn btn-secondary" onclick="location.reload()">↻ New</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
         const storageKey = 'pmDocs_SprintPlanning';
         let currentData = {};
 
@@ -396,18 +389,16 @@
         }
 
     </script>
-
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../../recommendationMap.js"></script>
-    <script src="../../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../../recommendationMap.js"></script>
+<script src="../../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Sprint Planning Tool');
       });

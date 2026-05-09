@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goal Tracker</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Goal Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<style>
         /* ── Reset & Root ─────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
@@ -544,160 +545,143 @@
           line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="../../global_theme.css">
+<link href="../../global_theme.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-
-    <!-- Header -->
-    <div class="header">
-        <div class="header-brand">
-            <div class="app-icon">🎯</div>
-            <div class="header-title">
-                <h1>Goal Tracker</h1>
-                <small>Set goals · Track progress · Achieve more</small>
-            </div>
-        </div>
-        <button class="btn-header" onclick="openReportModal()">📊 Reports</button>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">🎯</span>
-            <div class="stat-label">Active Goals</div>
-            <div class="stat-number" id="activeGoals">0</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">📈</span>
-            <div class="stat-label">Avg Progress</div>
-            <div class="stat-number" id="avgProgress">0%</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🏆</span>
-            <div class="stat-label">Completed</div>
-            <div class="stat-number" id="completedGoals">0</div>
-        </div>
-    </div>
-
-    <!-- Main Grid -->
-    <div class="main-grid">
-
-        <!-- Create Goal -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">New Goal</span>
-            </div>
-            <form onsubmit="createGoal(event)">
-                <div class="form-group">
-                    <label>Goal Title</label>
-                    <input type="text" id="goalTitle" placeholder="e.g., Run a 5K" required>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="goalDesc" placeholder="Describe your goal…"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Target Date</label>
-                    <input type="date" id="goalDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Starting Progress</label>
-                    <div class="progress-input-row">
-                        <input type="range" id="goalProgress" min="0" max="100" value="0"
-                            oninput="document.getElementById('progressVal').textContent = this.value + '%'">
-                        <span class="progress-val" id="progressVal">0%</span>
-                    </div>
-                </div>
-                <button type="submit" class="btn-submit">+ Create Goal</button>
-            </form>
-        </div>
-
-        <!-- Goals List -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">Your Goals</span>
-                <span style="font-size:0.78em; color:var(--label-3); font-weight:600;" id="goalCount"></span>
-            </div>
-            <div class="goals-scroll" id="goalsList">
-                <div class="empty-state">No goals yet.<br>Create one to get started.</div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Completed Goals -->
-    <div class="completed-card" id="completedSection" style="display:none;">
-        <div class="card-header">
-            <span class="card-title">Achieved Goals 🏆</span>
-        </div>
-        <div id="completedList"></div>
-    </div>
-
-    <div class="back-link">
-        <a href="../../index.html">← Back to Home</a>
-    </div>
+<!-- Header -->
+<div class="header">
+<div class="header-brand">
+<div class="app-icon">🎯</div>
+<div class="header-title">
+<h1>Goal Tracker</h1>
+<small>Set goals · Track progress · Achieve more</small>
 </div>
-
+</div>
+<button class="btn-header" onclick="openReportModal()">📊 Reports</button>
+</div>
+<!-- Stats -->
+<div class="stats-grid">
+<div class="stat-card">
+<span class="stat-icon">🎯</span>
+<div class="stat-label">Active Goals</div>
+<div class="stat-number" id="activeGoals">0</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">📈</span>
+<div class="stat-label">Avg Progress</div>
+<div class="stat-number" id="avgProgress">0%</div>
+</div>
+<div class="stat-card">
+<span class="stat-icon">🏆</span>
+<div class="stat-label">Completed</div>
+<div class="stat-number" id="completedGoals">0</div>
+</div>
+</div>
+<!-- Main Grid -->
+<div class="main-grid">
+<!-- Create Goal -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">New Goal</span>
+</div>
+<form onsubmit="createGoal(event)">
+<div class="form-group">
+<label>Goal Title</label>
+<input id="goalTitle" placeholder="e.g., Run a 5K" required="" type="text"/>
+</div>
+<div class="form-group">
+<label>Description</label>
+<textarea id="goalDesc" placeholder="Describe your goal…"></textarea>
+</div>
+<div class="form-group">
+<label>Target Date</label>
+<input id="goalDate" required="" type="date"/>
+</div>
+<div class="form-group">
+<label>Starting Progress</label>
+<div class="progress-input-row">
+<input id="goalProgress" max="100" min="0" oninput="document.getElementById('progressVal').textContent = this.value + '%'" type="range" value="0"/>
+<span class="progress-val" id="progressVal">0%</span>
+</div>
+</div>
+<button class="btn-submit" type="submit">+ Create Goal</button>
+</form>
+</div>
+<!-- Goals List -->
+<div class="card">
+<div class="card-header">
+<span class="card-title">Your Goals</span>
+<span id="goalCount" style="font-size:0.78em; color:var(--label-3); font-weight:600;"></span>
+</div>
+<div class="goals-scroll" id="goalsList">
+<div class="empty-state">No goals yet.<br/>Create one to get started.</div>
+</div>
+</div>
+</div>
+<!-- Completed Goals -->
+<div class="completed-card" id="completedSection" style="display:none;">
+<div class="card-header">
+<span class="card-title">Achieved Goals 🏆</span>
+</div>
+<div id="completedList"></div>
+</div>
+<div class="back-link">
+<a href="../../index.html">← Back to Home</a>
+</div>
+</div>
 <!-- Report Modal -->
-<div id="reportModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeReportModal()">&times;</span>
-        <div class="modal-header">📊 Goal Report</div>
-
-        <div class="date-range">
-            <div class="form-group">
-                <label>Start Date</label>
-                <input type="date" id="startDate">
-            </div>
-            <div class="form-group">
-                <label>End Date</label>
-                <input type="date" id="endDate">
-            </div>
-        </div>
-
-        <button class="btn-generate" onclick="generateReport()">Generate Report</button>
-
-        <div id="reportContent" style="display:none;">
-            <div class="report-section">
-                <div class="report-title">Summary</div>
-                <div class="report-summary">
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportActiveGoals">0</div>
-                        <div class="report-stat-label">Active Goals</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportCompleted">0</div>
-                        <div class="report-stat-label">Completed</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="report-stat-value" id="reportAvgProg">0%</div>
-                        <div class="report-stat-label">Avg Progress</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <div class="report-title">Progress Distribution</div>
-                <div class="chart-container">
-                    <canvas id="progressChart"></canvas>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <div class="report-title">Goal Details</div>
-                <div id="goalDetails"></div>
-            </div>
-
-            <div class="export-buttons">
-                <button class="btn-export btn-export-pdf"   onclick="exportReportPDF()">📄 PDF</button>
-                <button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
-                <button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
-            </div>
-        </div>
-    </div>
+<div class="modal" id="reportModal">
+<div class="modal-content">
+<span class="close" onclick="closeReportModal()">×</span>
+<div class="modal-header">📊 Goal Report</div>
+<div class="date-range">
+<div class="form-group">
+<label>Start Date</label>
+<input id="startDate" type="date"/>
 </div>
-
+<div class="form-group">
+<label>End Date</label>
+<input id="endDate" type="date"/>
+</div>
+</div>
+<button class="btn-generate" onclick="generateReport()">View Progress</button>
+<div id="reportContent" style="display:none;">
+<div class="report-section">
+<div class="report-title">Summary</div>
+<div class="report-summary">
+<div class="report-stat">
+<div class="report-stat-value" id="reportActiveGoals">0</div>
+<div class="report-stat-label">Active Goals</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportCompleted">0</div>
+<div class="report-stat-label">Completed</div>
+</div>
+<div class="report-stat">
+<div class="report-stat-value" id="reportAvgProg">0%</div>
+<div class="report-stat-label">Avg Progress</div>
+</div>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Progress Distribution</div>
+<div class="chart-container">
+<canvas id="progressChart"></canvas>
+</div>
+</div>
+<div class="report-section">
+<div class="report-title">Goal Details</div>
+<div id="goalDetails"></div>
+</div>
+<div class="export-buttons">
+<button class="btn-export btn-export-pdf" onclick="exportReportPDF()">📄 PDF</button>
+<button class="btn-export btn-export-excel" onclick="exportReportExcel()">📊 Excel</button>
+<button class="btn-export btn-export-image" onclick="exportReportImage()">🖼️ Image</button>
+</div>
+</div>
+</div>
+</div>
 <script>
     let goals          = JSON.parse(localStorage.getItem('goals'))          || [];
     let completedGoals = JSON.parse(localStorage.getItem('completedGoals')) || [];
@@ -958,17 +942,16 @@
     /* ── Init ────────────────────────────────────────────────── */
     renderGoals();
 </script>
-    <!-- Smart Recommendations Widget -->
-    <div id="recommendationsWidget" class="recommendations-widget">
-      <div class="recommendations-container">
-        <h3 class="recommendations-title">You Might Also Need...</h3>
-        <div id="recommendationsList" class="recommendations-list"></div>
-      </div>
-    </div>
-
-    <script src="../recommendationMap.js"></script>
-    <script src="../recommendationLogic.js"></script>
-    <script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
       window.addEventListener('load', function() {
         loadRecommendations('Goal Tracker');
       });
