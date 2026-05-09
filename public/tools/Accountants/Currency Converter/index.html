@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Currency Converter</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #5856D6;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex; align-items: center; gap: 18px;
+            max-width: 520px; margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: linear-gradient(145deg, #7B79E5, #5856D6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(88,86,214,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        .card {
+            background: var(--card); border-radius: var(--r-xl);
+            padding: 28px 26px; box-shadow: var(--shadow);
+            max-width: 520px; margin: 0 auto 20px;
+        }
+
+        .card-title { font-size: 1.05em; font-weight: 700; letter-spacing: -.3px; margin-bottom: 22px; }
+
+        /* Converter */
+        .converter-group {
+            background: var(--bg);
+            border-radius: var(--r-lg);
+            padding: 16px 18px;
+            margin-bottom: 10px;
+        }
+
+        .converter-label {
+            font-size: .75em; font-weight: 600; color: var(--label-2);
+            text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px;
+        }
+
+        .converter-row {
+            display: flex; gap: 10px; align-items: center;
+        }
+
+        .conv-input {
+            flex: 1;
+            border: none; background: transparent;
+            font-size: 2em; font-weight: 700;
+            font-family: inherit; color: var(--label-1);
+            outline: none; min-width: 0;
+        }
+
+        .conv-input::placeholder { color: var(--label-3); }
+
+        .currency-badge {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--card); border-radius: var(--r-md);
+            padding: 8px 12px; flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,.08);
+        }
+
+        .flag { font-size: 1.2em; }
+
+        .cur-sel {
+            border: none; background: transparent;
+            font-size: .88em; font-weight: 700;
+            font-family: inherit; color: var(--label-1);
+            cursor: pointer; outline: none;
+            -webkit-appearance: none;
+        }
+
+        .swap-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--accent);
+            border: none; cursor: pointer;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 12px rgba(88,86,214,.35);
+            transition: transform .25s, filter .18s;
+        }
+        .swap-btn:hover { filter: brightness(.88); }
+        .swap-btn:active { transform: rotate(180deg); }
+
+        .rate-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(88,86,214,.08);
+            border-radius: var(--r-md);
+            padding: 12px 16px;
+            margin-top: 16px;
+        }
+
+        .rate-text { font-size: .85em; font-weight: 600; color: var(--accent); }
+        .rate-meta { font-size: .75em; color: var(--label-2); }
+
+        /* Quick currencies */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .quick-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg); border-radius: var(--r-md); padding: 12px 14px;
+        }
+
+        .quick-left { display: flex; align-items: center; gap: 10px; }
+        .quick-flag { font-size: 1.2em; }
+        .quick-code { font-size: .88em; font-weight: 700; color: var(--label-1); }
+        .quick-name { font-size: .72em; color: var(--label-2); }
+        .quick-val  { font-size: .92em; font-weight: 700; color: var(--label-1); }
+
+        /* History */
+        .hist-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--separator);
+        }
+        .hist-item:last-child { border-bottom: none; }
+        .hist-from { font-size: .88em; font-weight: 600; color: var(--label-1); }
+        .hist-to   { font-size: .88em; font-weight: 700; color: var(--accent); }
+        .hist-time { font-size: .75em; color: var(--label-3); }
+        .empty-state { text-align: center; color: var(--label-3); font-size: .88em; padding: 20px 0; }
+
+        .clear-btn {
+            background: none; border: none; font-size: .82em; font-weight: 600;
+            color: var(--accent); cursor: pointer; font-family: inherit;
+        }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: #007AFF; text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 500px) {
+            .quick-grid { grid-template-columns: 1fr; }
+            .card { padding: 22px 18px; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="/tools/global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">💱</div>
+<div class="page-header-text">
+<h1>Currency Converter</h1>
+<p>Convert live exchange rates across global currencies instantly.</p>
+</div>
+</header>
+<!-- Main converter -->
+<div class="card">
+<div class="converter-group">
+<div class="converter-label">From</div>
+<div class="converter-row">
+<input class="conv-input" id="fromAmt" oninput="convert()" placeholder="0" type="number" value="1"/>
+<div class="currency-badge">
+<span class="flag" id="fromFlag">🇺🇸</span>
+<select class="cur-sel" id="fromCur" onchange="convert()">
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option value="INR">INR</option>
+<option value="JPY">JPY</option>
+<option value="CNY">CNY</option>
+<option value="CAD">CAD</option>
+<option value="AUD">AUD</option>
+<option value="SGD">SGD</option>
+<option value="CHF">CHF</option>
+<option value="AED">AED</option>
+<option value="KWD">KWD</option>
+</select>
+</div>
+</div>
+</div>
+<button class="swap-btn" onclick="swapCurrencies()">
+<svg fill="none" height="20" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20">
+<polyline points="17 1 21 5 17 9"></polyline>
+<path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+<polyline points="7 23 3 19 7 15"></polyline>
+<path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+</svg>
+</button>
+<div class="converter-group">
+<div class="converter-label">To</div>
+<div class="converter-row">
+<input class="conv-input" id="toAmt" oninput="convertReverse()" placeholder="0" type="number"/>
+<div class="currency-badge">
+<span class="flag" id="toFlag">🇮🇳</span>
+<select class="cur-sel" id="toCur" onchange="convert()">
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option selected="" value="INR">INR</option>
+<option value="JPY">JPY</option>
+<option value="CNY">CNY</option>
+<option value="CAD">CAD</option>
+<option value="AUD">AUD</option>
+<option value="SGD">SGD</option>
+<option value="CHF">CHF</option>
+<option value="AED">AED</option>
+<option value="KWD">KWD</option>
+</select>
+</div>
+</div>
+</div>
+<div class="rate-bar">
+<div class="rate-text" id="rateText">1 USD = 83.50 INR</div>
+<div class="rate-meta">Indicative rate</div>
+</div>
+</div>
+<!-- Quick compare -->
+<div class="card">
+<div class="card-title">Quick Compare</div>
+<div class="quick-grid" id="quickGrid"></div>
+</div>
+<!-- History -->
+<div class="card">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+<div class="card-title" style="margin-bottom:0">Conversion History</div>
+<button class="clear-btn" onclick="clearHistory()">Clear</button>
+</div>
+<div id="histList"><div class="empty-state">No conversions yet</div></div>
+</div>
+<div class="back-link"><a href="/">← Back to Tools for Fools</a></div>
+<script>
+    // Approximate rates relative to USD (as of mid-2025)
+    const RATES = {
+        USD: 1,     EUR: 0.92,  GBP: 0.79,  INR: 83.5,
+        JPY: 149.5, CNY: 7.24,  CAD: 1.36,  AUD: 1.52,
+        SGD: 1.34,  CHF: 0.91,  AED: 3.67,  KWD: 0.307
+    };
+
+    const FLAGS = {
+        USD:'🇺🇸', EUR:'🇪🇺', GBP:'🇬🇧', INR:'🇮🇳',
+        JPY:'🇯🇵', CNY:'🇨🇳', CAD:'🇨🇦', AUD:'🇦🇺',
+        SGD:'🇸🇬', CHF:'🇨🇭', AED:'🇦🇪', KWD:'🇰🇼'
+    };
+
+    const NAMES = {
+        USD:'US Dollar', EUR:'Euro', GBP:'British Pound', INR:'Indian Rupee',
+        JPY:'Japanese Yen', CNY:'Chinese Yuan', CAD:'Canadian Dollar', AUD:'Australian Dollar',
+        SGD:'Singapore Dollar', CHF:'Swiss Franc', AED:'UAE Dirham', KWD:'Kuwaiti Dinar'
+    };
+
+    let history = JSON.parse(localStorage.getItem('currHist') || '[]');
+
+    function getRate(from, to) {
+        return RATES[to] / RATES[from];
+    }
+
+    function convert() {
+        const from = document.getElementById('fromCur').value;
+        const to   = document.getElementById('toCur').value;
+        const amt  = parseFloat(document.getElementById('fromAmt').value) || 0;
+        const rate = getRate(from, to);
+        const result = amt * rate;
+        document.getElementById('toAmt').value = result.toFixed(to === 'JPY' ? 0 : 2);
+        document.getElementById('rateText').textContent = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+        document.getElementById('fromFlag').textContent = FLAGS[from];
+        document.getElementById('toFlag').textContent   = FLAGS[to];
+        updateQuick(from, amt);
+        if (amt > 0) addHistory(amt, from, result, to);
+    }
+
+    function convertReverse() {
+        const from = document.getElementById('fromCur').value;
+        const to   = document.getElementById('toCur').value;
+        const amt  = parseFloat(document.getElementById('toAmt').value) || 0;
+        const rate = getRate(to, from);
+        const result = amt * rate;
+        document.getElementById('fromAmt').value = result.toFixed(from === 'JPY' ? 0 : 2);
+        document.getElementById('rateText').textContent = `1 ${to} = ${rate.toFixed(4)} ${from}`;
+    }
+
+    function swapCurrencies() {
+        const fromSel = document.getElementById('fromCur');
+        const toSel   = document.getElementById('toCur');
+        const tmp = fromSel.value;
+        fromSel.value = toSel.value;
+        toSel.value   = tmp;
+        const fromAmt = document.getElementById('fromAmt').value;
+        document.getElementById('fromAmt').value = document.getElementById('toAmt').value;
+        document.getElementById('toAmt').value = fromAmt;
+        convert();
+    }
+
+    function updateQuick(from, amt) {
+        const currencies = ['USD','EUR','GBP','INR','JPY','AED','CAD','AUD'].filter(c => c !== from);
+        const show = currencies.slice(0, 8);
+        document.getElementById('quickGrid').innerHTML = show.map(c => {
+            const val = (amt || 1) * getRate(from, c);
+            const sym = c === 'JPY' ? Math.round(val) : val.toFixed(2);
+            return `<div class="quick-row">
+                <div class="quick-left">
+                    <div class="quick-flag">${FLAGS[c]}</div>
+                    <div><div class="quick-code">${c}</div><div class="quick-name">${NAMES[c]}</div></div>
+                </div>
+                <div class="quick-val">${sym}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function addHistory(fromAmt, from, toAmt, to) {
+        const entry = {
+            fromAmt: fromAmt.toFixed(2), from,
+            toAmt: toAmt.toFixed(to === 'JPY' ? 0 : 2), to,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        history = [entry, ...history.filter(
+            h => !(h.from === from && h.to === to)
+        )].slice(0, 10);
+        localStorage.setItem('currHist', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        if (history.length === 0) {
+            document.getElementById('histList').innerHTML = '<div class="empty-state">No conversions yet</div>';
+            return;
+        }
+        document.getElementById('histList').innerHTML = history.map(h => `
+            <div class="hist-item">
+                <div>
+                    <div class="hist-from">${h.fromAmt} ${h.from} → ${h.toAmt} ${h.to}</div>
+                    <div class="hist-time">${h.time}</div>
+                </div>
+                <div class="hist-to">${FLAGS[h.to]}</div>
+            </div>
+        `).join('');
+    }
+
+    function clearHistory() {
+        history = [];
+        localStorage.removeItem('currHist');
+        renderHistory();
+    }
+
+    convert();
+    renderHistory();
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Currency Converter');
+      });
+    </script>
+</body>
+</html>

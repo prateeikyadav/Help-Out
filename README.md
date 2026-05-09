@@ -1,48 +1,16 @@
-# HelpOut
+# React + Vite
 
-HelpOut is an all-in-one productivity platform designed to help professionals, teams, students, and creators streamline their daily workflows through a modern and easy-to-use workspace.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-The platform offers a collection of smart tools, templates, trackers, calculators, and workflow utilities across multiple professional domains — helping users save time, stay organized, and improve productivity.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🚀 Features
+## React Compiler
 
-### General Productivity Tools
-Utilities and trackers to improve personal and professional productivity.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Project Management Tools
-Project planning, task tracking, workflow management, timelines, and team coordination tools.
+## Expanding the ESLint configuration
 
-### Accountant Tools
-Financial calculators, accounting helpers, budgeting utilities, and reporting tools.
-
-### Medical Tools
-Healthcare-related utilities, trackers, calculators, and productivity solutions for medical professionals.
-
-### HR Tools
-Human resource management tools including hiring, employee tracking, and organizational utilities.
-
-### Marketing Tools
-Marketing planners, campaign utilities, content workflow helpers, and growth tools.
-
-### Sales Tools
-Sales tracking, lead management, business calculators, and customer workflow tools.
-
-### Legal Tools
-Legal workflow helpers, documentation utilities, compliance checklists, and productivity tools.
-
-### Education Tools
-Learning utilities, study planners, educational resources, and academic productivity tools.
-
----
-
-## 🛠 Tech Stack
-
-- HTML
-- CSS
-- JavaScript
-
-
-
-
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

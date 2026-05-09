@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tone Checker</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #5856D6;
+            --red:       #FF3B30;
+            --orange:    #FF9500;
+            --green:     #34C759;
+            --blue:      #007AFF;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex; align-items: center; gap: 18px;
+            max-width: 640px; margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: linear-gradient(145deg, #7B79E5, #5856D6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(88,86,214,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        .ai-badge {
+            margin-left: auto;
+            display: inline-flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg, #5856D6, #007AFF);
+            color: white; font-size: .72em; font-weight: 700;
+            padding: 5px 12px; border-radius: 20px;
+            letter-spacing: .3px;
+            box-shadow: 0 2px 8px rgba(88,86,214,.3);
+            flex-shrink: 0;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--r-xl);
+            padding: 26px 24px;
+            box-shadow: var(--shadow);
+            max-width: 640px;
+            margin: 0 auto 20px;
+        }
+
+        .card-title {
+            font-size: 1.0em; font-weight: 700;
+            letter-spacing: -.3px; margin-bottom: 16px;
+        }
+
+        .msg-area {
+            width: 100%; min-height: 160px;
+            padding: 14px 16px;
+            border: 1.5px solid var(--separator);
+            border-radius: var(--r-lg);
+            font-size: .95em; font-family: inherit;
+            color: var(--label-1); background: var(--bg);
+            resize: vertical; outline: none; line-height: 1.6;
+            transition: border-color .18s;
+        }
+        .msg-area:focus { border-color: var(--accent); }
+        .msg-area::placeholder { color: var(--label-3); }
+
+        .textarea-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 10px;
+        }
+
+        .char-count { font-size: .75em; color: var(--label-3); font-weight: 500; }
+
+        .analyze-btn {
+            width: 100%; padding: 14px;
+            background: var(--accent); color: white;
+            border: none; border-radius: var(--r-md);
+            font-size: 1em; font-weight: 700; font-family: inherit;
+            cursor: pointer; margin-top: 14px;
+            transition: filter .18s, transform .18s;
+            letter-spacing: -.2px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .analyze-btn:hover:not(:disabled) { filter: brightness(.88); transform: translateY(-1px); }
+        .analyze-btn:disabled { opacity: .4; cursor: default; }
+
+        /* Loading spinner */
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #result { display: none; }
+
+        /* Tone hero */
+        .tone-hero {
+            text-align: center;
+            padding: 8px 0 20px;
+        }
+
+        .tone-emoji { font-size: 3.5em; line-height: 1; margin-bottom: 10px; display: block; }
+        .tone-label { font-size: 1.6em; font-weight: 800; letter-spacing: -.5px; }
+        .tone-subtitle { font-size: .88em; color: var(--label-2); margin-top: 4px; line-height: 1.5; }
+
+        /* Meter */
+        .meter-wrap { margin: 20px 0 8px; }
+
+        .meter-labels {
+            display: flex; justify-content: space-between;
+            font-size: .72em; font-weight: 700; color: var(--label-3);
+            margin-bottom: 8px; text-transform: uppercase; letter-spacing: .4px;
+        }
+
+        .meter-track {
+            height: 10px; border-radius: 5px;
+            background: linear-gradient(90deg, #007AFF 0%, #34C759 25%, #34C759 50%, #FF9500 75%, #FF3B30 100%);
+            position: relative;
+        }
+
+        .meter-thumb {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: white; border: 3px solid var(--label-1);
+            position: absolute; top: 50%; transform: translate(-50%, -50%);
+            transition: left .7s cubic-bezier(.34,1.56,.64,1);
+            box-shadow: 0 2px 8px rgba(0,0,0,.2);
+        }
+
+        /* Score pills */
+        .score-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 10px; margin: 20px 0;
+        }
+
+        .score-pill {
+            background: var(--bg); border-radius: var(--r-md);
+            padding: 12px 10px; text-align: center;
+        }
+
+        .score-pill-val { font-size: 1.4em; font-weight: 800; letter-spacing: -.3px; }
+        .score-pill-label { font-size: .7em; color: var(--label-2); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+
+        /* Highlighted text */
+        .highlight-box {
+            background: var(--bg); border-radius: var(--r-md);
+            padding: 14px 16px; font-size: .9em; line-height: 1.8;
+            margin-bottom: 16px; word-break: break-word;
+        }
+
+        mark.agg { background: rgba(255,59,48,.18); color: #C0392B; border-radius: 3px; padding: 1px 3px; }
+        mark.pas { background: rgba(0,122,255,.18); color: #0055CC; border-radius: 3px; padding: 1px 3px; }
+        mark.pos { background: rgba(52,199,89,.18); color: #1A7A38; border-radius: 3px; padding: 1px 3px; }
+
+        .legend {
+            display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px;
+        }
+
+        .legend-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: .75em; font-weight: 600; color: var(--label-2);
+        }
+
+        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+        /* Suggestions */
+        .suggestion-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .suggestion-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 12px 14px; border-radius: var(--r-md); background: var(--bg);
+        }
+
+        .sug-icon { font-size: 1.1em; flex-shrink: 0; margin-top: 1px; }
+        .sug-text { font-size: .85em; color: var(--label-1); line-height: 1.55; }
+
+        /* Rewrite */
+        .rewrite-box {
+            background: rgba(88,86,214,.07);
+            border: 1.5px solid rgba(88,86,214,.2);
+            border-radius: var(--r-md);
+            padding: 14px 16px;
+        }
+
+        .rewrite-label {
+            font-size: .72em; font-weight: 800; color: var(--accent);
+            text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px;
+        }
+
+        .rewrite-text {
+            font-size: .9em; color: var(--label-1);
+            line-height: 1.65; white-space: pre-wrap;
+        }
+
+        /* Overall sentiment row */
+        .sentiment-row {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 0;
+        }
+
+        .sentiment-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 20px;
+            font-size: .78em; font-weight: 700;
+        }
+
+        /* Error */
+        .error-box {
+            background: rgba(255,59,48,.08);
+            border: 1.5px solid rgba(255,59,48,.2);
+            border-radius: var(--r-md);
+            padding: 14px 16px;
+            font-size: .88em;
+            color: var(--red);
+            display: none;
+        }
+
+        .clear-btn {
+            background: none; border: none;
+            font-size: .82em; font-weight: 600; font-family: inherit;
+            color: var(--label-3); cursor: pointer; transition: color .15s;
+        }
+        .clear-btn:hover { color: var(--red); }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: var(--blue); text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 500px) {
+            .card { padding: 20px 16px; }
+            .page-header { gap: 12px; }
+            .ai-badge { display: none; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="/tools/global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">💬</div>
+<div class="page-header-text">
+<h1>Tone Checker</h1>
+<p>Refine your messaging to ensure the perfect professional tone.</p>
+</div>
+<div class="ai-badge">✦ Groq AI</div>
+</header>
+<!-- Input -->
+<div class="card">
+<div class="card-title">Paste your email or message</div>
+<textarea class="msg-area" id="msgInput" oninput="onType()" placeholder="e.g. You need to fix this immediately. This is completely unacceptable…"></textarea>
+<div class="textarea-meta">
+<span class="char-count" id="charCount">0 words</span>
+<button class="clear-btn" onclick="clearAll()">Clear</button>
+</div>
+<div class="error-box" id="errorBox"></div>
+<button class="analyze-btn" disabled="" id="analyzeBtn" onclick="analyze()">
+<span id="btnText">Analyze Tone</span>
+</button>
+</div>
+<!-- Result -->
+<div id="result">
+<!-- Tone hero -->
+<div class="card">
+<div class="tone-hero">
+<span class="tone-emoji" id="toneEmoji">😐</span>
+<div class="tone-label" id="toneLabel">Neutral</div>
+<div class="tone-subtitle" id="toneSubtitle"></div>
+</div>
+<div class="meter-wrap">
+<div class="meter-labels">
+<span>Passive</span>
+<span>Balanced</span>
+<span>Aggressive</span>
+</div>
+<div class="meter-track">
+<div class="meter-thumb" id="meterThumb" style="left:50%"></div>
+</div>
+</div>
+<div class="score-grid">
+<div class="score-pill">
+<div class="score-pill-val" id="scoreAgg" style="color:var(--red)">—</div>
+<div class="score-pill-label">Aggressive</div>
+</div>
+<div class="score-pill">
+<div class="score-pill-val" id="scoreTone" style="color:var(--green)">—</div>
+<div class="score-pill-label">Tone Score</div>
+</div>
+<div class="score-pill">
+<div class="score-pill-val" id="scorePas" style="color:var(--blue)">—</div>
+<div class="score-pill-label">Passive</div>
+</div>
+</div>
+</div>
+<!-- Word analysis -->
+<div class="card">
+<div class="card-title">Word Analysis</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:rgba(255,59,48,.5)"></div>Aggressive</div>
+<div class="legend-item"><div class="legend-dot" style="background:rgba(0,122,255,.5)"></div>Passive</div>
+<div class="legend-item"><div class="legend-dot" style="background:rgba(52,199,89,.5)"></div>Positive</div>
+</div>
+<div class="highlight-box" id="highlightedText"></div>
+<div class="sentiment-row" id="sentimentRow"></div>
+</div>
+<!-- Suggestions -->
+<div class="card">
+<div class="card-title">Suggestions</div>
+<div class="suggestion-list" id="suggestionList"></div>
+</div>
+<!-- Rewrite -->
+<div class="card" id="rewriteCard" style="display:none">
+<div class="card-title">Suggested Rewrite</div>
+<div class="rewrite-box">
+<div class="rewrite-label">✨ Balanced Version</div>
+<div class="rewrite-text" id="rewriteText"></div>
+</div>
+</div>
+</div>
+<div class="back-link"><a href="/">← Back to Tools for Fools</a></div>
+<script>
+    // Tone Analysis Database
+    const TONE_DB = {
+        aggressive: [
+            'immediately', 'must', 'urgent', 'unacceptable', 'incompetent', 'ridiculous',
+            'never', 'always', 'stupid', 'idiot', 'useless', 'terrible', 'horrible',
+            'worst', 'completely', 'absolutely', 'demands', 'command', 'forced',
+            'outrageous', 'furious', 'livid', 'disgusted', 'infuriating', 'intolerable',
+            'shameful', 'inexcusable', 'pathetic', 'fail', 'failed', 'failing'
+        ],
+        passive: [
+            'maybe', 'perhaps', 'possibly', 'sorry', 'apologize', 'excuse me',
+            'if you don\'t mind', 'would you mind', 'could you', 'might', 'possibly',
+            'uncertain', 'unsure', 'hesitant', 'doubt', 'question', 'worry',
+            'afraid', 'concerned', 'hope', 'wish', 'just wondering', 'humble',
+            'grateful', 'thankful', 'appreciate', 'mercy', 'please forgive'
+        ],
+        positive: [
+            'excellent', 'great', 'wonderful', 'fantastic', 'amazing', 'awesome',
+            'appreciate', 'thank', 'love', 'enjoy', 'brilliant', 'perfect',
+            'lovely', 'beautiful', 'best', 'success', 'achieved', 'accomplished',
+            'proud', 'delighted', 'thrilled', 'wonderful', 'outstanding'
+        ]
+    };
+
+    const SUGGESTION_TEMPLATES = {
+        aggressive: [
+            { icon: '💬', text: 'Replace <strong>demanding language</strong> with <strong>polite requests</strong>. Example: Change "must fix" to "I\'d appreciate it if you could fix"' },
+            { icon: '🤝', text: 'Use <strong>collaborative language</strong> to encourage teamwork rather than commanding compliance' },
+            { icon: '📋', text: 'Provide <strong>specific feedback</strong> on what needs improvement instead of broad criticism' },
+            { icon: '⏰', text: 'Avoid <strong>urgent deadlines</strong> unless genuinely critical. Aggressive urgency can alienate recipients' },
+            { icon: '✨', text: 'Add <strong>positive reinforcement</strong> or recognition before pointing out issues' }
+        ],
+        passive: [
+            { icon: '💪', text: 'Be more <strong>direct</strong> in your requests. State what you need clearly' },
+            { icon: '🎯', text: 'Remove <strong>excessive hedging</strong> phrases like "maybe", "perhaps", "possibly"' },
+            { icon: '🗣️', text: 'Use <strong>active voice</strong> instead of passive voice to sound more confident' },
+            { icon: '⚡', text: 'Reduce <strong>apologetic language</strong> when it\'s not warranted. Be assertive' },
+            { icon: '👁️', text: 'Add <strong>confidence markers</strong> to build credibility and trust' }
+        ],
+        balanced: [
+            { icon: '✅', text: 'Your tone strikes a <strong>good balance</strong> between politeness and clarity' },
+            { icon: '🎭', text: 'Well-balanced <strong>emotional tone</strong> that respects both parties' },
+            { icon: '🌟', text: 'Excellent use of <strong>professional language</strong> while remaining approachable' }
+        ]
+    };
+
+    const REWRITE_TEMPLATES = {
+        aggressive: [
+            'I would greatly appreciate your attention to this matter. Could you prioritize fixing this issue? I\'m happy to discuss any challenges you might face.',
+            'I\'ve noticed this issue and believe it\'s important to address it soon. Would you be available to discuss potential solutions together?',
+            'This is something I\'d like to work on with you. When would be a good time to review this together and find a resolution?'
+        ],
+        passive: [
+            'I\'ve identified an area that needs improvement, and I\'d like to discuss it with you. Here\'s what I suggest we address.',
+            'I believe we should take action on this. Let\'s schedule a time to discuss the best approach.',
+            'This is an important matter that requires our attention. I\'m ready to move forward with resolving it.'
+        ],
+        balanced: [
+            'Your message strikes a good balance between firm and courteous. Consider it ready to send.',
+            'This message communicates clearly while remaining respectful. Well done!',
+            'Your tone is professional and measured. This is an effective way to communicate.'
+        ]
+    };
+
+    function onType() {
+        const text = document.getElementById('msgInput').value;
+        const words = text.trim().split(/\s+/).filter(Boolean).length;
+        document.getElementById('charCount').textContent = words + (words === 1 ? ' word' : ' words');
+        document.getElementById('analyzeBtn').disabled = text.trim().length < 10;
+        document.getElementById('errorBox').style.display = 'none';
+    }
+
+    function setLoading(on) {
+        const btn = document.getElementById('analyzeBtn');
+        const txt = document.getElementById('btnText');
+        btn.disabled = on;
+        if (on) {
+            txt.innerHTML = '';
+            const spinner = document.createElement('div');
+            spinner.className = 'spinner';
+            btn.innerHTML = '';
+            btn.appendChild(spinner);
+            const label = document.createElement('span');
+            label.textContent = 'Analyzing…';
+            btn.appendChild(label);
+        } else {
+            btn.innerHTML = '<span id="btnText">Analyze Tone</span>';
+            btn.disabled = false;
+        }
+    }
+
+    function analyzeTone(text) {
+        const lowerText = text.toLowerCase();
+        const words = lowerText.match(/\b\w+\b/g) || [];
+
+        let aggressiveScore = 0;
+        let passiveScore = 0;
+        let positiveScore = 0;
+        const foundAgg = [];
+        const foundPas = [];
+        const foundPos = [];
+
+        words.forEach(word => {
+            if (TONE_DB.aggressive.includes(word)) {
+                aggressiveScore += 2;
+                if (!foundAgg.includes(word)) foundAgg.push(word);
+            }
+            if (TONE_DB.passive.includes(word)) {
+                passiveScore += 2;
+                if (!foundPas.includes(word)) foundPas.push(word);
+            }
+            if (TONE_DB.positive.includes(word)) {
+                positiveScore += 1;
+                if (!foundPos.includes(word)) foundPos.push(word);
+            }
+        });
+
+        // Check for ALL CAPS
+        const capsCount = (text.match(/[A-Z]{2,}/g) || []).length;
+        if (capsCount > 1) aggressiveScore += 3;
+
+        // Check for excessive punctuation
+        const exclamationCount = (text.match(/!/g) || []).length;
+        const questionCount = (text.match(/\?/g) || []).length;
+        if (exclamationCount > 2) aggressiveScore += 2;
+        if (questionCount > 2) passiveScore += 1;
+
+        // Sentence length analysis
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        const avgLength = sentences.reduce((sum, s) => sum + s.length, 0) / Math.max(sentences.length, 1);
+        if (avgLength < 20) aggressiveScore += 1; // Short sentences = aggressive
+        if (avgLength > 40) passiveScore += 1; // Long sentences = passive
+
+        // Calculate final scores
+        const totalScore = aggressiveScore + passiveScore + positiveScore || 1;
+        const aggressionLevel = Math.min(10, Math.round((aggressiveScore / totalScore) * 10));
+        const passivenessLevel = Math.min(10, Math.round((passiveScore / totalScore) * 10));
+
+        // Determine tone (0=passive, 50=balanced, 100=aggressive)
+        const toneScore = Math.round(50 + ((aggressiveScore - passiveScore) / Math.max(totalScore, 1)) * 50);
+
+        let tone, emoji, subtitle;
+        if (toneScore > 70) {
+            tone = 'Aggressive';
+            emoji = '😠';
+            subtitle = 'The tone is forceful and demanding. Consider softening your language.';
+        } else if (toneScore > 55) {
+            tone = 'Slightly Assertive';
+            emoji = '😐';
+            subtitle = 'Somewhat assertive, but could be more balanced and collaborative.';
+        } else if (toneScore > 45) {
+            tone = 'Balanced';
+            emoji = '😊';
+            subtitle = 'Your tone is professional and well-balanced. Great job!';
+        } else if (toneScore > 30) {
+            tone = 'Slightly Passive';
+            emoji = '🤔';
+            subtitle = 'A bit too tentative. Consider being more direct and confident.';
+        } else {
+            tone = 'Too Passive';
+            emoji = '😔';
+            subtitle = 'Your message lacks confidence and assertiveness. Be more direct.';
+        }
+
+        return {
+            tone,
+            emoji,
+            score: Math.min(100, Math.max(0, toneScore)),
+            subtitle,
+            aggression_level: aggressionLevel,
+            passiveness_level: passivenessLevel,
+            aggressive_phrases: foundAgg.slice(0, 3),
+            passive_phrases: foundPas.slice(0, 3),
+            positive_phrases: foundPos.slice(0, 3),
+            sentiment_tags: generateSentimentTags(tone, aggressiveScore, passiveScore),
+            suggestions: generateSuggestions(tone),
+            needs_rewrite: tone !== 'Balanced',
+            rewrite: generateRewrite(tone)
+        };
+    }
+
+    function generateSentimentTags(tone, aggScore, passScore) {
+        const tags = [];
+        if (aggScore > passScore) {
+            tags.push('Demanding', 'Urgent', 'Directive');
+        } else if (passScore > aggScore) {
+            tags.push('Polite', 'Hesitant', 'Considerate');
+        } else {
+            tags.push('Balanced', 'Professional', 'Clear');
+        }
+        return tags;
+    }
+
+    function generateSuggestions(tone) {
+        const pool = SUGGESTION_TEMPLATES[tone] || SUGGESTION_TEMPLATES.balanced;
+        const shuffled = pool.sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, 3);
+    }
+
+    function generateRewrite(tone) {
+        const templates = REWRITE_TEMPLATES[tone] || REWRITE_TEMPLATES.balanced;
+        return templates[Math.floor(Math.random() * templates.length)];
+    }
+
+    function analyze() {
+        const text = document.getElementById('msgInput').value.trim();
+        if (!text) return;
+
+        setLoading(true);
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('errorBox').style.display = 'none';
+
+        setTimeout(() => {
+            try {
+                const r = analyzeTone(text);
+                renderResult(text, r);
+            } catch (e) {
+                const box = document.getElementById('errorBox');
+                box.textContent = '⚠️ ' + (e.message || 'Something went wrong.');
+                box.style.display = 'block';
+            } finally {
+                setLoading(false);
+            }
+        }, 500);
+    }
+
+    function renderResult(originalText, r) {
+        // Tone colors
+        const colorMap = {
+            'Aggressive':        'var(--red)',
+            'Slightly Assertive':'var(--orange)',
+            'Balanced':          'var(--green)',
+            'Slightly Passive':  'var(--blue)',
+            'Too Passive':       '#007AFF',
+        };
+        const color = colorMap[r.tone] || 'var(--accent)';
+
+        document.getElementById('toneEmoji').textContent  = r.emoji || '😐';
+        document.getElementById('toneLabel').textContent  = r.tone;
+        document.getElementById('toneLabel').style.color  = color;
+        document.getElementById('toneSubtitle').textContent = r.subtitle;
+        document.getElementById('meterThumb').style.left  = Math.max(5, Math.min(95, r.score)) + '%';
+        document.getElementById('scoreAgg').textContent   = r.aggression_level + '/10';
+        document.getElementById('scoreTone').textContent  = r.score;
+        document.getElementById('scorePas').textContent   = r.passiveness_level + '/10';
+
+        // Highlighted text
+        let highlighted = escHtml(originalText);
+        const sortedPhrases = [
+            ...(r.aggressive_phrases || []).map(p => ({ p, cls: 'agg' })),
+            ...(r.passive_phrases    || []).map(p => ({ p, cls: 'pas' })),
+            ...(r.positive_phrases   || []).map(p => ({ p, cls: 'pos' })),
+        ].sort((a, b) => b.p.length - a.p.length);
+
+        sortedPhrases.forEach(({ p, cls }) => {
+            const esc = p.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            const re = new RegExp(`(${escRegex(esc)})`, 'gi');
+            highlighted = highlighted.replace(re, `<mark class="${cls}">$1</mark>`);
+        });
+
+        document.getElementById('highlightedText').innerHTML = highlighted;
+
+        // Sentiment tags
+        const tagColors = {
+            'agg': { bg: 'rgba(255,59,48,.1)', color: 'var(--red)' },
+            'neu': { bg: 'rgba(52,199,89,.1)', color: 'var(--green)' },
+        };
+        document.getElementById('sentimentRow').innerHTML = (r.sentiment_tags || []).map(tag => `
+            <span class="sentiment-chip" style="background:rgba(88,86,214,.1);color:var(--accent)">${tag}</span>
+        `).join('');
+
+        // Suggestions
+        document.getElementById('suggestionList').innerHTML = (r.suggestions || []).map(s => `
+            <div class="suggestion-item">
+                <div class="sug-icon">${s.icon}</div>
+                <div class="sug-text">${s.text}</div>
+            </div>
+        `).join('');
+
+        // Rewrite
+        if (r.needs_rewrite && r.rewrite) {
+            document.getElementById('rewriteText').textContent = r.rewrite;
+            document.getElementById('rewriteCard').style.display = 'block';
+        } else {
+            document.getElementById('rewriteCard').style.display = 'none';
+        }
+
+        document.getElementById('result').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    function clearAll() {
+        document.getElementById('msgInput').value = '';
+        document.getElementById('charCount').textContent = '0 words';
+        document.getElementById('analyzeBtn').disabled = true;
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('errorBox').style.display = 'none';
+        document.getElementById('btnText') && (document.getElementById('btnText').textContent = 'Analyze Tone');
+    }
+
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function escRegex(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Tone Checker');
+      });
+    </script>
+</body>
+</html>

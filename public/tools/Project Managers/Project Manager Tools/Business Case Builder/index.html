@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Business Case Builder</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #34C759;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 24px 72px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .page-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .app-icon {
+            font-size: 64px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(52,199,89,.1), rgba(52,199,89,.05));
+            border-radius: var(--r-lg);
+            flex-shrink: 0;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.8em, 4vw, 2.5em);
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            color: var(--label-1);
+        }
+
+        .page-header p {
+            font-size: .95em;
+            color: var(--label-2);
+            margin-top: 8px;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--r-xl);
+            padding: 28px 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,.04);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.05em;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 18px;
+            color: var(--label-1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-label {
+            display: block;
+            font-size: .85em;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--label-1);
+        }
+
+        .required::after {
+            content: ' *';
+            color: #FF3B30;
+        }
+
+        .text-input, .text-area, .number-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--separator);
+            border-radius: var(--r-md);
+            font-family: inherit;
+            font-size: .9em;
+            color: var(--label-1);
+            background: var(--card);
+            transition: border .18s, box-shadow .18s;
+        }
+
+        .text-input:focus, .text-area:focus, .number-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52,199,89,.1);
+        }
+
+        .text-area {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--r-md);
+            font-size: .9em;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: filter .18s, transform .18s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(.88);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--separator);
+            color: var(--label-1);
+        }
+
+        .btn-secondary:hover {
+            background: #D8D8DC;
+        }
+
+        #result {
+            display: none;
+        }
+
+        .document-preview {
+            background: white;
+            border: 1px solid var(--separator);
+            border-radius: var(--r-lg);
+            padding: 40px;
+            margin-bottom: 24px;
+            min-height: 600px;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--label-1);
+        }
+
+        .doc-header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .doc-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .doc-meta {
+            font-size: .85em;
+            color: var(--label-2);
+        }
+
+        .doc-section {
+            margin-bottom: 24px;
+        }
+
+        .doc-section h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--separator);
+            padding-bottom: 6px;
+        }
+
+        .doc-section p {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 12px;
+            font-size: .95em;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: .9em;
+        }
+
+        .doc-table th, .doc-table td {
+            border: 1px solid var(--separator);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .doc-table th {
+            background: rgba(52,199,89,.05);
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .doc-table tr:nth-child(even) {
+            background: rgba(0,0,0,.01);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--separator);
+        }
+
+        .back-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: .9em;
+            font-weight: 600;
+            transition: opacity .18s;
+        }
+
+        .back-link a:hover {
+            opacity: .7;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 36px 16px 52px;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .document-preview {
+                padding: 20px;
+                min-height: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    
+        /* ── Top Navigation ────────────────────────────── */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--card);
+            border-bottom: 1px solid var(--separator);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            background: var(--separator);
+            color: var(--label-1);
+            font-size: 20px;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            background: #D8D8DC;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        body {
+            padding-top: 56px;
+        }
+        .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="/tools/global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="top-nav">
+<button class="nav-btn" onclick="window.location.href='../../../index.html'" title="Home">🏠</button>
+<button class="nav-btn" onclick="window.history.back()" title="Back">←</button>
+</div>
+<header class="page-header">
+<div class="page-header-content">
+<div class="app-icon">💼</div>
+<div>
+<h1>Business Case</h1>
+<p>Build a compelling, data-backed business case for your initiative.</p>
+</div>
+</div>
+</header>
+<div class="wrapper">
+<!-- Input Section -->
+<div class="card">
+<div class="card-title">💡 Executive Summary</div>
+<div class="input-group">
+<label class="input-label required">Project Name</label>
+<input class="text-input" id="projectName" placeholder="Enter project name" type="text"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Business Problem</label>
+<textarea class="text-area" id="businessProblem" placeholder="What is the current problem or opportunity?"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label required">Proposed Solution</label>
+<textarea class="text-area" id="proposedSolution" placeholder="How does this project solve the problem?"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📊 Financial Analysis</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label required">Total Project Cost (USD)</label>
+<input class="number-input" id="projectCost" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label required">Expected Annual Benefit (USD)</label>
+<input class="number-input" id="annualBenefit" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label class="input-label">Payback Period (months)</label>
+<input class="number-input" id="paybackPeriod" min="1" placeholder="12" step="1" type="number"/>
+</div>
+<div class="input-group">
+<label class="input-label">Project Duration (months)</label>
+<input class="number-input" id="duration" min="1" placeholder="6" step="1" type="number"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">✅ Benefits &amp; Impact</div>
+<div class="input-group">
+<label class="input-label required">Quantifiable Benefits</label>
+<textarea class="text-area" id="quantifiableBenefits" placeholder="Cost savings, revenue increase, efficiency gains, etc."></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Strategic Benefits</label>
+<textarea class="text-area" id="strategicBenefits" placeholder="Competitive advantage, market position, customer satisfaction, etc."></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">⚠️ Risks &amp; Mitigation</div>
+<div class="input-group">
+<label class="input-label">Key Risks</label>
+<textarea class="text-area" id="keyRisks" placeholder="Potential risks and their impact"></textarea>
+</div>
+<div class="input-group">
+<label class="input-label">Mitigation Strategy</label>
+<textarea class="text-area" id="mitigationStrategy" placeholder="How will we manage these risks?"></textarea>
+</div>
+</div>
+<div class="card">
+<div class="card-title">👥 Stakeholders</div>
+<div class="input-group">
+<label class="input-label">Key Stakeholders</label>
+<textarea class="text-area" id="stakeholders" placeholder="List key stakeholders and their interests"></textarea>
+</div>
+</div>
+<!-- Generate Button -->
+<div class="button-group">
+<button class="btn btn-primary" onclick="generateDocument()">Generate Document</button>
+</div>
+</div>
+<!-- Result Section -->
+<div id="result">
+<div class="wrapper">
+<div class="document-preview" id="preview"></div>
+<div class="action-buttons">
+<button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+<button class="btn btn-secondary" onclick="resetForm()">🔄 Start Over</button>
+</div>
+</div>
+</div>
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+<script>
+        const storageKey = 'pmDocs_BusinessCase';
+        let currentData = {};
+
+        function autoSave() {
+            const data = {};
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.id) data[el.id] = el.value;
+            });
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        }
+
+        function loadSaved() {
+            const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            if (saved) {
+                Object.keys(saved).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = saved[key];
+                });
+            }
+        }
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('change', autoSave);
+            el.addEventListener('blur', autoSave);
+        });
+
+        window.addEventListener('load', loadSaved);
+
+        function generateDocument() {
+            const projectName = document.getElementById('projectName')?.value || '';
+            if (!projectName.trim()) {
+                alert('Please enter a project name');
+                return;
+            }
+
+            autoSave();
+
+            // Build professional document with industry-standard formatting
+            let preview = `
+                <div class="doc-container" style="font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;">
+                    <!-- Professional Document Header -->
+                    <div class="doc-header" style="border-bottom: 3px solid var(--accent); padding-bottom: 24px; margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h1 style="margin: 0 0 8px 0; color: var(--label-1); font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">
+                                    ${document.querySelector('.page-header h1')?.textContent || 'Document'}
+                                </h1>
+                                <h2 style="margin: 0; color: var(--accent); font-size: 18px; font-weight: 600;">
+                                    ${projectName}
+                                </h2>
+                            </div>
+                            <div style="text-align: right; font-size: 12px; color: var(--label-2); background: rgba(0,0,0,.02); padding: 12px 16px; border-radius: 8px;">
+                                <div><strong>Document ID:</strong> ${projectName.replace(/\s+/g, '-').toUpperCase()}</div>
+                                <div><strong>Version:</strong> 1.0</div>
+                                <div><strong>Date:</strong> ${new Date().toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Executive Summary -->
+                    <div class="doc-summary" style="background: rgba(0,122,255,.03); padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid var(--accent);">
+                        <h2 style="color: var(--accent); font-size: 14px; font-weight: 700; margin: 0 0 8px 0;">EXECUTIVE SUMMARY</h2>
+                        <p style="font-size: 13px; color: var(--label-1); line-height: 1.5; margin: 0;">
+                            This document provides comprehensive information and details for <strong>${projectName}</strong>.
+                            It serves as an authoritative reference for project execution and stakeholder communication.
+                        </p>
+                    </div>
+            `;
+
+            // Add all non-empty fields as sections with industry-standard formatting
+            const fields = [];
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.id && el.id !== 'projectName' && el.value && el.value.trim()) {
+                    const label = el.parentElement?.querySelector('label') ||
+                        (el.previousElementSibling?.classList.contains('input-label') ? el.previousElementSibling : null);
+                    if (label) {
+                        const labelText = label.textContent.replace(' *', '').trim();
+                        fields.push({
+                            title: labelText,
+                            content: el.value
+                        });
+                    }
+                }
+            });
+
+            // Format fields as professional document sections
+            fields.forEach((field, index) => {
+                const isLastField = index === fields.length - 1;
+                preview += `
+                    <div class="doc-section" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: ${isLastField ? 'none' : '1px solid var(--separator)'};">
+                        <h3 style="color: var(--accent); font-size: 15px; font-weight: 700; margin: 0 0 10px 0; letter-spacing: -0.3px;">
+                            ${index + 1}. ${field.title.toUpperCase()}
+                        </h3>
+                        <p style="white-space: pre-wrap; color: var(--label-1); font-size: 13px; line-height: 1.6; margin: 0;">
+                            ${field.content}
+                        </p>
+                    </div>
+                `;
+            });
+
+            // Professional footer with compliance information
+            preview += `
+                    <!-- Professional Footer -->
+                    <div style="border-top: 2px solid var(--separator); margin-top: 40px; padding-top: 20px; font-size: 11px; color: var(--label-2); text-align: center;">
+                        <p style="margin: 4px 0;">
+                            <strong>Document:</strong> ${document.querySelector('.page-header h1')?.textContent} |
+                            <strong>Project:</strong> ${projectName}
+                        </p>
+                        <p style="margin: 4px 0;">
+                            Prepared: ${new Date().toLocaleDateString()} |
+                            PMBOK &amp; PRINCE2 Compliant
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('preview').innerHTML = preview;
+            document.getElementById('result').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        
+
+        function downloadPDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const projectName = (document.getElementById('projectName')?.value || '') || 'Document';
+                const element = document.getElementById('preview');
+                const text = element.innerText;
+                const lines = doc.splitTextToSize(text, 180);
+
+                doc.setFontSize(10);
+                const pageHeight = doc.internal.pageSize.height;
+                let y = 20;
+
+                lines.forEach(line => {
+                    if (y > pageHeight - 20) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(line, 20, y);
+                    y += 5;
+                });
+
+                doc.save(projectName + '_Document.pdf');
+                console.log('PDF downloaded:', projectName);
+            } catch (e) {
+                console.error('PDF export error:', e);
+                alert('Could not download PDF. Please try again.');
+            }
+        }
+
+        function editDocument() {
+            const preview = document.getElementById('preview');
+            if (preview.contentEditable === 'true') {
+                preview.contentEditable = 'false';
+                preview.classList.remove('edit-mode');
+            } else {
+                preview.contentEditable = 'true';
+                preview.classList.add('edit-mode');
+                preview.focus();
+            }
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                el.value = '';
+            });
+            localStorage.removeItem(storageKey);
+            document.getElementById('result').style.display = 'none';
+        }
+
+    </script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="/tools/recommendationMap.js"></script>
+<script src="/tools/recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Business Case Builder');
+      });
+    </script>
+</body>
+</html>
