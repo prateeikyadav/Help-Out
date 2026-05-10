@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RAIDLayout from './pages/tools/RAIDLog/RAIDLayout';
 import LegacyToolWrapper from './components/LegacyToolWrapper';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/tools/legacy" element={<LegacyToolWrapper />} />
         </Routes>
       </GlobalLayout>
+      <SpeedInsights />
     </Router>
   );
 }
