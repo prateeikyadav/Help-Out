@@ -1,25 +1,33 @@
 import { Link } from 'react-router-dom';
 
-export default function FeaturedToolCard({ bg, icon: Icon, title, desc, url }) {
+export default function FeaturedToolCard({ icon: Icon, title, desc, url, tag, large = false }) {
   const isLegacy = url.endsWith('.html');
   const targetUrl = isLegacy ? `/tools/legacy?url=${encodeURIComponent(url)}` : url;
 
   return (
     <Link 
       to={targetUrl}
-      className={`${bg} rounded-[20px] p-8 flex flex-col items-start gap-4 no-underline group shadow-lg hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden`}
+      className={`group bg-card border border-border rounded-[3px] cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col items-start no-underline hover:border-borderMd hover:shadow-[0_8px_32px_rgba(28,25,23,0.08)] ${large ? 'p-[36px_28px]' : 'p-[28px_24px]'}`}
     >
-      <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20 mb-2">
-        <Icon className="w-6 h-6 text-white" strokeWidth={1.5} />
+      {/* Animated Bottom Border */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-accent origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
+
+      <div className="w-9 h-9 bg-accentLt rounded-[6px] flex items-center justify-center mb-5 shrink-0">
+        <Icon className="w-[18px] h-[18px] stroke-accent" strokeWidth={1.8} />
       </div>
-      <h3 className="font-heading text-[22px] font-bold text-white tracking-[-0.2px] m-0">
+      
+      {tag && <div className="text-[9px] tracking-[0.18em] uppercase text-accent mb-2 font-medium">{tag}</div>}
+      
+      <h3 className={`font-serif font-bold text-ink tracking-[-0.02em] leading-[1.2] mb-2.5 ${large ? 'text-[28px]' : 'text-[22px]'}`}>
         {title}
       </h3>
-      <p className="text-[14px] text-white/80 leading-[1.6] font-light flex-1 m-0 pr-4">
+      
+      <p className="text-[13px] leading-[1.65] text-inkMid mb-6">
         {desc}
       </p>
-      <div className="mt-4 px-6 py-2.5 bg-white text-ink font-sans text-[13px] font-bold rounded-full transition-transform group-hover:scale-105 inline-flex">
-        Get Started
+      
+      <div className="inline-flex items-center gap-[7px] text-[11px] font-semibold tracking-[0.1em] uppercase text-ink bg-transparent border border-borderMd px-[18px] py-[9px] rounded-[2px] transition-all group-hover:bg-ink group-hover:text-white group-hover:border-ink mt-auto">
+        Get Started →
       </div>
     </Link>
   );

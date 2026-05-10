@@ -1,44 +1,54 @@
-import { MoreHorizontal, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export default function ToolCard({ icon: Icon, name, desc, cat, url }) {
+const CAT_COLORS = {
+  pm: '#C94030',
+  general: '#4A7C7C',
+  hr: '#8A5C7A',
+  accountant: '#8A7040',
+  healthcare: '#5A7A5A'
+};
+
+export default function ToolCard({ index, name, desc, cat, url, catId = 'general', icon: Icon }) {
   const isLegacy = url.endsWith('.html');
   const targetUrl = isLegacy ? `/tools/legacy?url=${encodeURIComponent(url)}` : url;
+  
+  const categoryColor = CAT_COLORS[catId] || CAT_COLORS.general;
+
+  // Format index to be two digits (e.g. 01, 02)
+  const formattedIndex = index.toString().padStart(2, '0');
 
   return (
     <Link 
       to={targetUrl}
-      className="bg-[#fbf9f6] border border-[#e8e4db] rounded-[16px] p-5 flex flex-col gap-4 no-underline relative group overflow-hidden transition-all hover:shadow-md hover:border-[#d8d3c8]"
+      className="group bg-card p-[36px_32px_32px] cursor-pointer border-l-[3px] border-transparent flex flex-col min-h-[170px] no-underline transition-all duration-250 ease-[cubic-bezier(.4,0,.2,1)] hover:bg-surfaceDark hover:border-l-[color:var(--cc)]"
+      style={{ '--cc': categoryColor }}
     >
-      <div className="flex items-start justify-between">
-        <div className="w-8 h-8 rounded-lg bg-[#efebdf] flex items-center justify-center text-ink/70">
-          {Icon ? <Icon className="w-4 h-4" strokeWidth={2} /> : <span className="w-2 h-2 bg-rule rounded-full" />}
+      <div className="flex justify-between items-start mb-5">
+        <div className="text-[11px] text-inkLight tracking-[0.12em] font-medium transition-colors duration-250 group-hover:text-white/18">
+          {formattedIndex}
         </div>
-        <button className="text-muted/60 hover:text-ink transition-colors p-1" aria-label="More options" onClick={(e) => e.preventDefault()}>
-          <MoreHorizontal className="w-5 h-5" />
-        </button>
+        {Icon && (
+          <div className="text-inkLight transition-colors duration-250 group-hover:text-white/18">
+            <Icon className="w-[15px] h-[15px]" strokeWidth={1.5} />
+          </div>
+        )}
       </div>
-
-      <div className="flex-1">
-        <h3 className="font-heading text-[15px] font-bold text-ink tracking-[-0.2px] leading-snug mb-1.5">
-          {name}
-        </h3>
-        <p className="text-[13px] text-muted leading-relaxed font-light line-clamp-2">
-          {desc}
-        </p>
+      
+      <div className="flex items-center gap-1.5 text-[9px] tracking-[0.18em] uppercase text-inkLight mb-[9px] transition-colors duration-250 group-hover:text-white/30 font-medium">
+        <span className="w-[5px] h-[5px] rounded-full shrink-0 transition-colors duration-250 group-hover:bg-white/30" style={{ backgroundColor: categoryColor }}></span>
+        {cat}
       </div>
-
-      {/* Footer info (Default State) */}
-      <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted/80 transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-2">
-        <Clock className="w-3.5 h-3.5" />
-        <span>{cat}</span>
-      </div>
-
-      {/* Hover Button Overlay */}
-      <div className="absolute bottom-4 left-5 right-5 translate-y-[150%] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 flex justify-center">
-        <div className="bg-ink text-cream font-sans text-[12px] font-medium tracking-[0.3px] px-6 py-2 rounded-full shadow-lg w-full text-center">
-          Go to Tool
-        </div>
+      
+      <h3 className="font-serif text-[18px] font-bold text-ink tracking-[-0.02em] leading-[1.25] transition-colors duration-250 group-hover:text-white">
+        {name}
+      </h3>
+      
+      <p className="text-[13px] leading-[1.7] text-inkMid mt-3 flex-1 opacity-0 translate-y-[6px] transition-all duration-250 group-hover:opacity-100 group-hover:translate-y-0 group-hover:text-white/55">
+        {desc}
+      </p>
+      
+      <div className="text-[18px] mt-5 opacity-0 transition-all duration-250 group-hover:opacity-100" style={{ color: 'var(--cc)' }}>
+        →
       </div>
     </Link>
   );
