@@ -7,6 +7,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import RAIDLayout from './pages/tools/RAIDLog/RAIDLayout';
 import LegacyToolWrapper from './components/LegacyToolWrapper';
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
 import ResumeBuilder from './pages/tools/student/ResumeBuilder';
 import CoverLetterBuilder from './pages/tools/student/CoverLetterBuilder';
@@ -29,6 +30,7 @@ function App() {
         </Routes>
       </GlobalLayout>
       <SpeedInsights />
+      <Analytics />
     </Router>
   );
 }
