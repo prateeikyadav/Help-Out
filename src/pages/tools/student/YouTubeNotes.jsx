@@ -13,13 +13,10 @@ export default function YouTubeNotes() {
     setIsGenerating(true);
 
     try {
-      const response = await fetch('/api/gemini', {
+      const response = await fetch('/api/youtube', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: `Please extract the key educational insights and summarize the following YouTube video link into structured lecture notes. Use markdown formatting with clear headings and bullet points. Video URL: ${url}`,
-          systemInstruction: 'You are an expert academic tutor. If you have access to YouTube transcript tools, extract the transcript. Otherwise, do your absolute best to summarize the concepts likely covered in the video based on the URL and any metadata you can infer. Return ONLY the markdown structured lecture notes, no conversational filler.'
-        })
+        body: JSON.stringify({ url })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to generate');
