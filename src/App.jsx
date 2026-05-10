@@ -8,6 +8,11 @@ import RAIDLayout from './pages/tools/RAIDLog/RAIDLayout';
 import LegacyToolWrapper from './components/LegacyToolWrapper';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
+import ResumeBuilder from './pages/tools/student/ResumeBuilder';
+import CoverLetterBuilder from './pages/tools/student/CoverLetterBuilder';
+import YouTubeNotes from './pages/tools/student/YouTubeNotes';
+import NotesSummarizer from './pages/tools/student/NotesSummarizer';
+
 function App() {
   return (
     <Router>
@@ -19,6 +24,10 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/tools/pm/raid-log" element={<RAIDLayout />} />
           <Route path="/tools/legacy" element={<LegacyToolWrapper />} />
+          <Route path="/tools/student/resume-builder" element={<ResumeBuilder />} />
+          <Route path="/tools/student/cover-letter" element={<CoverLetterBuilder />} />
+          <Route path="/tools/student/youtube-notes" element={<YouTubeNotes />} />
+          <Route path="/tools/student/notes-summarizer" element={<NotesSummarizer />} />
         </Routes>
       </GlobalLayout>
       <SpeedInsights />

@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 const CAT_COLORS = {
   pm: '#C94030',
   general: '#4A7C7C',
   hr: '#8A5C7A',
   accountant: '#8A7040',
-  healthcare: '#5A7A5A'
+  healthcare: '#5A7A5A',
+  student: '#C94030'
 };
 
 export default function ToolCard({ index, name, desc, cat, url, catId = 'general', icon: Icon }) {
@@ -14,41 +16,33 @@ export default function ToolCard({ index, name, desc, cat, url, catId = 'general
   
   const categoryColor = CAT_COLORS[catId] || CAT_COLORS.general;
 
-  // Format index to be two digits (e.g. 01, 02)
-  const formattedIndex = index.toString().padStart(2, '0');
-
   return (
     <Link 
       to={targetUrl}
-      className="group bg-card p-[36px_32px_32px] cursor-pointer border-l-[3px] border-transparent flex flex-col min-h-[170px] no-underline transition-all duration-250 ease-[cubic-bezier(.4,0,.2,1)] hover:bg-surfaceDark hover:border-l-[color:var(--cc)]"
-      style={{ '--cc': categoryColor }}
+      className="bg-card border border-borderMd rounded-2xl p-8 hover:shadow-[0_12px_40px_rgba(28,25,23,0.06)] transition-all duration-500 hover:-translate-y-1 group flex flex-col no-underline"
     >
-      <div className="flex justify-between items-start mb-5">
-        <div className="text-[11px] text-inkLight tracking-[0.12em] font-medium transition-colors duration-250 group-hover:text-white/18">
-          {formattedIndex}
+      <div className="flex items-start justify-between mb-6">
+        <div className="w-12 h-12 bg-bg text-accent rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 border border-borderMd">
+          {Icon && <Icon className="w-6 h-6 stroke-[1.5]" />}
         </div>
-        {Icon && (
-          <div className="text-inkLight transition-colors duration-250 group-hover:text-white/18">
-            <Icon className="w-[15px] h-[15px]" strokeWidth={1.5} />
-          </div>
-        )}
+        <div className="flex items-center gap-1.5 text-[9px] tracking-[0.18em] uppercase text-inkLight font-medium">
+          <span className="w-[5px] h-[5px] rounded-full shrink-0" style={{ backgroundColor: categoryColor }}></span>
+          {cat}
+        </div>
       </div>
       
-      <div className="flex items-center gap-1.5 text-[9px] tracking-[0.18em] uppercase text-inkLight mb-[9px] transition-colors duration-250 group-hover:text-white/30 font-medium">
-        <span className="w-[5px] h-[5px] rounded-full shrink-0 transition-colors duration-250 group-hover:bg-white/30" style={{ backgroundColor: categoryColor }}></span>
-        {cat}
-      </div>
-      
-      <h3 className="font-serif text-[18px] font-bold text-ink tracking-[-0.02em] leading-[1.25] transition-colors duration-250 group-hover:text-white">
+      <h3 className="font-serif text-[24px] font-bold text-ink tracking-[-0.02em] leading-tight mb-3 group-hover:text-accent transition-colors duration-300">
         {name}
       </h3>
       
-      <p className="text-[13px] leading-[1.7] text-inkMid mt-3 flex-1 opacity-0 translate-y-[6px] transition-all duration-250 group-hover:opacity-100 group-hover:translate-y-0 group-hover:text-white/55">
+      <p className="text-[14px] leading-relaxed text-inkMid mb-8 flex-1">
         {desc}
       </p>
       
-      <div className="text-[18px] mt-5 opacity-0 transition-all duration-250 group-hover:opacity-100" style={{ color: 'var(--cc)' }}>
-        →
+      <div className="flex items-center justify-end mt-auto pt-6 border-t border-borderMd">
+        <span className="text-[11px] font-bold text-accent tracking-[0.1em] uppercase flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+          Open Tool <ArrowRight className="w-4 h-4" />
+        </span>
       </div>
     </Link>
   );

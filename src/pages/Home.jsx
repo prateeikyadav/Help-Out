@@ -11,7 +11,8 @@ const CATEGORIES = [
   { id: 'pm', label: 'Project Manager' },
   { id: 'accountant', label: 'Accountant' },
   { id: 'hr', label: 'HR' },
-  { id: 'healthcare', label: 'Healthcare' }
+  { id: 'healthcare', label: 'Healthcare' },
+  { id: 'student', label: 'Student' }
 ];
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
       else if (tcat.includes('accountant')) tCatId = 'accountant';
       else if (tcat.includes('hr')) tCatId = 'hr';
       else if (tcat.includes('health')) tCatId = 'healthcare';
+      else if (tcat.includes('student')) tCatId = 'student';
 
       const isCatMatch = activeCat === 'all' || activeCat === tCatId;
       const isSearchMatch = !q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q);
@@ -39,7 +41,8 @@ export default function Home() {
     { id: 'pm', name: 'Project Management', desc: 'A comprehensive collection of tools for defining scopes, tracking budgets, mitigating risks, and managing stakeholders.', iconName: 'Briefcase' },
     { id: 'accountant', name: 'Accounting & Finance', desc: 'Professional calculators and estimators for tracking expenses, planning investments, and managing tax obligations.', iconName: 'Wallet' },
     { id: 'hr', name: 'Human Resources', desc: 'Creative generators for crafting professional bios, checking tones, and managing talent communication.', iconName: 'Users' },
-    { id: 'healthcare', name: 'Healthcare & Wellness', desc: 'Personal trackers for monitoring hydration, planning meals, and maintaining optimal daily wellness routines.', iconName: 'Activity' }
+    { id: 'healthcare', name: 'Healthcare & Wellness', desc: 'Personal trackers for monitoring hydration, planning meals, and maintaining optimal daily wellness routines.', iconName: 'Activity' },
+    { id: 'student', name: 'Student Suite & AI', desc: 'Powerful AI assistants for generating resumes, summarizing lectures, and accelerating academic workflows.', iconName: 'GraduationCap' }
   ];
 
   return (
@@ -196,6 +199,7 @@ export default function Home() {
                 else if (tcat.includes('accountant')) catId = 'accountant';
                 else if (tcat.includes('hr')) catId = 'hr';
                 else if (tcat.includes('health')) catId = 'healthcare';
+                else if (tcat.includes('student')) catId = 'student';
                 return catId === cat.id;
               }).length;
 
@@ -221,7 +225,7 @@ export default function Home() {
             })}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-border border border-border rounded-[4px] overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTools.length === 0 ? (
               <div className="col-span-full text-center py-20 text-inkLight font-serif text-[1.5rem] italic bg-card">
                 Nothing found — try a different search.
@@ -235,6 +239,7 @@ export default function Home() {
                 else if (tcat.includes('accountant')) catId = 'accountant';
                 else if (tcat.includes('hr')) catId = 'hr';
                 else if (tcat.includes('health')) catId = 'healthcare';
+                else if (tcat.includes('student')) catId = 'student';
                 
                 return (
                   <ToolCard 
