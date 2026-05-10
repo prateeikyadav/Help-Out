@@ -20,7 +20,7 @@ export default function Home() {
   }, [activeCat, searchVal]);
 
   return (
-    <main className="bg-[#f0ece3] min-h-screen pb-20">
+    <div className="flex-1 pb-20">
       {/* HERO */}
       <section className="pt-20 pb-16 px-6 md:px-12 max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-start">
         <div className="pt-8">
@@ -174,6 +174,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

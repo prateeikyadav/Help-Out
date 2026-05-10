@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function About() {
   return (
-    <div className="bg-[#f6f1e7] text-[#1f1a14] min-h-screen font-sans pb-20">
+    <div className="bg-[#f6f1e7] text-[#1f1a14] flex-1 font-sans pb-20 w-full">
       <div className="max-w-[1100px] mx-auto px-6 py-10">
         <header className="flex justify-between items-center border-b border-[#d8cfbf] pb-4 font-['JetBrains_Mono'] font-medium text-[11px] tracking-[.25em] uppercase text-[#6b6256]">
           <span>PY · 01</span>

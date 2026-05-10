@@ -22,10 +22,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="max-w-[900px] mx-auto px-6 py-20">
-      <Link to="/" className="inline-flex items-center text-[13px] font-medium text-accent hover:underline mb-8">
-        ← Back to HelpOut
-      </Link>
+    <div className="flex-1 p-6 md:p-12 max-w-[1000px] mx-auto w-full">
       
       <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-light tracking-[-0.5px] text-ink mb-4">Contact Us</h1>
       <p className="text-[16px] text-muted mb-12">Have questions or feedback? We'd love to hear from you!</p>
@@ -79,7 +76,7 @@ export default function Contact() {
         </form>
       </div>
 
-      <div className="bg-white p-6 border-l-4 border-accent rounded-r-xl border-y border-r border-rule">
+      <div className="bg-[#fbf9f6] p-6 border-l-4 border-accent rounded-r-xl border-y border-r border-[#e8e4db] shadow-sm">
         <h3 className="font-heading text-[16px] font-bold text-ink mb-2">Response Time</h3>
         <p className="text-[14px] text-muted">We typically respond to inquiries within 24-48 hours. Thank you for your patience!</p>
       </div>

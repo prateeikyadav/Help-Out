@@ -1,11 +1,13 @@
 import { MoreHorizontal, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ToolCard({ icon: Icon, name, desc, cat, url }) {
+  const isLegacy = url.endsWith('.html');
+  const targetUrl = isLegacy ? `/tools/legacy?url=${encodeURIComponent(url)}` : url;
+
   return (
-    <a 
-      href={url} 
-      target="_blank" 
-      rel="noopener noreferrer"
+    <Link 
+      to={targetUrl}
       className="bg-[#fbf9f6] border border-[#e8e4db] rounded-[16px] p-5 flex flex-col gap-4 no-underline relative group overflow-hidden transition-all hover:shadow-md hover:border-[#d8d3c8]"
     >
       <div className="flex items-start justify-between">
@@ -38,6 +40,6 @@ export default function ToolCard({ icon: Icon, name, desc, cat, url }) {
           Go to Tool
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

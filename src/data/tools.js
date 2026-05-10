@@ -4,6 +4,7 @@ import * as Icons from 'lucide-react';
 export const BASE = '/tools';
 
 export const toolsData = [
+  { icon: Icons.Target, name: 'AI RAID Log Manager', desc: 'AI-powered tracking for Risks, Actions, Issues, and Decisions with automated mitigation strategies.', cat: 'Project Manager', url: '/tools/pm/raid-log' },
   { icon: Icons.Focus, name: 'Focus Ritual', desc: 'Master your attention with intentional, uninterrupted work sprints.', cat: 'General', url: `${BASE}/General/Focus Ritual/index.html` },
   { icon: Icons.CheckSquare, name: 'To-Do Checklist', desc: 'Deconstruct your day into clear, actionable tasks.', cat: 'General', url: `${BASE}/General/To do checklist/index.html` },
   { icon: Icons.Target, name: 'Goal Tracker', desc: 'Map out your ambitions and track the milestones that matter.', cat: 'General', url: `${BASE}/General/Goal Tracker/index.html` },
