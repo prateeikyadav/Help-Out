@@ -45,6 +45,5 @@ export const toolsData = [
   { icon: Icons.ArrowUpCircle, name: 'Escalation Matrix', desc: 'Define clear escalation paths for critical project risks.', cat: 'Project Manager', url: `${BASE}/Project Managers/Project Manager Tools/Escalation Matrix Builder/index.html` },
   { icon: Icons.FileText, name: 'AI Resume Builder', desc: 'Craft a professional, ATS-friendly resume tailored to your industry.', cat: 'Student', url: '/tools/student/resume-builder' },
   { icon: Icons.Mail, name: 'Cover Letter Builder', desc: 'Generate a compelling cover letter that highlights your unique strengths.', cat: 'Student', url: '/tools/student/cover-letter' },
-  { icon: Icons.MonitorPlay, name: 'YouTube Notes Generator', desc: 'Instantly convert long educational videos into structured lecture notes.', cat: 'Student', url: '/tools/student/youtube-notes' },
   { icon: Icons.Highlighter, name: 'AI Notes Summarizer', desc: 'Distill massive study guides and readings into concise summaries.', cat: 'Student', url: '/tools/student/notes-summarizer' }
 ];
