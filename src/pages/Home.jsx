@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, ArrowRight, LayoutTemplate, Zap, Blocks, LineChart } from 'lucide-react';
 import { toolsData } from '../data/tools';
 import ToolCard from '../components/ToolCard';
@@ -283,9 +284,9 @@ export default function Home() {
           Help<span className="text-accent">Out</span>
         </div>
         <div className="flex gap-6">
-          <a href="/about" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">About</a>
-          <a href="/contact" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Contact</a>
-          <a href="/privacy-policy" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Privacy Policy</a>
+          <Link to="/about" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">About</Link>
+          <Link to="/contact" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Contact</Link>
+          <Link to="/privacy-policy" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Privacy Policy</Link>
         </div>
         <div className="text-[11px] text-white/30 tracking-[0.08em] font-medium flex gap-3">
           <span>© 2026 HelpOut</span>

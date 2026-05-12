@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalLayout from './components/GlobalLayout';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -16,6 +17,7 @@ import NotesSummarizer from './pages/tools/student/NotesSummarizer';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <GlobalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
