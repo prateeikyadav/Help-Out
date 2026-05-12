@@ -85,16 +85,13 @@ export default function Home() {
             <a href="#discover" className="bg-ink text-white text-[12px] font-semibold tracking-[0.08em] uppercase px-7 py-3.5 rounded-[2px] hover:bg-accent transition-colors flex items-center gap-2 no-underline">
               Explore the Suite →
             </a>
-            <a href="#discover" className="text-[12px] text-inkMid tracking-[0.06em] flex items-center gap-1.5 py-1 border-b border-borderMd hover:text-ink hover:border-ink transition-colors font-medium no-underline">
-              Watch demo ↗
-            </a>
           </div>
         </div>
 
         <div className="flex flex-col">
           {[
             { num: '40', accent: '+', label: 'Free Tools' },
-            { num: '4', accent: '', label: 'Professions' },
+            { num: '4', accent: '+', label: 'Professions' },
             { num: '0', accent: '', label: 'Logins Needed' },
             { num: '100', accent: '%', label: 'Local & Private' }
           ].map((stat, i) => (
@@ -290,8 +287,10 @@ export default function Home() {
           <a href="/contact" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Contact</a>
           <a href="/privacy-policy" className="text-[11px] text-white/40 tracking-[0.08em] hover:text-white transition-colors font-medium">Privacy Policy</a>
         </div>
-        <div className="text-[11px] text-white/30 tracking-[0.08em] font-medium">
-          © 2026 HelpOut
+        <div className="text-[11px] text-white/30 tracking-[0.08em] font-medium flex gap-3">
+          <span>© 2026 HelpOut</span>
+          <span>•</span>
+          <span>Made with ❤️</span>
         </div>
       </footer>
 

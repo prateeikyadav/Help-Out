@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
       <h1 className="font-display text-[clamp(2.5rem,5vw,3.5rem)] font-light tracking-[-1px] text-ink mb-8">Privacy Policy</h1>
       
       <div className="bg-[#fbf9f6] border-l-4 border-accent p-4 rounded-r-lg border-y border-r border-[#e8e4db] mb-10 text-[14px] text-muted shadow-sm">
-        <strong>Last Updated:</strong> May 10, 2026
+        <strong>Last Updated:</strong> May 12, 2026
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-[#e8e4db] p-8 md:p-12 space-y-10 text-[15px] text-muted">
