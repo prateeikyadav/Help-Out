@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Loan / EMI Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #FF9500;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex; align-items: center; gap: 18px;
+            max-width: 680px; margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: linear-gradient(145deg, #FFAD3D, #FF9500);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(255,149,0,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+        .currency-sel {
+            padding: 8px 12px;
+            border: 1.5px solid var(--separator);
+            border-radius: var(--r-md);
+            font-size: .88em; font-family: inherit; font-weight: 600;
+            background: var(--card); color: var(--label-1);
+            cursor: pointer; outline: none;
+        }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; max-width: 680px; margin: 0 auto 24px;
+        }
+
+        .stat-card {
+            background: var(--card); border-radius: var(--r-lg);
+            padding: 16px 14px; box-shadow: var(--shadow); text-align: center;
+        }
+
+        .stat-value { font-size: 1.3em; font-weight: 700; letter-spacing: -.3px; color: var(--accent); }
+        .stat-label { font-size: .72em; color: var(--label-2); margin-top: 3px; font-weight: 500; }
+
+        .card {
+            background: var(--card); border-radius: var(--r-xl);
+            padding: 28px 26px; box-shadow: var(--shadow);
+            max-width: 680px; margin: 0 auto 20px;
+        }
+
+        .card-title { font-size: 1.05em; font-weight: 700; letter-spacing: -.3px; margin-bottom: 22px; }
+
+        .input-group { margin-bottom: 20px; }
+
+        .input-label {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: .82em; font-weight: 600; color: var(--label-2);
+            text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px;
+        }
+
+        .input-label span { font-size: 1.15em; font-weight: 700; color: var(--label-1); text-transform: none; letter-spacing: 0; }
+
+        .amount-input {
+            width: 100%; padding: 13px 16px;
+            border: 1.5px solid var(--separator); border-radius: var(--r-md);
+            font-size: 1.1em; font-weight: 600; font-family: inherit;
+            color: var(--label-1); background: var(--bg); outline: none;
+            transition: border-color .18s;
+        }
+        .amount-input:focus { border-color: var(--accent); }
+
+        input[type="range"] {
+            -webkit-appearance: none; width: 100%; height: 5px;
+            background: var(--separator); border-radius: 3px; outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+            background: var(--accent); box-shadow: 0 2px 8px rgba(255,149,0,.4); cursor: pointer;
+        }
+
+        .chart-container { position: relative; height: 220px; }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .82em;
+        }
+
+        .schedule-table th {
+            text-align: left;
+            font-size: .72em;
+            font-weight: 700;
+            color: var(--label-2);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            padding: 0 0 10px 0;
+            border-bottom: 1.5px solid var(--separator);
+        }
+
+        .schedule-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--separator);
+            color: var(--label-1);
+            font-weight: 500;
+        }
+
+        .schedule-table td:last-child { color: var(--label-2); }
+
+        .show-all-btn {
+            display: block; width: 100%; padding: 12px;
+            background: var(--bg); border: 1.5px solid var(--separator);
+            border-radius: var(--r-md); font-size: .88em; font-weight: 600;
+            font-family: inherit; color: var(--accent); cursor: pointer;
+            margin-top: 14px; transition: background .18s;
+        }
+        .show-all-btn:hover { background: rgba(255,149,0,.08); }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: #007AFF; text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .card { padding: 22px 18px; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="/tools/global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">🏦</div>
+<div class="page-header-text">
+<h1>Loan / EMI</h1>
+<p>Calculate exact loan repayments and visual amortisation schedules.</p>
+</div>
+<div class="header-right">
+<select class="currency-sel" id="currSel" onchange="recalc()">
+<option value="₹">₹ INR</option>
+<option value="$">$ USD</option>
+<option value="€">€ EUR</option>
+<option value="£">£ GBP</option>
+</select>
+</div>
+</header>
+<div class="stats-row">
+<div class="stat-card"><div class="stat-value" id="sEMI">₹0</div><div class="stat-label">Monthly EMI</div></div>
+<div class="stat-card"><div class="stat-value" id="sPrincipal">₹0</div><div class="stat-label">Principal</div></div>
+<div class="stat-card"><div class="stat-value" id="sInterest">₹0</div><div class="stat-label">Total Interest</div></div>
+<div class="stat-card"><div class="stat-value" id="sTotal">₹0</div><div class="stat-label">Total Payable</div></div>
+</div>
+<div class="card">
+<div class="card-title">Loan Details</div>
+<div class="input-group">
+<div class="input-label">Loan Amount</div>
+<input class="amount-input" id="loanAmt" min="1000" oninput="recalc()" type="number" value="1000000"/>
+</div>
+<div class="input-group">
+<div class="input-label">Interest Rate (per annum) <span id="rateLabel">8.5%</span></div>
+<input id="rate" max="30" min="1" oninput="recalc()" step="0.1" type="range" value="8.5"/>
+</div>
+<div class="input-group">
+<div class="input-label">Tenure <span id="tenureLabel">20 Years</span></div>
+<input id="tenure" max="30" min="1" oninput="recalc()" type="range" value="20"/>
+</div>
+</div>
+<!-- Doughnut -->
+<div class="card">
+<div class="card-title">Repayment Breakdown</div>
+<div class="chart-container">
+<canvas id="breakdownChart"></canvas>
+</div>
+</div>
+<!-- Amortisation schedule -->
+<div class="card">
+<div class="card-title">Yearly Schedule</div>
+<table class="schedule-table">
+<thead>
+<tr>
+<th>Year</th>
+<th>Principal</th>
+<th>Interest</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody id="scheduleBody"></tbody>
+</table>
+</div>
+<div class="back-link"><a href="/">← Back to HelpOut</a></div>
+<script>
+    let chart = null;
+
+    function sym() { return document.getElementById('currSel').value; }
+
+    function fmt(n) {
+        if (n >= 1e7) return sym() + (n/1e7).toFixed(2) + 'Cr';
+        if (n >= 1e5) return sym() + (n/1e5).toFixed(1) + 'L';
+        if (n >= 1000) return sym() + (n/1000).toFixed(1) + 'K';
+        return sym() + Math.round(n).toLocaleString();
+    }
+
+    function recalc() {
+        const P = parseFloat(document.getElementById('loanAmt').value) || 0;
+        const r = parseFloat(document.getElementById('rate').value);
+        const y = parseInt(document.getElementById('tenure').value);
+
+        document.getElementById('rateLabel').textContent    = r + '%';
+        document.getElementById('tenureLabel').textContent  = y + (y===1?' Year':' Years');
+
+        const rMonthly = r / 100 / 12;
+        const n = y * 12;
+        const emi = P * rMonthly * Math.pow(1 + rMonthly, n) / (Math.pow(1 + rMonthly, n) - 1);
+        const total = emi * n;
+        const interest = total - P;
+
+        document.getElementById('sEMI').textContent      = fmt(emi);
+        document.getElementById('sPrincipal').textContent = fmt(P);
+        document.getElementById('sInterest').textContent  = fmt(interest);
+        document.getElementById('sTotal').textContent     = fmt(total);
+
+        // Doughnut
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById('breakdownChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Principal', 'Interest'],
+                datasets: [{ data: [Math.round(P), Math.round(interest)],
+                    backgroundColor: ['rgba(255,149,0,.85)', 'rgba(255,59,48,.75)'],
+                    borderWidth: 0, hoverOffset: 8 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '68%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { padding: 18, font: { size: 12 } } }
+                }
+            }
+        });
+
+        // Yearly schedule
+        let balance = P;
+        let body = '';
+        for (let yr = 1; yr <= y; yr++) {
+            let yPrincipal = 0, yInterest = 0;
+            for (let m = 0; m < 12; m++) {
+                const intPart = balance * rMonthly;
+                const prinPart = emi - intPart;
+                yInterest  += intPart;
+                yPrincipal += prinPart;
+                balance    -= prinPart;
+                if (balance < 0) balance = 0;
+            }
+            body += `<tr>
+                <td>Year ${yr}</td>
+                <td>${fmt(yPrincipal)}</td>
+                <td>${fmt(yInterest)}</td>
+                <td>${fmt(Math.max(0, balance))}</td>
+            </tr>`;
+        }
+        document.getElementById('scheduleBody').innerHTML = body;
+    }
+
+    recalc();
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Loan Calculator');
+      });
+    </script>
+</body>
+</html>

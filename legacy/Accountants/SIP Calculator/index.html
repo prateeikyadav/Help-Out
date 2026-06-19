@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIP Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #34C759;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #4CD964, #34C759);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(52,199,89,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        .header-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .currency-sel {
+            padding: 8px 12px;
+            border: 1.5px solid var(--separator);
+            border-radius: var(--r-md);
+            font-size: .88em;
+            font-family: inherit;
+            font-weight: 600;
+            background: var(--card);
+            color: var(--label-1);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 680px;
+            margin: 0 auto 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--r-lg);
+            padding: 16px 14px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value { font-size: 1.3em; font-weight: 700; letter-spacing: -.3px; color: var(--accent); }
+        .stat-label { font-size: .72em; color: var(--label-2); margin-top: 3px; font-weight: 500; }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--r-xl);
+            padding: 28px 26px;
+            box-shadow: var(--shadow);
+            max-width: 680px;
+            margin: 0 auto 20px;
+        }
+
+        .card-title {
+            font-size: 1.05em;
+            font-weight: 700;
+            letter-spacing: -.3px;
+            margin-bottom: 22px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .82em;
+            font-weight: 600;
+            color: var(--label-2);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin-bottom: 8px;
+        }
+
+        .input-label span {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--label-1);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid var(--separator);
+            border-radius: var(--r-md);
+            font-size: 1.1em;
+            font-weight: 600;
+            font-family: inherit;
+            color: var(--label-1);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .18s;
+        }
+        .amount-input:focus { border-color: var(--accent); }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            background: var(--separator);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 2px 8px rgba(52,199,89,.4);
+            cursor: pointer;
+        }
+
+        .chart-container { position: relative; height: 260px; }
+
+        .breakdown-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .breakdown-pill {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pill-invested { background: rgba(52,199,89,.12); }
+        .pill-returns  { background: rgba(0,122,255,.12); }
+
+        .pill-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .dot-invested { background: var(--accent); }
+        .dot-returns  { background: #007AFF; }
+
+        .pill-info-label { font-size: .75em; color: var(--label-2); font-weight: 500; }
+        .pill-info-value { font-size: .92em; font-weight: 700; color: var(--label-1); }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: #007AFF; text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .card { padding: 22px 18px; }
+            .breakdown-row { flex-direction: column; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="../../global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">💹</div>
+<div class="page-header-text">
+<h1>SIP Calculator</h1>
+<p>Project your wealth growth through disciplined monthly investments.</p>
+</div>
+<div class="header-right">
+<select class="currency-sel" id="currSel" onchange="recalc()">
+<option value="₹">₹ INR</option>
+<option value="$">$ USD</option>
+<option value="€">€ EUR</option>
+<option value="£">£ GBP</option>
+<option value="¥">¥ JPY</option>
+</select>
+</div>
+</header>
+<!-- Stats -->
+<div class="stats-row">
+<div class="stat-card">
+<div class="stat-value" id="sInvested">₹0</div>
+<div class="stat-label">Total Invested</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="sReturns">₹0</div>
+<div class="stat-label">Est. Returns</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="sTotal">₹0</div>
+<div class="stat-label">Total Value</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="sMultiple">0×</div>
+<div class="stat-label">Growth</div>
+</div>
+</div>
+<!-- Inputs -->
+<div class="card">
+<div class="card-title">Calculator</div>
+<div class="input-group">
+<div class="input-label">Monthly SIP Amount</div>
+<input class="amount-input" id="sipAmount" min="100" oninput="recalc()" type="number" value="5000"/>
+</div>
+<div class="input-group">
+<div class="input-label">
+            Expected Annual Return
+            <span id="returnLabel">12%</span>
+</div>
+<input id="returnRate" max="30" min="1" oninput="recalc()" step="0.5" type="range" value="12"/>
+</div>
+<div class="input-group">
+<div class="input-label">
+            Investment Duration
+            <span id="durationLabel">10 Years</span>
+</div>
+<input id="duration" max="40" min="1" oninput="recalc()" type="range" value="10"/>
+</div>
+</div>
+<!-- Chart -->
+<div class="card">
+<div class="card-title">Growth Over Time</div>
+<div class="breakdown-row">
+<div class="breakdown-pill pill-invested">
+<div class="pill-dot dot-invested"></div>
+<div>
+<div class="pill-info-label">Total Invested</div>
+<div class="pill-info-value" id="bInvested">₹0</div>
+</div>
+</div>
+<div class="breakdown-pill pill-returns">
+<div class="pill-dot dot-returns"></div>
+<div>
+<div class="pill-info-label">Est. Returns</div>
+<div class="pill-info-value" id="bReturns">₹0</div>
+</div>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="growthChart"></canvas>
+</div>
+</div>
+<div class="back-link"><a href="../../index.html">← Back to HelpOut</a></div>
+<script>
+    let chart = null;
+
+    function sym() { return document.getElementById('currSel').value; }
+
+    function fmt(n) {
+        if (n >= 1e7) return sym() + (n/1e7).toFixed(2) + 'Cr';
+        if (n >= 1e5) return sym() + (n/1e5).toFixed(2) + 'L';
+        if (n >= 1000) return sym() + (n/1000).toFixed(1) + 'K';
+        return sym() + Math.round(n).toLocaleString();
+    }
+
+    function recalc() {
+        const P = parseFloat(document.getElementById('sipAmount').value) || 0;
+        const r = parseFloat(document.getElementById('returnRate').value);
+        const y = parseInt(document.getElementById('duration').value);
+
+        document.getElementById('returnLabel').textContent = r + '%';
+        document.getElementById('durationLabel').textContent = y + (y === 1 ? ' Year' : ' Years');
+
+        const rMonthly = r / 100 / 12;
+        const n = y * 12;
+
+        const totalValue    = P * (((Math.pow(1 + rMonthly, n) - 1) / rMonthly) * (1 + rMonthly));
+        const totalInvested = P * n;
+        const returns       = totalValue - totalInvested;
+        const multiple      = totalInvested > 0 ? (totalValue / totalInvested).toFixed(2) : 0;
+
+        document.getElementById('sInvested').textContent = fmt(totalInvested);
+        document.getElementById('sReturns').textContent  = fmt(returns);
+        document.getElementById('sTotal').textContent    = fmt(totalValue);
+        document.getElementById('sMultiple').textContent = multiple + '×';
+
+        document.getElementById('bInvested').textContent = fmt(totalInvested);
+        document.getElementById('bReturns').textContent  = fmt(returns);
+
+        // Build year-by-year data
+        const labels = [], invested = [], growth = [];
+        for (let yr = 1; yr <= y; yr++) {
+            const months = yr * 12;
+            const val = P * (((Math.pow(1 + rMonthly, months) - 1) / rMonthly) * (1 + rMonthly));
+            const inv = P * months;
+            labels.push('Y' + yr);
+            invested.push(Math.round(inv));
+            growth.push(Math.round(val - inv));
+        }
+
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById('growthChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Invested',
+                        data: invested,
+                        backgroundColor: 'rgba(52,199,89,.7)',
+                        borderRadius: 4,
+                    },
+                    {
+                        label: 'Returns',
+                        data: growth,
+                        backgroundColor: 'rgba(0,122,255,.7)',
+                        borderRadius: 4,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+                    y: { stacked: true, grid: { color: 'rgba(0,0,0,.05)' },
+                         ticks: { font: { size: 10 }, callback: v => sym() + (v>=1e5?(v/1e5).toFixed(0)+'L':v>=1000?(v/1000).toFixed(0)+'K':v) } }
+                }
+            }
+        });
+    }
+
+    recalc();
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('SIP Calculator');
+      });
+    </script>
+</body>
+</html>

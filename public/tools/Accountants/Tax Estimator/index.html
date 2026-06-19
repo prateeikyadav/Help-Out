@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tax Estimator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #FF3B30;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex; align-items: center; gap: 18px;
+            max-width: 620px; margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: linear-gradient(145deg, #FF6961, #FF3B30);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(255,59,48,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        /* Regime toggle */
+        .regime-toggle {
+            display: flex; background: var(--separator);
+            border-radius: 12px; padding: 3px;
+            max-width: 620px; margin: 0 auto 24px;
+        }
+
+        .regime-btn {
+            flex: 1; padding: 10px; border: none;
+            border-radius: 10px; font-family: inherit;
+            font-size: .88em; font-weight: 600;
+            cursor: pointer; background: transparent;
+            color: var(--label-2); transition: all .2s;
+        }
+
+        .regime-btn.active {
+            background: var(--card);
+            color: var(--label-1);
+            box-shadow: 0 1px 4px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.08);
+        }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; max-width: 620px; margin: 0 auto 24px;
+        }
+
+        .stat-card {
+            background: var(--card); border-radius: var(--r-lg);
+            padding: 16px 14px; box-shadow: var(--shadow); text-align: center;
+        }
+
+        .stat-value { font-size: 1.15em; font-weight: 700; letter-spacing: -.3px; color: var(--accent); }
+        .stat-label { font-size: .72em; color: var(--label-2); margin-top: 3px; font-weight: 500; }
+
+        .card {
+            background: var(--card); border-radius: var(--r-xl);
+            padding: 28px 26px; box-shadow: var(--shadow);
+            max-width: 620px; margin: 0 auto 20px;
+        }
+
+        .card-title { font-size: 1.05em; font-weight: 700; letter-spacing: -.3px; margin-bottom: 22px; }
+
+        .input-group { margin-bottom: 18px; }
+
+        .input-label {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: .82em; font-weight: 600; color: var(--label-2);
+            text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px;
+        }
+
+        .amount-input {
+            width: 100%; padding: 13px 16px;
+            border: 1.5px solid var(--separator); border-radius: var(--r-md);
+            font-size: 1.05em; font-weight: 600; font-family: inherit;
+            color: var(--label-1); background: var(--bg); outline: none;
+            transition: border-color .18s;
+        }
+        .amount-input:focus { border-color: var(--accent); }
+
+        /* Slab table */
+        .slab-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--separator);
+        }
+        .slab-row:last-child { border-bottom: none; }
+
+        .slab-range { font-size: .85em; font-weight: 600; color: var(--label-1); }
+        .slab-rate  { font-size: .82em; font-weight: 700; color: var(--label-2); }
+
+        .slab-bar-wrap { flex: 1; margin: 0 14px; }
+        .slab-bar {
+            height: 6px; border-radius: 3px;
+            background: linear-gradient(90deg, rgba(255,59,48,.6), rgba(255,59,48,.9));
+        }
+
+        .slab-tax {
+            font-size: .85em; font-weight: 700; color: var(--accent);
+            min-width: 64px; text-align: right;
+        }
+
+        .highlight-row { background: rgba(255,59,48,.04); border-radius: var(--r-md); padding: 10px 12px !important; }
+
+        /* Chart */
+        .chart-container { position: relative; height: 180px; }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: #007AFF; text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .card { padding: 22px 18px; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="/tools/global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">🧾</div>
+<div class="page-header-text">
+<h1>Tax Estimator</h1>
+<p>Estimate your annual income tax obligations quickly and cleanly.</p>
+</div>
+</header>
+<!-- Regime toggle (India) -->
+<div class="regime-toggle" style="max-width:620px;margin:0 auto 24px;">
+<button class="regime-btn active" id="btnNew" onclick="setRegime('new')">New Regime</button>
+<button class="regime-btn" id="btnOld" onclick="setRegime('old')">Old Regime</button>
+</div>
+<div class="stats-row">
+<div class="stat-card"><div class="stat-value" id="sTax">₹0</div><div class="stat-label">Tax Payable</div></div>
+<div class="stat-card"><div class="stat-value" id="sTaxPct">0%</div><div class="stat-label">Effective Rate</div></div>
+<div class="stat-card"><div class="stat-value" id="sInHand">₹0</div><div class="stat-label">In-Hand (yr)</div></div>
+<div class="stat-card"><div class="stat-value" id="sMonthly">₹0</div><div class="stat-label">Monthly Take</div></div>
+</div>
+<div class="card">
+<div class="card-title">Income Details</div>
+<div class="input-group">
+<div class="input-label">Gross Annual Income</div>
+<input class="amount-input" id="income" oninput="recalc()" type="number" value="1200000"/>
+</div>
+<div class="input-group" id="deductionGroup">
+<div class="input-label">Deductions (80C / 80D / HRA etc.)</div>
+<input class="amount-input" id="deductions" oninput="recalc()" type="number" value="150000"/>
+</div>
+</div>
+<!-- Slab breakdown -->
+<div class="card">
+<div class="card-title">Slab Breakdown</div>
+<div id="slabList"></div>
+</div>
+<!-- Chart -->
+<div class="card">
+<div class="card-title">Income vs Tax</div>
+<div class="chart-container"><canvas id="taxChart"></canvas></div>
+</div>
+<div class="back-link"><a href="/">← Back to HelpOut</a></div>
+<script>
+    let regime = 'new';
+    let chart = null;
+
+    const NEW_SLABS = [
+        { min: 0,       max: 300000,  rate: 0  },
+        { min: 300000,  max: 700000,  rate: 5  },
+        { min: 700000,  max: 1000000, rate: 10 },
+        { min: 1000000, max: 1200000, rate: 15 },
+        { min: 1200000, max: 1500000, rate: 20 },
+        { min: 1500000, max: Infinity,rate: 30 },
+    ];
+
+    const OLD_SLABS = [
+        { min: 0,       max: 250000,  rate: 0  },
+        { min: 250000,  max: 500000,  rate: 5  },
+        { min: 500000,  max: 1000000, rate: 20 },
+        { min: 1000000, max: Infinity,rate: 30 },
+    ];
+
+    function setRegime(r) {
+        regime = r;
+        document.getElementById('btnNew').classList.toggle('active', r === 'new');
+        document.getElementById('btnOld').classList.toggle('active', r === 'old');
+        document.getElementById('deductionGroup').style.opacity = r === 'old' ? '1' : '.4';
+        document.getElementById('deductions').disabled = r === 'new';
+        recalc();
+    }
+
+    function fmt(n) {
+        if (n >= 1e7) return '₹' + (n/1e7).toFixed(2) + 'Cr';
+        if (n >= 1e5) return '₹' + (n/1e5).toFixed(1) + 'L';
+        if (n >= 1000) return '₹' + (n/1000).toFixed(1) + 'K';
+        return '₹' + Math.round(n).toLocaleString();
+    }
+
+    function calcTax(taxable, slabs) {
+        let tax = 0;
+        const breakdown = [];
+        for (const slab of slabs) {
+            if (taxable <= slab.min) break;
+            const applicable = Math.min(taxable, slab.max) - slab.min;
+            const t = applicable * slab.rate / 100;
+            breakdown.push({ ...slab, applicable, tax: t });
+            tax += t;
+        }
+        return { tax, breakdown };
+    }
+
+    function recalc() {
+        const gross = parseFloat(document.getElementById('income').value) || 0;
+        const ded   = regime === 'old' ? (parseFloat(document.getElementById('deductions').value) || 0) : 0;
+        const stdDed = regime === 'old' ? 50000 : 75000;
+        const taxable = Math.max(0, gross - ded - stdDed);
+        const slabs = regime === 'new' ? NEW_SLABS : OLD_SLABS;
+        const { tax, breakdown } = calcTax(taxable, slabs);
+
+        // Rebate 87A — if taxable ≤ 7L (new) or 5L (old), tax = 0
+        const rebateLimit = regime === 'new' ? 700000 : 500000;
+        const finalTax = taxable <= rebateLimit ? 0 : tax + tax * 0.04; // +4% cess
+
+        const effectiveRate = gross > 0 ? (finalTax / gross * 100).toFixed(1) : 0;
+        const inHand = gross - finalTax;
+        const monthly = inHand / 12;
+
+        document.getElementById('sTax').textContent     = fmt(finalTax);
+        document.getElementById('sTaxPct').textContent  = effectiveRate + '%';
+        document.getElementById('sInHand').textContent  = fmt(inHand);
+        document.getElementById('sMonthly').textContent = fmt(monthly);
+
+        // Slab list
+        const maxT = Math.max(...breakdown.map(b => b.tax), 1);
+        document.getElementById('slabList').innerHTML = breakdown.map(b => `
+            <div class="slab-row ${b.tax > 0 ? 'highlight-row' : ''}">
+                <div>
+                    <div class="slab-range">${fmt(b.min)} – ${b.max === Infinity ? '∞' : fmt(b.max)}</div>
+                    <div class="slab-rate">${b.rate}%</div>
+                </div>
+                <div class="slab-bar-wrap">
+                    <div class="slab-bar" style="width:${b.tax > 0 ? Math.max(6, b.tax/maxT*100) : 0}%"></div>
+                </div>
+                <div class="slab-tax">${fmt(b.tax)}</div>
+            </div>
+        `).join('');
+
+        // Chart
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById('taxChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Tax & Cess', 'In-Hand'],
+                datasets: [{
+                    data: [Math.round(finalTax), Math.round(inHand)],
+                    backgroundColor: ['rgba(255,59,48,.8)', 'rgba(52,199,89,.8)'],
+                    borderWidth: 0, hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '65%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { padding: 18, font: { size: 12 } } }
+                }
+            }
+        });
+    }
+
+    setRegime('new');
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Tax Estimator');
+      });
+    </script>
+</body>
+</html>

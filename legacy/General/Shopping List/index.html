@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping List</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        :root {
+            --bg:        #F2F2F7;
+            --card:      #FFFFFF;
+            --label-1:   #1C1C1E;
+            --label-2:   #6E6E73;
+            --label-3:   #AEAEB2;
+            --separator: #E5E5EA;
+            --accent:    #5AC8FA;
+            --green:     #34C759;
+            --red:       #FF3B30;
+            --orange:    #FF9500;
+            --indigo:    #5856D6;
+            --r-xl:      22px;
+            --r-lg:      16px;
+            --r-md:      12px;
+            --shadow:    0 2px 8px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07);
+        }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 48px 20px 80px;
+            color: var(--label-1);
+        }
+
+        .page-header {
+            display: flex; align-items: center; gap: 18px;
+            max-width: 580px; margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: linear-gradient(145deg, #7ADAFA, #5AC8FA);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 16px rgba(90,200,250,.35);
+            flex-shrink: 0;
+        }
+
+        .page-header-text h1 { font-size: 1.75em; font-weight: 700; letter-spacing: -.5px; }
+        .page-header-text p  { font-size: .9em; color: var(--label-2); margin-top: 2px; }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px; max-width: 580px; margin: 0 auto 24px;
+        }
+
+        .stat-card {
+            background: var(--card); border-radius: var(--r-lg);
+            padding: 16px 14px; box-shadow: var(--shadow); text-align: center;
+        }
+        .stat-value { font-size: 1.6em; font-weight: 700; letter-spacing: -.5px; color: var(--accent); }
+        .stat-label { font-size: .72em; color: var(--label-2); margin-top: 3px; font-weight: 500; }
+
+        .card {
+            background: var(--card); border-radius: var(--r-xl);
+            padding: 24px 22px; box-shadow: var(--shadow);
+            max-width: 580px; margin: 0 auto 20px;
+        }
+
+        .card-title { font-size: 1.05em; font-weight: 700; letter-spacing: -.3px; margin-bottom: 18px; }
+
+        /* Add item form */
+        .add-row {
+            display: flex; gap: 8px; margin-bottom: 14px;
+        }
+
+        .add-input {
+            flex: 1; padding: 12px 14px;
+            border: 1.5px solid var(--separator); border-radius: var(--r-md);
+            font-size: .92em; font-family: inherit; color: var(--label-1);
+            background: var(--bg); outline: none; transition: border-color .18s;
+        }
+        .add-input:focus { border-color: var(--accent); }
+
+        .qty-input {
+            width: 60px; padding: 12px 10px; text-align: center;
+            border: 1.5px solid var(--separator); border-radius: var(--r-md);
+            font-size: .92em; font-family: inherit; font-weight: 600;
+            color: var(--label-1); background: var(--bg); outline: none;
+            transition: border-color .18s;
+        }
+        .qty-input:focus { border-color: var(--accent); }
+
+        .add-btn {
+            padding: 12px 18px; background: var(--accent); color: white;
+            border: none; border-radius: var(--r-md);
+            font-weight: 700; font-size: .88em; font-family: inherit;
+            cursor: pointer; transition: filter .18s;
+            white-space: nowrap;
+        }
+        .add-btn:hover { filter: brightness(.88); }
+
+        /* Category pills */
+        .cat-pills {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;
+        }
+
+        .cat-pill {
+            padding: 5px 12px; border: 1.5px solid var(--separator);
+            border-radius: 20px; font-size: .78em; font-weight: 600;
+            font-family: inherit; cursor: pointer; background: transparent;
+            color: var(--label-2); transition: all .15s;
+        }
+
+        .cat-pill.selected { color: white; border-color: transparent; }
+        .cat-pill[data-cat="Grocery"].selected    { background: var(--green); }
+        .cat-pill[data-cat="Dairy"].selected      { background: #007AFF; }
+        .cat-pill[data-cat="Bakery"].selected     { background: var(--orange); }
+        .cat-pill[data-cat="Produce"].selected    { background: #34C759; }
+        .cat-pill[data-cat="Meat"].selected       { background: var(--red); }
+        .cat-pill[data-cat="Snacks"].selected     { background: var(--indigo); }
+        .cat-pill[data-cat="Beverages"].selected  { background: var(--accent); }
+        .cat-pill[data-cat="Household"].selected  { background: #8E8E93; }
+        .cat-pill[data-cat="Other"].selected      { background: var(--label-2); }
+
+        /* Filter row */
+        .filter-row {
+            display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 14px; border-radius: 20px;
+            border: 1.5px solid var(--separator);
+            font-size: .78em; font-weight: 600;
+            font-family: inherit; cursor: pointer;
+            background: transparent; color: var(--label-2);
+            transition: all .15s;
+        }
+        .filter-btn.active { background: var(--accent); color: white; border-color: transparent; }
+
+        /* Category section */
+        .cat-section { margin-bottom: 20px; }
+
+        .cat-header {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .cat-name { font-size: .8em; font-weight: 700; color: var(--label-2); text-transform: uppercase; letter-spacing: .4px; }
+        .cat-count { font-size: .75em; color: var(--label-3); }
+
+        /* Item row */
+        .item-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px;
+            background: var(--bg); border-radius: var(--r-md);
+            margin-bottom: 6px;
+            transition: opacity .2s;
+        }
+
+        .item-row.done { opacity: .5; }
+
+        .check-circle {
+            width: 24px; height: 24px; border-radius: 50%;
+            border: 2px solid var(--separator);
+            flex-shrink: 0; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .18s;
+            background: white;
+        }
+
+        .check-circle.checked {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        .check-circle.checked::after {
+            content: '';
+            width: 5px; height: 9px;
+            border: 2px solid white;
+            border-top: none; border-left: none;
+            transform: rotate(45deg) translateY(-1px);
+            display: block;
+        }
+
+        .item-name {
+            flex: 1; font-size: .9em; font-weight: 600; color: var(--label-1);
+        }
+
+        .item-row.done .item-name {
+            text-decoration: line-through;
+            color: var(--label-3);
+        }
+
+        .item-qty {
+            font-size: .78em; font-weight: 600; color: var(--label-2);
+            background: var(--separator); padding: 2px 8px; border-radius: 10px;
+        }
+
+        .del-btn {
+            width: 24px; height: 24px; border-radius: 50%;
+            border: none; background: rgba(255,59,48,.1);
+            color: var(--red); font-size: .9em;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: background .15s;
+        }
+        .del-btn:hover { background: rgba(255,59,48,.2); }
+
+        .empty-state { text-align: center; color: var(--label-3); font-size: .88em; padding: 24px 0; }
+
+        /* Action buttons */
+        .action-row {
+            display: flex; gap: 10px; margin-top: 4px;
+        }
+
+        .action-btn {
+            flex: 1; padding: 11px; border-radius: var(--r-md);
+            border: 1.5px solid var(--separator); font-size: .82em;
+            font-weight: 700; font-family: inherit; cursor: pointer;
+            background: var(--bg); color: var(--label-2);
+            transition: all .15s;
+        }
+        .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .action-btn.danger:hover { border-color: var(--red); color: var(--red); }
+
+        .back-link { text-align: center; margin-top: 8px; }
+        .back-link a { color: #007AFF; text-decoration: none; font-size: .88em; font-weight: 500; }
+
+        @media (max-width: 500px) {
+            .card { padding: 18px 14px; }
+        }
+            .recommendations-widget {
+          margin-top: 48px;
+          padding: 24px;
+          background: var(--bg);
+          border-top: 2px solid var(--separator);
+        }
+
+        .recommendations-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .recommendations-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: var(--label-1);
+        }
+
+        .recommendations-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card {
+          background: var(--card);
+          border: 1px solid var(--separator);
+          border-radius: var(--r-lg);
+          padding: 16px;
+          text-align: center;
+          transition: transform .2s, box-shadow .2s;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recommendation-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow);
+        }
+
+        .recommendation-name {
+          font-weight: 600;
+          font-size: 0.95em;
+          color: var(--label-1);
+        }
+
+        .recommendation-reason {
+          font-size: 0.85em;
+          color: var(--label-2);
+          line-height: 1.4;
+        }
+    </style>
+<link href="../../global_theme.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="page-header">
+<div class="app-icon">🛒</div>
+<div class="page-header-text">
+<h1>Shopping List</h1>
+<p>Organize your shopping with a clean, categorised checklist.</p>
+</div>
+</header>
+<div class="stats-row">
+<div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Total Items</div></div>
+<div class="stat-card"><div class="stat-value" id="sDone">0</div><div class="stat-label">Checked Off</div></div>
+<div class="stat-card"><div class="stat-value" id="sLeft">0</div><div class="stat-label">Remaining</div></div>
+</div>
+<!-- Add item -->
+<div class="card">
+<div class="card-title">Add Item</div>
+<div class="add-row">
+<input class="add-input" id="itemName" onkeydown="if(event.key==='Enter')addItem()" placeholder="Item name…" type="text"/>
+<input class="qty-input" id="itemQty" placeholder="Qty" type="text" value="1"/>
+<button class="add-btn" onclick="addItem()">Export List</button>
+</div>
+<div class="cat-pills" id="catPills">
+<button class="cat-pill selected" data-cat="Grocery" onclick="selectCat(this)">🥦 Grocery</button>
+<button class="cat-pill" data-cat="Dairy" onclick="selectCat(this)">🥛 Dairy</button>
+<button class="cat-pill" data-cat="Bakery" onclick="selectCat(this)">🍞 Bakery</button>
+<button class="cat-pill" data-cat="Produce" onclick="selectCat(this)">🍎 Produce</button>
+<button class="cat-pill" data-cat="Meat" onclick="selectCat(this)">🥩 Meat</button>
+<button class="cat-pill" data-cat="Snacks" onclick="selectCat(this)">🍿 Snacks</button>
+<button class="cat-pill" data-cat="Beverages" onclick="selectCat(this)">🧃 Beverages</button>
+<button class="cat-pill" data-cat="Household" onclick="selectCat(this)">🧹 Household</button>
+<button class="cat-pill" data-cat="Other" onclick="selectCat(this)">📦 Other</button>
+</div>
+</div>
+<!-- List -->
+<div class="card">
+<!-- Filter -->
+<div class="filter-row">
+<button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+<button class="filter-btn" onclick="setFilter('active', this)">Remaining</button>
+<button class="filter-btn" onclick="setFilter('done', this)">Checked</button>
+</div>
+<div id="listContainer"></div>
+<div class="action-row" style="margin-top:16px;">
+<button class="action-btn" onclick="checkAll()">Check All</button>
+<button class="action-btn" onclick="uncheckAll()">Uncheck All</button>
+<button class="action-btn danger" onclick="clearDone()">Clear Done</button>
+<button class="action-btn danger" onclick="clearAll()">Clear All</button>
+</div>
+</div>
+<div class="back-link"><a href="../../index.html">← Back to HelpOut</a></div>
+<script>
+    const CAT_COLORS = {
+        Grocery: '#34C759',  Dairy: '#007AFF',  Bakery: '#FF9500',
+        Produce: '#34C759',  Meat: '#FF3B30',   Snacks: '#5856D6',
+        Beverages: '#5AC8FA',Household: '#8E8E93', Other: '#6E6E73'
+    };
+
+    let items  = JSON.parse(localStorage.getItem('shopList') || '[]');
+    let selCat = 'Grocery';
+    let filter = 'all';
+
+    function save() { localStorage.setItem('shopList', JSON.stringify(items)); }
+
+    function selectCat(btn) {
+        document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('selected'));
+        btn.classList.add('selected');
+        selCat = btn.dataset.cat;
+    }
+
+    function setFilter(f, btn) {
+        filter = f;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+    }
+
+    function addItem() {
+        const name = document.getElementById('itemName').value.trim();
+        const qty  = document.getElementById('itemQty').value.trim() || '1';
+        if (!name) return;
+        items.push({ id: Date.now(), name, qty, cat: selCat, done: false });
+        save();
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemQty').value  = '1';
+        render();
+    }
+
+    function toggleItem(id) {
+        const item = items.find(i => i.id === id);
+        if (item) item.done = !item.done;
+        save();
+        render();
+    }
+
+    function deleteItem(id) {
+        items = items.filter(i => i.id !== id);
+        save();
+        render();
+    }
+
+    function checkAll()   { items.forEach(i => i.done = true);  save(); render(); }
+    function uncheckAll() { items.forEach(i => i.done = false); save(); render(); }
+    function clearDone()  { items = items.filter(i => !i.done); save(); render(); }
+    function clearAll()   { items = []; save(); render(); }
+
+    function render() {
+        // Stats
+        const total = items.length;
+        const done  = items.filter(i => i.done).length;
+        document.getElementById('sTotal').textContent = total;
+        document.getElementById('sDone').textContent  = done;
+        document.getElementById('sLeft').textContent  = total - done;
+
+        // Filter
+        let visible = items;
+        if (filter === 'active') visible = items.filter(i => !i.done);
+        if (filter === 'done')   visible = items.filter(i => i.done);
+
+        if (visible.length === 0) {
+            document.getElementById('listContainer').innerHTML =
+                '<div class="empty-state">No items yet — add something above!</div>';
+            return;
+        }
+
+        // Group by category
+        const cats = {};
+        visible.forEach(item => {
+            if (!cats[item.cat]) cats[item.cat] = [];
+            cats[item.cat].push(item);
+        });
+
+        document.getElementById('listContainer').innerHTML =
+            Object.entries(cats).map(([cat, catItems]) => `
+                <div class="cat-section">
+                    <div class="cat-header">
+                        <div class="cat-dot" style="background:${CAT_COLORS[cat] || '#8E8E93'}"></div>
+                        <div class="cat-name">${cat}</div>
+                        <div class="cat-count">${catItems.filter(i => !i.done).length}/${catItems.length}</div>
+                    </div>
+                    ${catItems.map(item => `
+                        <div class="item-row ${item.done ? 'done' : ''}">
+                            <div class="check-circle ${item.done ? 'checked' : ''}"
+                                 onclick="toggleItem(${item.id})"></div>
+                            <div class="item-name">${escHtml(item.name)}</div>
+                            <div class="item-qty">${escHtml(item.qty)}</div>
+                            <button class="del-btn" onclick="deleteItem(${item.id})">×</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+    }
+
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    render();
+</script>
+<!-- Smart Recommendations Widget -->
+<div class="recommendations-widget" id="recommendationsWidget">
+<div class="recommendations-container">
+<h3 class="recommendations-title">You Might Also Need...</h3>
+<div class="recommendations-list" id="recommendationsList"></div>
+</div>
+</div>
+<script src="../recommendationMap.js"></script>
+<script src="../recommendationLogic.js"></script>
+<script>
+      window.addEventListener('load', function() {
+        loadRecommendations('Shopping List');
+      });
+    </script>
+</body>
+</html>

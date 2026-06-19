@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="40+ free productivity tools for every profession. No login, no tracking.">
+  <title>HelpOut — Tools for every profession</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #F7F4EE;
+      --cream2: #EDE9E0;
+      --ink: #0E0D0B;
+      --muted: #7A7368;
+      --rule: #D8D3C8;
+      --accent: #C63D1A;
+      --radius: 4px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+      border-bottom: 1px solid var(--rule);
+      position: sticky;
+      top: 0;
+      background: rgba(247, 244, 238, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo sup {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--muted);
+      text-transform: uppercase;
+      vertical-align: super;
+      margin-left: 4px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--rule);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      padding: 6rem 3rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-main {}
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .hero-display {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -2px;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    .hero-display em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 13px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .hero-cta:hover {
+      background: #1e1c18;
+      transform: translateY(-1px);
+    }
+
+    .hero-cta-arrow {
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+
+    .hero-cta:hover .hero-cta-arrow {
+      transform: translateY(2px);
+    }
+
+    /* Hero stats - right column */
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-width: 160px;
+      background: var(--cream2);
+    }
+
+    .stat {
+      padding: 1.4rem 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .stat:last-child {
+      border-bottom: none;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: -1px;
+    }
+
+    .stat-num .accent {
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── MARQUEE STRIP ───────────────────────── */
+    .marquee-strip {
+      border-bottom: 1px solid var(--rule);
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 14px 0;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      gap: 0;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 2rem;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(247, 244, 238, 0.55);
+    }
+
+    .marquee-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── TOOL EXPLORER ───────────────────────── */
+    .explorer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+      line-height: 1.1;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 7px 16px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pill:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .pill.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--cream);
+    }
+
+    .search-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    #search {
+      background: white;
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      padding: 8px 16px 8px 38px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+      width: 220px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #search::placeholder {
+      color: var(--muted);
+    }
+
+    #search:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(14, 13, 11, 0.06);
+    }
+
+    /* Tool count */
+    .tool-count {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Grid */
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .tool-card {
+      background: var(--cream);
+      padding: 1.5rem 1.5rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      transition: background 0.15s;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .tool-card:hover {
+      background: white;
+    }
+
+    .tool-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .tool-emoji {
+      font-size: 20px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .tool-arrow {
+      font-size: 14px;
+      color: var(--rule);
+      transition: color 0.15s, transform 0.15s;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tool-card:hover .tool-arrow {
+      color: var(--accent);
+      transform: translateX(2px) translateY(-2px);
+    }
+
+    .tool-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.2px;
+      line-height: 1.3;
+    }
+
+    .tool-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .tool-cat {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      border-top: 1px solid var(--rule);
+      padding-top: 8px;
+    }
+
+    /* No results */
+    .no-results {
+      grid-column: 1 / -1;
+      background: var(--cream);
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--muted);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    /* ── WHY SECTION ─────────────────────────── */
+    .why-section {
+      border-top: 1px solid var(--rule);
+      background: var(--cream2);
+      padding: 5rem 3rem;
+    }
+
+    .why-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .why-card {
+      padding: 2.5rem 2rem;
+      background: var(--cream);
+      border-right: 1px solid var(--rule);
+    }
+
+    .why-card:last-child {
+      border-right: none;
+    }
+
+    .why-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--rule);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -2px;
+    }
+
+    .why-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .why-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    footer::after {
+      content: none;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-copy a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .footer-copy a:hover {
+      color: var(--ink);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+
+    .footer-local {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--rule);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 1.5rem;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 3.5rem 1.5rem 3rem;
+      }
+
+      .hero-stats {
+        flex-direction: row;
+        min-width: auto;
+      }
+
+      .stat {
+        border-bottom: none;
+        border-right: 1px solid var(--rule);
+        flex: 1;
+      }
+
+      .stat:last-child {
+        border-right: none;
+      }
+
+      .explorer {
+        padding: 3rem 1.5rem;
+      }
+
+      .why-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .why-card {
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .why-card:nth-child(2n) {
+        border-right: none;
+      }
+
+      footer {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-display {
+        font-size: 3.5rem;
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-card {
+        border-right: none !important;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      #search {
+        width: 100%;
+      }
+
+      .nav-tag {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">HelpOut<sup>®</sup></a>
+    <div class="nav-right">
+      <span class="nav-tag">No login · No tracking</span>
+      <a href="Homepage/about.html" class="nav-link">About</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-eyebrow">Free tools · Every profession</div>
+      <h1 class="hero-display">Tools for<br><em>every</em><br>profession.</h1>
+      <p class="hero-sub">40+ handpicked tools for project managers, accountants, HR, healthcare, and more. Open any
+        tool and start — zero signup, zero tracking.</p>
+      <a href="#tools" class="hero-cta">
+        Browse all tools
+        <span class="hero-cta-arrow">↓</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">40<span class="accent">+</span></div>
+        <div class="stat-label">Free tools</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">9</div>
+        <div class="stat-label">Professions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Logins needed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100<span class="accent">%</span></div>
+        <div class="stat-label">Local & private</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE STRIP -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack">
+      <span class="marquee-item"><span class="marquee-dot"></span>Project Charter</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Sprint Planning</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Risk Register</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tax Estimator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Focus Ritual</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>RACI Matrix</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>SIP Calculator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tone Checker</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Meal Planner</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Retrospective Notes</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>WBS Builder</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Escalation Matrix</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Currency Converter</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Bio Generator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Decision Log</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Goal Tracker</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item"><span class="marquee-dot"></span>Project Charter</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Sprint Planning</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Risk Register</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tax Estimator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Focus Ritual</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>RACI Matrix</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>SIP Calculator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tone Checker</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Meal Planner</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Retrospective Notes</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>WBS Builder</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Escalation Matrix</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Currency Converter</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Bio Generator</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Decision Log</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Goal Tracker</span>
+    </div>
+  </div>
+
+  <!-- TOOL EXPLORER -->
+  <section class="explorer" id="tools">
+    <div class="section-label">Tool explorer</div>
+    <h2 class="section-title">Pick a tool.<br>Open it. <em>Done.</em></h2>
+
+    <div class="controls">
+      <div class="filter-pills" id="pills">
+        <button class="pill active" data-cat="All">All tools</button>
+        <button class="pill" data-cat="General">General</button>
+        <button class="pill" data-cat="Project Manager">Project Managers</button>
+        <button class="pill" data-cat="Accountant">Accountants</button>
+        <button class="pill" data-cat="HR">HR</button>
+        <button class="pill" data-cat="Healthcare">Healthcare</button>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input type="text" id="search" placeholder="Search tools…" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="tool-count" id="count"></div>
+    <div id="grid"></div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="why-section">
+    <div class="why-inner">
+      <div class="section-label">Why HelpOut</div>
+      <h2 class="section-title">Built the way<br>tools <em>should</em> be.</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-num">01</div>
+          <div class="why-title">No login, ever</div>
+          <div class="why-desc">Open any tool and start immediately. No account, no email, no friction of any kind.
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-num">02</div>
+          <div class="why-title">Data stays on your device</div>
+          <div class="why-desc">Everything is processed entirely in your browser. Nothing is sent to any server.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-num">03</div>
+          <div class="why-title">Export what you need</div>
+          <div class="why-desc">Most tools let you download outputs as PDF or Excel — ready to share immediately.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-num">04</div>
+          <div class="why-title">Built for real workflows</div>
+          <div class="why-desc">From sprint planning to tax estimates — curated for actual daily professional use.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <div class="footer-copy">Made with ❤️ by <a href="Homepage/about.html">Prateek Yadav</a></div>
+      <div class="footer-links">
+        <a href="Homepage/about.html">About</a>
+        <a href="Homepage/contact.html">Contact</a>
+        <a href="Homepage/privacy-policy.html">Privacy</a>
+      </div>
+    </div>
+    <span class="footer-local">All data stays on your device</span>
+  </footer>
+
+  <script>
+    const BASE = '.';
+
+    const tools = [
+      { emoji: '🧘', name: 'Focus Ritual', desc: 'Master your attention with intentional, uninterrupted work sprints.', cat: 'General', url: BASE + '/General/Focus Ritual/index.html' },
+      { emoji: '✅', name: 'To-Do Checklist', desc: 'Deconstruct your day into clear, actionable tasks.', cat: 'General', url: BASE + '/General/To do checklist/index.html' },
+      { emoji: '🎯', name: 'Goal Tracker', desc: 'Map out your ambitions and track the milestones that matter.', cat: 'General', url: BASE + '/General/Goal Tracker/index.html' },
+      { emoji: '🛒', name: 'Shopping List', desc: 'Organize your shopping with a clean, categorised checklist.', cat: 'General', url: BASE + '/General/Shopping List/index.html' },
+      { emoji: '👔', name: 'LinkedIn Bio Generator', desc: 'Generate a standout professional bio in seconds.', cat: 'HR', url: BASE + '/General/LinkedIn Bio Generator/index.html' },
+      { emoji: '🎭', name: 'Tone Checker', desc: 'Refine your messaging to ensure the perfect professional tone.', cat: 'HR', url: BASE + '/General/Tone Checker/index.html' },
+      { emoji: '💧', name: 'Water Intake', desc: 'Track your daily hydration and hit your wellness goals.', cat: 'Healthcare', url: BASE + '/Medical/Water Intake Tracker/index.html' },
+      { emoji: '🍱', name: 'Meal Planner', desc: 'Design your weekly nutrition with a structured meal calendar.', cat: 'Healthcare', url: BASE + '/Medical/Meal Planner/index.html' },
+      { emoji: '🧾', name: 'Tax Estimator', desc: 'Estimate your annual income tax obligations quickly and cleanly.', cat: 'Accountant', url: BASE + '/Accountants/Tax Estimator/index.html' },
+      { emoji: '💸', name: 'Expense Tracker', desc: 'Monitor your spending and stay perfectly on budget.', cat: 'Accountant', url: BASE + '/Accountants/Expense Tracker/index.html' },
+      { emoji: '📈', name: 'SIP Calculator', desc: 'Project your wealth growth through disciplined monthly investments.', cat: 'Accountant', url: BASE + '/Accountants/SIP Calculator/index.html' },
+      { emoji: '🏦', name: 'Loan / EMI Calculator', desc: 'Calculate exact loan repayments and visual amortisation schedules.', cat: 'Accountant', url: BASE + '/Accountants/Loan Calculator/index.html' },
+      { emoji: '💱', name: 'Currency Converter', desc: 'Convert live exchange rates across global currencies instantly.', cat: 'Accountant', url: BASE + '/Accountants/Currency Converter/index.html' },
+      { emoji: '📝', name: 'Project Charter', desc: 'Define project scope, objectives, and foundational authority.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Project Charter Generator/index.html' },
+      { emoji: '💼', name: 'Business Case', desc: 'Build a compelling, data-backed business case for your initiative.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Business Case Builder/index.html' },
+      { emoji: '📜', name: 'SOW Statement', desc: 'Draft comprehensive, legally sound statements of work.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/SOW Statement Generator/index.html' },
+      { emoji: '🗺️', name: 'PM Plan Creator', desc: 'Consolidate your strategy into a comprehensive execution plan.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Project Management Plan Creator/index.html' },
+      { emoji: '🎯', name: 'Scope Statement', desc: 'Define explicit project boundaries, deliverables, and exclusions.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Scope Statement Tool/index.html' },
+      { emoji: '🧩', name: 'WBS Builder', desc: 'Deconstruct complex deliverables into manageable work packages.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/WBS Builder/index.html' },
+      { emoji: '📅', name: 'Schedule Generator', desc: 'Map out project timelines with clear milestones and dependencies.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Project Schedule Generator/index.html' },
+      { emoji: '💰', name: 'Budget & Cost Plan', desc: 'Structure and track comprehensive project financial plans.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Budget & Cost Plan Tool/index.html' },
+      { emoji: '⚠️', name: 'Risk Register', desc: 'Identify, assess, and mitigate critical project risks.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Risk Register Creator/index.html' },
+      { emoji: '👥', name: 'Stakeholder Register', desc: 'Map out and manage your project stakeholders and influence.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Stakeholder Register Tool/index.html' },
+      { emoji: '📢', name: 'Communication Plan', desc: 'Align stakeholders with a clear, structured communication strategy.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Communication Plan Builder/index.html' },
+      { emoji: '📊', name: 'RACI Matrix', desc: 'Clarify roles and responsibilities across your project team.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/RACI Matrix Creator/index.html' },
+      { emoji: '🚀', name: 'Kickoff Deck Outline', desc: 'Structure a compelling presentation for your project kickoff.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Kickoff Deck Outline/index.html' },
+      { emoji: '📋', name: 'Meeting Minutes', desc: 'Document critical discussions, decisions, and action items.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Meeting Minutes Template/index.html' },
+      { emoji: '📈', name: 'Weekly Status Report', desc: 'Communicate progress and blockers clearly to stakeholders.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Weekly Status Report Generator/index.html' },
+      { emoji: '🐛', name: 'Issue Log', desc: 'Track project blockers from identification to resolution.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Issue Log Tracker/index.html' },
+      { emoji: '⚖️', name: 'Decision Log', desc: 'Record key project decisions and their underlying rationale.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Decision Log Tool/index.html' },
+      { emoji: '🔄', name: 'Change Request', desc: 'Formalize and track modifications to project scope.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Change Request Form/index.html' },
+      { emoji: '🏃', name: 'Sprint Planning', desc: 'Organize and prioritize your upcoming agile sprints.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Sprint Planning Tool/index.html' },
+      { emoji: '🔍', name: 'Retrospective Notes', desc: 'Capture and action insights from your sprint retrospectives.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Retrospective Notes Generator/index.html' },
+      { emoji: '🏁', name: 'Project Closure Report', desc: 'Formally document project completion and transition.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Project Closure Report/index.html' },
+      { emoji: '📚', name: 'Lessons Learned', desc: 'Capture and operationalize insights for future project success.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Lessons Learned Tool/index.html' },
+      { emoji: '🤝', name: 'Handover Document', desc: 'Ensure smooth transitions with structured handover documentation.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Handover Document Creator/index.html' },
+      { emoji: '🔎', name: 'Post-Impl Review', desc: 'Evaluate and document project success and delivery metrics.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Post-Implementation Review Tool/index.html' },
+      { emoji: '⬆️', name: 'Escalation Matrix', desc: 'Define clear escalation paths for critical project risks.', cat: 'Project Manager', url: BASE + '/Project Managers/Project Manager Tools/Escalation Matrix Builder/index.html' },
+    ];
+
+    let activeCat = 'All';
+    let searchVal = '';
+
+    function render() {
+      const q = searchVal.trim().toLowerCase();
+      const filtered = tools.filter(t =>
+        (activeCat === 'All' || t.cat === activeCat) &&
+        (!q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q))
+      );
+
+      document.getElementById('count').innerHTML =
+        `<strong>${filtered.length}</strong> tool${filtered.length !== 1 ? 's' : ''}${activeCat !== 'All' ? ' — ' + activeCat : ''}${q ? ' matching "<strong>' + q + '</strong>"' : ''}`;
+
+      const grid = document.getElementById('grid');
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="no-results">Nothing found — try a different search.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(t => `
+    <a class="tool-card" href="${t.url}" target="_blank" rel="noopener">
+      <div class="tool-card-top">
+        <span class="tool-emoji">${t.emoji}</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <div class="tool-name">${t.name}</div>
+      <div class="tool-desc">${t.desc}</div>
+      <div class="tool-cat">${t.cat}</div>
+    </a>
+  `).join('');
+    }
+
+    document.getElementById('search').addEventListener('input', e => {
+      searchVal = e.target.value;
+      render();
+    });
+
+    document.getElementById('pills').addEventListener('click', e => {
+      const btn = e.target.closest('.pill');
+      if (!btn) return;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      render();
+    });
+
+    render();
+  </script>
+
+</body>
+
+</html>
